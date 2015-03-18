@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+    <div class="uk-width-medium-1-2 uk-container-center uk-panel-box ">
+    <form class="uk-form uk-form" action='' method="POST">{% csrf_token %}
+
+    <fieldset data-uk-margin >
+
+ {% for field in form %}
+<div class="uk-form-row">
+    <label class="uk-form-label" for="form-h-it">{{ field.label_tag }}</label>
+    <div class="uk-form-controls ">
+       {{ field}}
+        <hr class="uk-grid-divider">
+    </div>
+</div>
+    {% endfor %}
+
+
+
+    <center>
+    <button class="uk-button-success uk-width-1-4  ">Soumettre</button></center></div></div>
+        </fieldset>
+
+</form>
+
+    </div>
+
+
+<div class="uk-width-1-1 uk-margin-large-top">
+<div data-uk-scrollspy="{cls:'uk-animation-fade', target:'.uk-width-medium-1-2', delay:300}">
+        <div class="uk-width-medium-1-2 uk-container-center uk-panel-box ">
+
+          <article class="uk-comment">
+              <header class="uk-comment-header">
+
+                  <h4 class="uk-comment-title">Author</h4>
+                  <div class="uk-comment-meta">12 days ago | Profile | #</div>
+              </header>
+              <div class="uk-comment-body">
+                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+              </div>
+          </article>
+        </div>
+</div>
+
+
+    <div class="uk-width-1-1 uk-margin-large-top">
+<div data-uk-scrollspy="{cls:'uk-animation-fade', target:'.uk-width-medium-1-2', delay:300}">
+        <div class="uk-width-medium-1-2 uk-container-center uk-panel-box ">
+
+          <article class="uk-comment">
+              <header class="uk-comment-header">
+
+                  <h4 class="uk-comment-title">Author</h4>
+                  <div class="uk-comment-meta">12 days ago | Profile | #</div>
+              </header>
+              <div class="uk-comment-body">
+                  <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
+              </div>
+          </article>
+        </div>
+</div></div>
+
+
+
+</div>
+
+
+{% endblock %}
+
+

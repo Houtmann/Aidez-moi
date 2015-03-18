@@ -1,0 +1,83 @@
+
+
+{% block head %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" /><title> Tickets </title>
+
+<link rel="stylesheet" href="{{ STATIC_URL }}css/uikit.css" type="text/css" media="all" />
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+    <script type="text/javascript" src="{{ STATIC_URL }}js/uikit.min.js"></script>
+
+    </head>
+    {% endblock %}
+
+
+{% block menu %}
+  <!-- Menu-->
+
+<nav class="uk-navbar">
+{% load filter %}
+    <ul class="uk-navbar-nav">
+        <li class="uk-active"><a href="{% url "ticket.views.auth.home" %}">{{ request.user }}</a></li>
+        <li><a href="{% url "ticket.views.tickets.add_ticket" %}">Ajouter un tickets</a></li>
+        <li><a href="">Statistiques</a></li>
+
+        <li class="uk-parent" data-uk-dropdown="">
+            <a href="">Tickets</a>
+            <div style="" class="uk-dropdown uk-dropdown-navbar">
+                <ul class="uk-nav uk-nav-navbar">
+                    <li><a href="{% url "ticket.views.tickets.ticket_list_work" %}">En cours
+                    <span class="uk-badge uk-badge-warning uk-badge-notification">{{ request.user|ticket_open }}</span>
+                    </a></li>
+
+                    <li><a href="{% url "ticket.views.tickets.ticket_list_resolved" %}">Résolus
+                    <span class="uk-badge uk-badge-success uk-badge-notification">
+
+                    {{ request.user|ticket_resolved }}
+
+                    </span>
+                    </a></li>
+
+                    <li><a href="{% url "ticket.views.tickets.ticket_list_clos" %}">Clos
+                    <span class="uk-badge uk-badge-success uk-badge-notification">
+
+
+
+                    </span>
+                    </a></li>
+
+                    <li class="uk-nav-header">---</li>
+
+                    <li><a href="{% url "ticket.views.tickets.ticket_list_new" %}">Nouveaux
+                        <span class="uk-badge uk-badge-notification">{{ request.user|ticket_new }}</span>
+                    </a> </li>
+
+                </ul>
+            </div>
+        {% if request.user.is_staff %}
+        <li><a href="{% url "ticket.views.tickets.ticket_all" %}">Staff</a></li>
+        {% endif %}
+    {% if request.user.is_superuser%}
+        <li><a href="/admin">Administration</a></li>
+    {% endif %}
+        <li><a href="/logout">Déconnexion</a></li>
+        </li>
+    </ul>
+</nav>
+<!-- Menu-->
+    {% endblock %}
+
+
+<div class="uk-grid">
+    <div class="uk-width-1-1 uk-margin-large-top">
+
+{% block content %}{% endblock %}
+
+
+
+
+</div>
+</div>

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="uk-container uk-container-center">
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.tablesorter.js"></script>
+<link href="{{ STATIC_URL }}tablesorter/dist/css/theme.default.min.css" rel="stylesheet">
+	<script src="{{ STATIC_URL }}tablesorter/dist/js/jquery.tablesorter.min.js"></script>
+	<script src="{{ STATIC_URL }}tablesorter/dist/js/jquery.tablesorter.widgets.min.js"></script>
+	<script>
+	$(function(){
+		$('table').tablesorter({
+			widgets        : ['zebra', 'columns'],
+			usNumberFormat : false,
+			sortReset      : true,
+			sortRestart    : true
+		});
+	});
+	</script>
+
+<table class="tablesorter"  cellspacing="1">
+    <thead>
+        <tr>
+            <th>Ticket</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Priorité</th>
+            <th>Assigné a</th>
+            <th>Crée par</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for tick in ticket %}
+                    <tr>
+                        <td><a href={% url "ticket.views.tickets.ticket_edit" tick.id %}>{{ tick.title }}</a></td>
+                        <td>{{ tick.created }}</td>
+                        <td>{{ tick.get_status_display }}</td>
+                        <td><code>{{ tick.get_priority_display  }}</code></td>
+                        {%  if tick.assign_to == None %}
+                            <td>
+                            <span class="uk-text-warning">Pas encore assigné</span>
+                        </td>
+                        {% else %}
+                        <td>{{ tick.assign_to }}</td>
+                    {% endif %}
+                    <td>{{ tick.create_by }}</td>
+                    </tr>
+                 {% endfor %}
+
+</div>
+
+{% endblock %}
