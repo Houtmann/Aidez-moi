@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import loader, Context, RequestContext
+from django.contrib import messages
 
 
 @login_required(login_url='login/')
@@ -83,6 +84,7 @@ def ticket_edit(request, id):
         form = TicketForm(request.POST, user=request.user, instance=ticket)
         if form.is_valid():
             form.save()
+            messages.add_message(request, messages.INFO, 'Ticket mis à jour OK')
             return redirect(ticket_edit, id)
             # If the save was successful, redirect to another page
     else:
