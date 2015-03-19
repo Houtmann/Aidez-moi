@@ -1,5 +1,13 @@
 {% extends "base.html" %}
 
+
+
+
+
+
+
+
+
 {% block content %}
 {% load filter %}
 <div class="uk-container uk-container-center">
@@ -41,7 +49,7 @@
                 <tbody>
                 {% for tick in ticket %}
                     <tr>
-                        <td><a href="/ticket/id={{tick.id}}">{{ tick.title }}</a></td>
+                        <td><a href="{% url "ticket.views.tickets.view_ticket" tick.id %}">{{ tick.title }}</a></td>
                         <td>{{ tick.created }}</td>
                         <td>{{ tick.get_status_display }}</td>
                         <td><code>{{ tick.get_priority_display  }}</code></td>

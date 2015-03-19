@@ -2,10 +2,77 @@
 
 {% block content %}
 
-<div class="uk-container uk-container-center">
-<div class="uk-width-medium-1-1 uk-container-center uk-panel-box ">
 
-    Titre : {{ ticket.title }}
+
+<div class="uk-width-1-2 uk-container-center uk-panel-box ">
+
+   <div class="uk-button-group">
+                        <button class="uk-button">Menu</button>
+                        <div class="" aria-expanded="false" aria-haspopup="true" data-uk-dropdown="{mode:'click'}">
+                            <button class="uk-button"><i class="uk-icon-caret-down"></i></button>
+                            <div style="" class="uk-dropdown uk-dropdown-width-2">
+
+                                <div class="uk-grid uk-dropdown-grid">
+
+                                    <div class="uk-width-1-2">
+                                        <ul class="uk-nav uk-nav-dropdown uk-panel">
+
+                                            <li><a href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">Editer le ticket</a></li>
+                                            <li><a href="#my-id" data-uk-offcanvas>Voir l'historique</a></li>
+                                            <li><a href="#">Supprimez le ticket</a></li>
+
+
+                                            </li>
+                                        </ul>
+                                    </div></div></div></div></div>
+
+
+
+
+<div id="my-id" class="uk-offcanvas">
+    <div class="uk-offcanvas-bar">
+        <div class="uk-panel">testtt</div>
+    </div>
+</div>
+
+<p><span class="uk-badge">Ticket id : {{ tickets.id}}</span></p>
+<p>Titre : {{ tickets.title}}</p>
+
+    {% if tickets.status == 1 %}
+<p>Status : <span class="uk-text-success">{{ tickets.get_status_display}}</span></p>
+        {% else %}
+        <p>Status : <span class="uk-text-warning">{{ tickets.get_status_display}}</span></p>
+    {% endif %}
+    <p>Urgence : <code>{{ tickets.get_priority_display}}</code></p>
+       <p>Crée le : {{ tickets.created}}</p>
+        <p>Demandeur : {{ tickets.create_by}}</p>
+    <p>Assigné à : {{ tickets.assign_to}}</p>
+    <hr class="uk-grid-divider">
+    <p>Ticket : <p>{{ tickets.content }}</p>
+
+
+
+
+
+
+<div class="uk-width-1-1 uk-margin-large-top">
+<div data-uk-scrollspy="{cls:'uk-animation-fade', target:'.uk-width-medium-1-2', delay:300}">
+        <div class="uk-width-medium-1-2 uk-container-center uk-panel-box ">
+
+<form action="" name="post_response" method="post">{% csrf_token %}
+    {% for field in response %}
+
+{{ field }}
+<button  class="uk-button-success uk-width-1-6 uk-center  ">Soumettre</button></center></div></div>
+
+
+            {% endfor %}</form>
+        </div>
+</div>
+
+</div>
+
+
 
 
 

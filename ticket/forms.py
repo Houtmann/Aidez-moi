@@ -1,7 +1,7 @@
 __author__ = 'had'
 
 from django import forms
-from ticket.models import User, Tickets, UserProfile
+from ticket.models import User, Tickets, UserProfile, response
 
 
 class ConnexionForm(forms.Form):
@@ -9,12 +9,12 @@ class ConnexionForm(forms.Form):
     Pour la page de login
     """
     username = forms.CharField(label="Nom d'utilisateur", max_length=30,
-                               widget=forms.TextInput(attrs={'class':"uk-width-1-1 uk-form-large",
+                               widget=forms.TextInput(attrs={
                                                             'type':"text",
                                                             'placeholder':"Username"}))
 
     password = forms.CharField(label="Mot de passe",
-                               widget=forms.PasswordInput(attrs={'class':"uk-width-1-1 uk-form-large",
+                               widget=forms.PasswordInput(attrs={
                                                             'type':"text",
                                                             'placeholder':"Password"}))
 
@@ -55,11 +55,16 @@ class TicketForm(forms.ModelForm):
         """
         user = kwargs.pop('user', None)
         super(TicketForm, self).__init__(*args, **kwargs)
-        print(user.is_staff)
         if user.is_staff is False:
             del self.fields['assign_to']
             del self.fields['status']
 
 
 
+class ResponseForm(forms.ModelForm):
+    response = forms.CharField(label='Ticket',widget=forms.Textarea(
+        attrs={'placeholder': 'Réponse au ticket','rows':'4','class':'uk-width-1-1'}))
 
+    class Meta:
+        model = response
+        exclude = ('date_response', 'response_by', 'ticket_id')

@@ -1,8 +1,8 @@
 __author__ = 'had'
 
 from django.shortcuts import render, redirect, render_to_response
-from ticket.forms import TicketForm
-from ticket.models import Tickets
+from ticket.forms import TicketForm, ResponseForm
+from ticket.models import Tickets, UserProfile
 from ticket.views.auth import home
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -76,16 +76,25 @@ def ticket_all(request):
 
 @login_required(login_url='login/')
 def ticket_edit(request, id):
+
     ticket = get_object_or_404(Tickets, id=id)
-    if request.POST:
+
+    if request.method=='POST' and 'edit' in request.POST:
         form = TicketForm(request.POST, user=request.user, instance=ticket)
         if form.is_valid():
             form.save()
             return redirect(ticket_edit, id)
             # If the save was successful, redirect to another page
-
-
     else:
-        form = TicketForm(user=request.user, instance=ticket)
-
+            response = ResponseForm()
+            form = TicketForm(user=request.user, instance=ticket)
     return render(request, 'add_ticket.html', locals())
+
+
+def view_ticket(request, id):
+    tickets = Tickets.objects.select_related('create_by').get(id=id)
+    return render(request,'ticket.html', locals())
+
+
+
+
