@@ -10,7 +10,6 @@ def all_tick(user):
     except:pass
 
 
-
 def ticket_resolved(user):
     if user.is_staff:
         return Tickets.objects.filter(status=3).count()
@@ -31,9 +30,14 @@ def ticket_new(user):
     else:
         return Tickets.objects.filter(create_by=user, assign_to=None).count()
 
-
+def ticket_clos(user):
+    if user.is_staff:
+        return Tickets.objects.filter(status=4).count()
+    else:
+        return Tickets.objects.filter(create_by=user, status=4).count()
 
 register.filter('ticket_resolved', ticket_resolved)
 register.filter('ticket_open', ticket_open)
 register.filter('ticket_new', ticket_new)
+register.filter('ticket_clos', ticket_clos)
 register.filter('all_tick', all_tick)

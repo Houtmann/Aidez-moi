@@ -7,6 +7,7 @@ from ticket.views.auth import home
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
+from django.template import loader, Context, RequestContext
 
 
 @login_required(login_url='login/')
@@ -39,9 +40,13 @@ def ticket_list_new(request):
 @login_required(login_url='login/')
 def ticket_list_work(request):
     if request.user.is_staff:
-        ticket = Tickets.objects.filter().exclude(assign_to=None).order_by('-created')
+        ticket = Tickets.objects.select_related('username').exclude(assign_to=None).order_by('-created')
     else:
         ticket = Tickets.objects.filter(create_by=request.user, status=1).exclude(assign_to=None).order_by('-created')
+
+    #return render_to_response('ticket_list.html',
+        #RequestContext(request, {
+            #'ticket': ticket,}))
 
     return render(request, 'ticket_list.html', locals())
 
