@@ -10,6 +10,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
 
+
 class Tickets(models.Model):
 
     title = models.TextField()
@@ -17,6 +18,16 @@ class Tickets(models.Model):
 
     create_by = models.ForeignKey(User)
     created = models.DateTimeField(auto_now=True)
+
+
+
+    TYPES_CHOICES = (
+        (1, 'Incident'),
+        (2, 'Demande'),)
+
+    types = models.IntegerField(
+        ('Types'),
+        choices=TYPES_CHOICES )
 
     OPEN_STATUS = 1
     RESOLVED_STATUS = 3
@@ -57,6 +68,14 @@ class Tickets(models.Model):
         default=3,
         blank=3,
         help_text=('1 = Highest Priority, 5 = Low Priority'),)
+
+
+class ask_del(models.Model):
+    """
+    Tables pour marquer les objects à supprimer
+    """
+    ticket = models.ForeignKey(Tickets)
+    ask_del = models.BooleanField(default=0) # Marque le ticket pour le suppression
 
 
 class response(models.Model):

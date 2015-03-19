@@ -19,7 +19,11 @@
 
                                             <li><a href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">Editer le ticket</a></li>
                                             <li><a href="#my-id" data-uk-offcanvas>Voir l'historique</a></li>
+                                            {% if request.user.is_staff %}
                                             <li><a href="#">Supprimez le ticket</a></li>
+                                            {% else %}
+                                            <li><a href="#">Demande de suppression</a></li>
+                                            {% endif %}
 
 
                                             </li>
@@ -47,6 +51,7 @@
        <p>Crée le : {{ tickets.created}}</p>
         <p>Demandeur : {{ tickets.create_by}}</p>
     <p>Assigné à : {{ tickets.assign_to}}</p>
+    <p>Type : {{ tickets.get_types_display}}</p>
     <hr class="uk-grid-divider">
     <p>Ticket : <p>{{ tickets.content }}</p>
 
@@ -55,14 +60,14 @@
 
 
 
-<div class="uk-width-1-1 uk-margin-large-top">
+
 <div data-uk-scrollspy="{cls:'uk-animation-fade', target:'.uk-width-medium-1-2', delay:300}">
         <div class="uk-width-medium-1-2 uk-container-center uk-panel-box ">
 
 <form action="" name="post_response" method="post">{% csrf_token %}
     {% for field in response %}
 
-{{ field }}
+{{ field }} test
 <button  class="uk-button-success uk-width-1-6 uk-center  ">Soumettre</button></center></div></div>
 
 

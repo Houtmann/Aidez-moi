@@ -1,17 +1,10 @@
 {% extends "base.html" %}
 
-
-
-
-
-
-
-
-
 {% block content %}
-{% load filter %}
-<div class="uk-container uk-container-center">
 
+{% load filter %}
+
+<div class="uk-container uk-container-center">
 <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
   <thead>
                     <tr>
@@ -34,7 +27,6 @@
 </table>
 
 
-
             <table class="uk-table uk-table-hover uk-table-striped">
                 <caption>Votre historique récent:</caption>
                 <thead>
@@ -53,6 +45,7 @@
                         <td>{{ tick.created }}</td>
                         <td>{{ tick.get_status_display }}</td>
                         <td><code>{{ tick.get_priority_display  }}</code></td>
+
                         {%  if tick.assign_to == None %}
                             <td>
                             <span class="uk-text-warning">Pas encore assigné</span>
@@ -61,9 +54,11 @@
                         <td>{{ tick.assign_to }}</td>
                     {% endif %}
                     </tr>
+
                  {% endfor %}
                 </tbody>
             </table>
         </div>
+</body>
 
 {% endblock %}

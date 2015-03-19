@@ -22,6 +22,7 @@ def home(request):
     return render(request, 'home.html', locals())
 
 
+
 def user_login(request):
     if request.method == 'POST':
         form = ConnexionForm(request.POST)

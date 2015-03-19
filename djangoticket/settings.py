@@ -36,7 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'debug_toolbar',
     'ticket',
 
 )
@@ -48,7 +48,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    #'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 
 
 )
@@ -95,7 +95,7 @@ STATICFILES_DIRS = (
     PROJECT_ROOT + '/static/', # <= don't forget a comma here#
       )
 
-#INTERNAL_IPS = ('127.0.0.1',) #debug toolbar
+INTERNAL_IPS = ('127.0.0.1',) #debug toolbar
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR,  'templates'),
