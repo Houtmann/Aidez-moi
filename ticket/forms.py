@@ -44,6 +44,7 @@ class TicketForm(forms.ModelForm):
     # Pour choisir que les membres du staff
     assign_to = forms.ModelChoiceField(queryset=User.objects.all().filter(is_staff=1))
 
+
     class Meta:
         model = Tickets
         exclude = ('created', 'create_by')
@@ -67,4 +68,4 @@ class ResponseForm(forms.ModelForm):
 
     class Meta:
         model = response
-        exclude = ('date_response', 'response_by', 'ticket_id')
+        exclude = ('date_response', 'response_by', 'ticket')

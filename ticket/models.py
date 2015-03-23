@@ -2,6 +2,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _, ugettext
+
+
 
 
 
@@ -11,15 +14,14 @@ class UserProfile(models.Model):
 
 
 
+
 class Tickets(models.Model):
 
     title = models.TextField()
     content = models.TextField()
-
     create_by = models.ForeignKey(User)
-    created = models.DateTimeField(auto_now=True)
-
-
+    created = models.DateTimeField()
+    last_edited = models.DateTimeField(auto_now=True)
 
     TYPES_CHOICES = (
         (1, 'Incident'),
@@ -33,7 +35,6 @@ class Tickets(models.Model):
     RESOLVED_STATUS = 3
     CLOSED_STATUS = 4
 
-
     STATUS_CHOICES = (
         (OPEN_STATUS, 'Open'),
         (RESOLVED_STATUS, 'Resolved'),
@@ -46,7 +47,6 @@ class Tickets(models.Model):
         (3, 'Normal'),
         (4, 'Low'),
         (5, 'Very Low'),)
-
 
 
     assign_to = models.ForeignKey(
@@ -69,6 +69,21 @@ class Tickets(models.Model):
         blank=3,
         help_text=('1 = Highest Priority, 5 = Low Priority'),)
 
+    def __str__(self):
+        """
+        Cette méthode que nous définirons dans tous les modèles
+        nous permettra de reconnaître facilement les différents objets que
+        nous traiterons plus tard et dans l'administration
+        """
+        return self.title
+
+
+
+class TicketHistory(models.Model):
+    date_closed = models.DateTimeField()
+    date_resolved = models.DateTimeField()
+
+
 
 class ask_del(models.Model):
     """
@@ -78,9 +93,10 @@ class ask_del(models.Model):
     ask_del = models.BooleanField(default=0) # Marque le ticket pour le suppression
 
 
+
 class response(models.Model):
 
     response_by = models.ForeignKey(User)
     response = models.TextField()
-    ticket_id = models.ForeignKey(Tickets)
+    ticket = models.ForeignKey(Tickets)
     date_response = models.DateTimeField(auto_now=True)

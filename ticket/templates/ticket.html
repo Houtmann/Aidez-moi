@@ -3,7 +3,6 @@
 {% block content %}
 
 
-
 <div class="uk-width-1-2 uk-container-center uk-panel-box ">
 
    <div class="uk-button-group">
@@ -31,54 +30,61 @@
                                     </div></div></div></div></div>
 
 
-
-
 <div id="my-id" class="uk-offcanvas">
     <div class="uk-offcanvas-bar">
-        <div class="uk-panel">testtt</div>
+        <div class="uk-panel">
+
+           {% for field in version_data %} {{ field.format }} {% endfor %}
+
+        </div>
     </div>
 </div>
+
 
 <p><span class="uk-badge">Ticket id : {{ tickets.id}}</span></p>
 <p>Titre : {{ tickets.title}}</p>
 
     {% if tickets.status == 1 %}
 <p>Status : <span class="uk-text-success">{{ tickets.get_status_display}}</span></p>
-        {% else %}
+
+    {% else %}
         <p>Status : <span class="uk-text-warning">{{ tickets.get_status_display}}</span></p>
     {% endif %}
-    <p>Urgence : <code>{{ tickets.get_priority_display}}</code></p>
-       <p>Crée le : {{ tickets.created}}</p>
-        <p>Demandeur : {{ tickets.create_by}}</p>
-    <p>Assigné à : {{ tickets.assign_to}}</p>
-    <p>Type : {{ tickets.get_types_display}}</p>
+
+    <p>Urgence : <code>{{ tickets.get_priority_display }}</code></p>
+    <p>Crée le : {{ tickets.created }}</p>
+    <p>Demandeur : {{ tickets.create_by }}</p>
+    <p>Assigné à : {{ tickets.assign_to }}</p>
+    <p>Type : {{ tickets.get_types_display }}</p>
+    <p>Derniere edition le : {{ tickets.last_edited }}</p>
     <hr class="uk-grid-divider">
     <p>Ticket : <p>{{ tickets.content }}</p>
 
-
-
-
-
-
-
-<div data-uk-scrollspy="{cls:'uk-animation-fade', target:'.uk-width-medium-1-2', delay:300}">
-        <div class="uk-width-medium-1-2 uk-container-center uk-panel-box ">
-
-<form action="" name="post_response" method="post">{% csrf_token %}
-    {% for field in response %}
-
-{{ field }} test
-<button  class="uk-button-success uk-width-1-6 uk-center  ">Soumettre</button></center></div></div>
-
-
-            {% endfor %}</form>
-        </div>
 </div>
 
+<div class="uk-width-1-2 uk-container-center uk-panel-box ">
+    <form action="" name="post_response" method="post">{% csrf_token %}
+        {{ form }}
+
+<button  class="uk-button-success uk-width-1-6 uk-center  ">Soumettre</button></center></div>
+    </form> <p></p>
+
+
+
+
+       {% for item in reponse %}
+           <div class="uk-width-1-2 uk-container-center uk-panel-box   ">
+    <article class="uk-comment uk-comment-primary">
+           <header class="uk-comment-header">
+
+        <h4 class="uk-comment-title">{{ item.response_by }}</h4>
+        <div class="uk-comment-meta">.{{ item.date_response }}</div>
+    </header>
+    <div class="uk-comment-body"> {{ item.response }}</div>
+</article>
 </div>
-
-
-
+      <p></p>
+    {% endfor %}
 
 
 

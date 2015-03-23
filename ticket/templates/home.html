@@ -43,7 +43,12 @@
                     <tr>
                         <td><a href="{% url "ticket.views.tickets.view_ticket" tick.id %}">{{ tick.title }}</a></td>
                         <td>{{ tick.created }}</td>
-                        <td>{{ tick.get_status_display }}</td>
+                        {% if tick.status == 1 %}
+                   <td> <span class="uk-text-success">{{ tick.get_status_display}}</span></td>
+                    {% else %}
+                    <td><span class="uk-text-warning">{{ tick.get_status_display}}</span></td>
+                    {% endif %}
+
                         <td><code>{{ tick.get_priority_display  }}</code></td>
 
                         {%  if tick.assign_to == None %}

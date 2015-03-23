@@ -2,13 +2,14 @@ __author__ = 'had'
 
 from django.shortcuts import render, redirect, render_to_response
 from ticket.forms import TicketForm, ResponseForm
-from ticket.models import Tickets, UserProfile
+from ticket.models import Tickets, UserProfile, response
 from ticket.views.auth import home
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import loader, Context, RequestContext
 from django.contrib import messages
+from datetime import datetime
 
 
 @login_required(login_url='login/')
@@ -20,6 +21,7 @@ def add_ticket(request):
 
             ticket = form.save(commit=False)
             ticket.create_by = request.user
+            ticket.created = datetime.now()
             ticket.save()
             return redirect(home)
         else:
@@ -41,7 +43,7 @@ def ticket_list_new(request):
 @login_required(login_url='login/')
 def ticket_list_work(request):
     if request.user.is_staff:
-        ticket = Tickets.objects.select_related('username').exclude(assign_to=None).order_by('-created')
+        ticket = Tickets.objects.select_related('username').filter(status=1).exclude(assign_to=None).order_by('-created')
     else:
         ticket = Tickets.objects.filter(create_by=request.user, status=1).exclude(assign_to=None).order_by('-created')
 
@@ -95,6 +97,23 @@ def ticket_edit(request, id):
 
 def view_ticket(request, id):
     tickets = Tickets.objects.select_related('create_by').get(id=id)
+    reponse = response.objects.filter(ticket=id)
+    if request.method == 'POST':
+        form = ResponseForm(data=request.POST)
+        #if form.is_valid():
+        comment = form.save(commit=False)
+
+        comment.ticket = Tickets.objects.get(id=id)
+
+        comment.response_by = request.user
+
+        comment.save()
+
+    else:
+        form = ResponseForm
+
+
+
     return render(request,'ticket.html', locals())
 
 
