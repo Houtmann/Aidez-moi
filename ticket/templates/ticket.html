@@ -54,7 +54,14 @@
     <p>Urgence : <code>{{ tickets.get_priority_display }}</code></p>
     <p>Crée le : {{ tickets.created }}</p>
     <p>Demandeur : {{ tickets.create_by }}</p>
-    <p>Assigné à : {{ tickets.assign_to }}</p>
+{%  if tickets.assign_to == None %}
+                            <td>
+                            Assigné à : <span class="uk-text-warning">Pas encore assigné</span>
+                        </td>
+                        {% else %}
+                        <td>Assigné à : {{ tickets.assign_to }}</td>
+                    {% endif %}
+
     <p>Type : {{ tickets.get_types_display }}</p>
     <p>Derniere edition le : {{ tickets.last_edited }}</p>
     <hr class="uk-grid-divider">

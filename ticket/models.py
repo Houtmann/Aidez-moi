@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _, ugettext
+from simple_history.models import HistoricalRecords
 
 
 
@@ -77,11 +78,10 @@ class Tickets(models.Model):
         """
         return self.title
 
+    history = HistoricalRecords()
 
 
-class TicketHistory(models.Model):
-    date_closed = models.DateTimeField()
-    date_resolved = models.DateTimeField()
+
 
 
 
