@@ -4,37 +4,40 @@
 
 
 <div class="uk-width-1-2 uk-container-center uk-panel-box ">
+    <div class="uk-button-group">
+       <button class="uk-button">Menu</button>
+       <div class="" aria-expanded="false" aria-haspopup="true" data-uk-dropdown="{mode:'click'}">
+           <button class="uk-button"><i class="uk-icon-caret-down"></i></button>
+           <div style="" class="uk-dropdown uk-dropdown-width-2">
 
-   <div class="uk-button-group">
-                        <button class="uk-button">Menu</button>
-                        <div class="" aria-expanded="false" aria-haspopup="true" data-uk-dropdown="{mode:'click'}">
-                            <button class="uk-button"><i class="uk-icon-caret-down"></i></button>
-                            <div style="" class="uk-dropdown uk-dropdown-width-2">
+               <div class="uk-grid uk-dropdown-grid">
 
-                                <div class="uk-grid uk-dropdown-grid">
+                   <div class="uk-width-1-2">
+                       <ul class="uk-nav uk-nav-dropdown uk-panel">
 
-                                    <div class="uk-width-1-2">
-                                        <ul class="uk-nav uk-nav-dropdown uk-panel">
+                           <li><a href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">Editer le ticket</a></li>
+                           <li><a href="#my-id" data-uk-offcanvas>Voir l'historique</a></li>
+                           {% if request.user.is_staff %}
+                               <li><a href="#">Supprimez le ticket</a></li>
+                           {% else %}
+                               <li><a href="#">Demande de suppression</a></li>
+                           {% endif %}
 
-                                            <li><a href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">Editer le ticket</a></li>
-                                            <li><a href="#my-id" data-uk-offcanvas>Voir l'historique</a></li>
-                                            {% if request.user.is_staff %}
-                                            <li><a href="#">Supprimez le ticket</a></li>
-                                            {% else %}
-                                            <li><a href="#">Demande de suppression</a></li>
-                                            {% endif %}
-
-
-                                            </li>
-                                        </ul>
-                                    </div></div></div></div></div>
+                           </li>
+                       </ul></div></div></div></div></div>
 
 
 <div id="my-id" class="uk-offcanvas">
     <div class="uk-offcanvas-bar">
         <div class="uk-panel">
 
-           {% for field in version_data %} {{ field.format }} {% endfor %}
+           {% for field in tickets.history.all %}
+               {{ field.history_date }}: <p></p>
+               status : {{ field.get_status_display  }}<p></p>
+               priorité : {{ field.get_priority_display  }}<p></p>
+               assigné à : {{ field.assign_to}}<p></p>
+               <hr/>
+           {% endfor %}
 
         </div>
     </div>
@@ -45,27 +48,24 @@
 <p>Titre : {{ tickets.title}}</p>
 
     {% if tickets.status == 1 %}
-<p>Status : <span class="uk-text-success">{{ tickets.get_status_display}}</span></p>
-
+        <p>Status : <span class="uk-text-success">{{ tickets.get_status_display}}</span></p>
     {% else %}
         <p>Status : <span class="uk-text-warning">{{ tickets.get_status_display}}</span></p>
     {% endif %}
 
-    <p>Urgence : <code>{{ tickets.get_priority_display }}</code></p>
-    <p>Crée le : {{ tickets.created }}</p>
-    <p>Demandeur : {{ tickets.create_by }}</p>
-{%  if tickets.assign_to == None %}
-                            <td>
-                            Assigné à : <span class="uk-text-warning">Pas encore assigné</span>
-                        </td>
-                        {% else %}
-                        <td>Assigné à : {{ tickets.assign_to }}</td>
-                    {% endif %}
+        <p>Urgence : <code>{{ tickets.get_priority_display }}</code></p>
+        <p>Crée le : {{ tickets.created }}</p>
+        <p>Demandeur : {{ tickets.create_by }}</p>
+    {%  if tickets.assign_to == None %}
+        <td>Assigné à : <span class="uk-text-warning">Pas encore assigné</span></td>
+    {% else %}
+        <td>Assigné à : {{ tickets.assign_to }}</td>
+    {% endif %}
 
-    <p>Type : {{ tickets.get_types_display }}</p>
-    <p>Derniere edition le : {{ tickets.last_edited }}</p>
-    <hr class="uk-grid-divider">
-    <p>Ticket : <p>{{ tickets.content }}</p>
+        <p>Type : {{ tickets.get_types_display }}</p>
+        <p>Derniere edition le : {{ tickets.last_edited }}</p>
+        <hr class="uk-grid-divider">
+        <p>Ticket : <p>{{ tickets.content }}</p>
 
 </div>
 

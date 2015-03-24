@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -36,7 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'debug_toolbar',
+    'debug_toolbar',
     'ticket',
     'simple_history',
 
@@ -51,7 +52,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    #'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
 
 
@@ -93,31 +94,26 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__)) # it means settings.py is in PROJECT_ROOT?
-
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))  # it means settings.py is in PROJECT_ROOT?
 
 STATICFILES_DIRS = (
-    PROJECT_ROOT + '/static/', # <= don't forget a comma here#
-      )
+    PROJECT_ROOT + '/static/',  # <= don't forget a comma here#
+)
 
-INTERNAL_IPS = ('127.0.0.1',) #debug toolbar
+INTERNAL_IPS = ('127.0.0.1',)  # debug toolbar
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR,  'templates'),
-    os.path.join(BASE_DIR,  'ticket/templates'),
+    os.path.join(BASE_DIR, 'templates'),
+    os.path.join(BASE_DIR, 'ticket/templates'),
 
 )
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',
-    
+
     'django.core.context_processors.static',
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
 )
-
-
-
 
 CACHES = {
     'default': {

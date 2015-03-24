@@ -3,6 +3,7 @@
 from django.contrib import admin
 from .models import *
 from django import forms
+from simple_history.admin import SimpleHistoryAdmin
 
 
 def close(modeladmin, request, queryset):
@@ -14,9 +15,10 @@ class TicketsAdmin(admin.ModelAdmin):
     list_display = ('title', 'types', 'created', 'status', 'priority' )
     actions = [close]
 
+class TicketsAdminWithHistory(TicketsAdmin, SimpleHistoryAdmin):
+    list_display = ('title', 'types', 'created', 'status', 'priority' )
+    actions = [close]
+
+admin.site.register(Tickets, TicketsAdminWithHistory)
 
 
-
-
-admin.site.register(Tickets, TicketsAdmin)
-# Register your models here.

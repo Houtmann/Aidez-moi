@@ -1,20 +1,12 @@
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _, ugettext
 from simple_history.models import HistoricalRecords
 
-
-
-
-
 class UserProfile(models.Model):
 
     user = models.OneToOneField(User)
-
-
-
 
 class Tickets(models.Model):
 
@@ -82,16 +74,12 @@ class Tickets(models.Model):
 
 
 
-
-
-
 class ask_del(models.Model):
     """
     Tables pour marquer les objects à supprimer
     """
     ticket = models.ForeignKey(Tickets)
     ask_del = models.BooleanField(default=0) # Marque le ticket pour le suppression
-
 
 
 class response(models.Model):

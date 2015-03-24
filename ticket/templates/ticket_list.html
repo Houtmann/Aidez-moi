@@ -32,7 +32,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for tick in ticket %}
+        {% for tick in tickets %}
                     <tr>
                         <td><a href="{% url "ticket.views.tickets.view_ticket" tick.id %}">{{ tick.title }}</a></td>
                         <td>{{ tick.created }}</td>
@@ -44,7 +44,7 @@
                     {% endif %}
 
                         <td><code>{{ tick.get_priority_display  }}</code></td>
-                        {%  if tick.assign_to == None %}
+                        {%  if tick.assign_to = None %}
                             <td>
                             <span class="uk-text-warning">Pas encore assigné</span>
                         </td>
@@ -57,5 +57,22 @@
 </table>
 
 </div>
+    <div class="pagination">
+    <li class="uk-active"><span>
+        {% if tickets.has_previous %}
+            <a href="?page={{ tickets.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="current">
+            Page {{ tickets.number }} of {{ tickets.paginator.num_pages }}.
+        </span>
+        {% if tickets.has_next %}
+            <a href="?page={{ tickets.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+
+
+
 </body>
 {% endblock %}
+
