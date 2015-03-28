@@ -65,24 +65,22 @@
         <p>Type : {{ tickets.get_types_display }}</p>
         <p>Derniere edition le : {{ tickets.last_edited }}</p>
         <hr class="uk-grid-divider">
-        <p>Ticket : <p>{{ tickets.content }}</p><p></p></div>
+        <p>Ticket : <p>{{ tickets.content }}</p></div>
 
 
-
-
+<p></p>
 {% for item in reponse %}
-           <div class="uk-width-1-2 uk-container-center uk-panel-box   ">
-    <article class="uk-comment uk-comment-primary">
-           <header class="uk-comment-header">
-
+    <div class="uk-width-1-2 uk-container-center uk-panel-box ">
+        <article class="uk-comment uk-comment-primary">
+        <header class="uk-comment-header">
         <h4 class="uk-comment-title">{{ item.response_by }}</h4>
-        <div class="uk-comment-meta">.{{ item.date_response }}</div>
-    </header>
+    <div class="uk-comment-meta">.{{ item.date_response }}</div>
+        </header>
     <div class="uk-comment-body"> {{ item.response }}</div>
-</article>
-</div>
-      <p></p>
-    {% endfor %}
+        </article>
+    </div>
+    <p></p>
+{% endfor %}
 
 
 

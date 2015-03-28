@@ -17,8 +17,11 @@ from django.template import RequestContext
 # Create your views here.
 @login_required(login_url='login/')
 def home(request):
+    if request.user.is_staff:
+        ticket = Tickets.objects.filter(assign_to = request.user).order_by('-created')[:10:1]
+    else:
+        ticket = Tickets.objects.filter(create_by = request.user).order_by('-created')[:10:1]
 
-    ticket = Tickets.objects.filter(create_by = request.user).order_by('-created')[:10:1]
     return render(request, 'home.html', locals())
 
 

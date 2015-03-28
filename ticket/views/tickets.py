@@ -36,13 +36,26 @@ def add_ticket(request):
     return render(request, 'add_ticket.html', locals())
 
 
-@cache_page(60*1)
+#@cache_page(60*1)
 @login_required(login_url='login/')
 def ticket_list_new(request):
     if request.user.is_staff:
-        ticket = Tickets.objects.filter(assign_to=None).order_by('-created')
+        ticket_list = Tickets.objects.filter(assign_to=None).order_by('-created')
     else:
-        ticket = Tickets.objects.filter(create_by=request.user, assign_to=None).order_by('-created')
+        ticket_list = Tickets.objects.filter(create_by=request.user, assign_to=None).order_by('-created')
+
+    paginator = Paginator(ticket_list, PER_PAGE)
+
+    page = request.GET.get('page')
+    try:
+        tickets = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        tickets = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        tickets = paginator.page(paginator.num_pages)
+
     return render(request, 'ticket_list.html', locals())
 
 
@@ -127,7 +140,7 @@ def ticket_list_clos(request):
 
 
 
-@cache_page(60*1)
+#@cache_page(60*1)
 @login_required(login_url='login/')
 def ticket_all(request):
     ticket_list = Tickets.objects.select_related('create_by', 'assign_to')
