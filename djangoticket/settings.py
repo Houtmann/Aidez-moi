@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'ticket',
     'simple_history',
+    #'haystack',
 
 
 
@@ -113,6 +114,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.static',
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
+
 )
 
 CACHES = {
@@ -121,3 +123,5 @@ CACHES = {
         'LOCATION': 'F:/Desktop/djangoticket/ticket',
     }
 }
+
+

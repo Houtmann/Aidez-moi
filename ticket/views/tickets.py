@@ -12,8 +12,9 @@ from django.contrib import messages
 from datetime import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
-PER_PAGE = 50
+PER_PAGE = 100
 
 @cache_page(60*1)
 @login_required(login_url='login/')
@@ -79,7 +80,7 @@ def ticket_list_work(request):
 @login_required(login_url='login/')
 def ticket_list_resolved(request):
     if request.user.is_staff:
-        ticket_list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
+        ticket_list = Tickets.objects.select_related('create_by', 'assign_to')\
             .filter(status=3).exclude(assign_to=None).order_by('-created')
     else:
         ticket_list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
@@ -99,14 +100,14 @@ def ticket_list_resolved(request):
     # return render_to_response('index.html', {"articles": articles})
     return render(request, 'ticket_list.html', locals())
 
-@cache_page(60*1)
+#@cache_page(60*1)
 @login_required(login_url='login/')
 def ticket_list_clos(request):
     if request.user.is_staff:
-        ticket_list = Tickets.objects.select_related('create_by').prefetch_related('create_by')\
+        ticket_list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by', 'assign_to')\
             .filter(status=4).exclude(assign_to=None).order_by('-created')
     else:
-        ticket_list = Tickets.objects.select_related('create_by').prefetch_related('create_by')\
+        ticket_list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
             .filter(create_by=request.user, status=4).order_by('-created')
 
     paginator = Paginator(ticket_list, PER_PAGE)
@@ -166,6 +167,7 @@ def ticket_edit(request, id):
     return render(request, 'add_ticket.html', locals())
 
 
+@login_required(login_url='login/')
 def view_ticket(request, id):
     tickets = Tickets.objects.select_related('create_by').get(id=id)
     reponse = response.objects.filter(ticket=id)
@@ -173,17 +175,12 @@ def view_ticket(request, id):
         form = ResponseForm(data=request.POST)
         #if form.is_valid():
         comment = form.save(commit=False)
-
         comment.ticket = Tickets.objects.get(id=id)
-
         comment.response_by = request.user
-
         comment.save()
 
     else:
         form = ResponseForm
-
-
 
     return render(request,'ticket.html', locals())
 

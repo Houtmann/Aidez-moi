@@ -65,21 +65,12 @@
         <p>Type : {{ tickets.get_types_display }}</p>
         <p>Derniere edition le : {{ tickets.last_edited }}</p>
         <hr class="uk-grid-divider">
-        <p>Ticket : <p>{{ tickets.content }}</p>
-
-</div>
-
-<div class="uk-width-1-2 uk-container-center uk-panel-box ">
-    <form action="" name="post_response" method="post">{% csrf_token %}
-        {{ form }}
-
-<button  class="uk-button-success uk-width-1-6 uk-center  ">Soumettre</button></center></div>
-    </form> <p></p>
+        <p>Ticket : <p>{{ tickets.content }}</p><p></p></div>
 
 
 
 
-       {% for item in reponse %}
+{% for item in reponse %}
            <div class="uk-width-1-2 uk-container-center uk-panel-box   ">
     <article class="uk-comment uk-comment-primary">
            <header class="uk-comment-header">
@@ -92,6 +83,20 @@
 </div>
       <p></p>
     {% endfor %}
+
+
+
+<div class="uk-width-1-2 uk-container-center uk-panel-box ">
+    <form action="" name="post_response" method="post">{% csrf_token %}
+        {{ form }}
+
+<button  class="uk-button-success uk-width-1-6 uk-center  ">Soumettre</button></center></div>
+    </form> <p></p>
+
+
+
+
+
 
 
 
