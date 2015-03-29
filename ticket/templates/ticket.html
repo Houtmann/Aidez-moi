@@ -2,6 +2,12 @@
 
 {% block content %}
 
+{% for i in version_list %}
+    {{ i }}
+    {% endfor %}
+
+
+
 
 <div class="uk-width-1-2 uk-container-center uk-panel-box ">
     <div class="uk-button-group">
@@ -16,7 +22,6 @@
                        <ul class="uk-nav uk-nav-dropdown uk-panel">
 
                            <li><a href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">Editer le ticket</a></li>
-                           <li><a href="#my-id" data-uk-offcanvas>Voir l'historique</a></li>
                            {% if request.user.is_staff %}
                                <li><a href="#">Supprimez le ticket</a></li>
                            {% else %}
@@ -27,21 +32,9 @@
                        </ul></div></div></div></div></div>
 
 
-<div id="my-id" class="uk-offcanvas">
-    <div class="uk-offcanvas-bar">
-        <div class="uk-panel">
 
-           {% for field in tickets.history.all %}
-               {{ field.history_date }}: <p></p>
-               status : {{ field.get_status_display  }}<p></p>
-               priorité : {{ field.get_priority_display  }}<p></p>
-               assigné à : {{ field.assign_to}}<p></p>
-               <hr/>
-           {% endfor %}
 
-        </div>
-    </div>
-</div>
+
 
 
 <p><span class="uk-badge">Ticket id : {{ tickets.id}}</span></p>

@@ -13,6 +13,8 @@ from datetime import datetime
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
+from datetime import datetime
+
 
 PER_PAGE = 100
 
@@ -161,29 +163,35 @@ def ticket_all(request):
 
 
 
-@cache_page(60*15)
+#@cache_page(60*15)
 @login_required(login_url='login/')
 def ticket_edit(request, id):
 
     ticket = get_object_or_404(Tickets, id=id)
-
     if request.method=='POST' and 'edit' in request.POST:
         form = TicketForm(request.POST, user=request.user, instance=ticket)
+
         if form.is_valid():
             form.save()
-            messages.add_message(request, messages.INFO, 'Ticket mis à jour OK')
-            return redirect(ticket_edit, id)
+            #messages.add_message(request, messages.INFO, 'Ticket mis à jour OK')
+            return redirect(view_ticket, id)
             # If the save was successful, redirect to another page
     else:
-            response = ResponseForm()
             form = TicketForm(user=request.user, instance=ticket)
+            response = ResponseForm()
+
     return render(request, 'add_ticket.html', locals())
+
+
+
 
 
 @login_required(login_url='login/')
 def view_ticket(request, id):
     tickets = Tickets.objects.select_related('create_by').get(id=id)
     reponse = response.objects.filter(ticket=id)
+
+
     if request.method == 'POST':
         form = ResponseForm(data=request.POST)
         #if form.is_valid():

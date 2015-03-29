@@ -1,14 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
-from django.utils.translation import ugettext_lazy as _, ugettext
-
-from simple_history.models import HistoricalRecords
+from save_the_change.mixins import SaveTheChange, TrackChanges, BaseChangeTracker
+from model_utils import FieldTracker
 
 
 class UserProfile(models.Model):
 
     user = models.OneToOneField(User)
+
 
 class Tickets(models.Model):
 
@@ -17,7 +17,6 @@ class Tickets(models.Model):
     create_by = models.ForeignKey(User)
     created = models.DateTimeField()
     last_edited = models.DateTimeField(auto_now=True)
-
 
     TYPES_CHOICES = (
         (1, 'Incident'),
@@ -44,7 +43,6 @@ class Tickets(models.Model):
         (4, 'Low'),
         (5, 'Very Low'),)
 
-
     assign_to = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name='assigned_to',
@@ -65,6 +63,8 @@ class Tickets(models.Model):
         blank=3,
         help_text=('1 = Highest Priority, 5 = Low Priority'),)
 
+    tracker = FieldTracker()
+
     def __str__(self):
         """
         Cette méthode que nous définirons dans tous les modèles
@@ -73,7 +73,28 @@ class Tickets(models.Model):
         """
         return self.title
 
-    history = HistoricalRecords()
+    def save(self, *args, **kwargs):
+        print(self.tracker.changed())
+        for i in self.tracker.changed().items():
+            TicketHistory.objects.create(ticket_id=self.pk,
+                                         field=i[0],
+                                         old_value=i[1],
+                                         new_value=getattr(self, i[0]))
+
+
+        super(Tickets, self).save(*args, **kwargs)
+
+
+
+
+class TicketHistory(models.Model):
+    """ Model for track any change on ticket model"""
+    
+    ticket = models.ForeignKey(Tickets, related_name='ticket_id', blank=True, null=True)
+    field = models.CharField(max_length=100)
+    old_value = models.TextField()
+    new_value = models.TextField()
+    date_change = models.DateTimeField(auto_now=True)
 
 
 class response(models.Model):
@@ -82,3 +103,6 @@ class response(models.Model):
     response = models.TextField()
     ticket = models.ForeignKey(Tickets)
     date_response = models.DateTimeField(auto_now=True)
+
+
+
