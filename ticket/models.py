@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
-from save_the_change.mixins import SaveTheChange, TrackChanges, BaseChangeTracker
+
 from model_utils import FieldTracker
 
 
@@ -10,7 +10,8 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
 
-class Tickets(models.Model):
+
+class Tickets( models.Model):
 
     title = models.TextField()
     content = models.TextField()
@@ -31,17 +32,17 @@ class Tickets(models.Model):
     CLOSED_STATUS = 4
 
     STATUS_CHOICES = (
-        (OPEN_STATUS, 'Open'),
-        (RESOLVED_STATUS, 'Resolved'),
-        (CLOSED_STATUS, 'Closed'),
+        ('OPEN', 'Open'),
+        ('RESOLVED', 'Resolved'),
+        ('CLOSED', 'Closed'),
     )
 
     PRIORITY_CHOICES = (
-        (1, 'Critical'),
-        (2, 'High'),
-        (3, 'Normal'),
-        (4, 'Low'),
-        (5, 'Very Low'),)
+        ('CRITICAL', 'Critical'),
+        ('HIGH', 'High'),
+        ('NORMAL', 'Normal'),
+        ('LOW', 'Low'),
+        ('VERYLOW', 'Very Low'),)
 
     assign_to = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -51,16 +52,16 @@ class Tickets(models.Model):
         verbose_name=('Assigned to'),
         )
 
-    status = models.IntegerField(
-        ('Status'),
+    status = models.CharField(max_length=15
+        ,
         choices=STATUS_CHOICES,
         default=OPEN_STATUS, )
 
-    priority = models.IntegerField(
-        ('Priority'),
+    priority = models.CharField(max_length=15
+        ,
         choices=PRIORITY_CHOICES,
-        default=3,
-        blank=3,
+        default='NORMAL',
+        blank='NORMAL',
         help_text=('1 = Highest Priority, 5 = Low Priority'),)
 
     tracker = FieldTracker()
@@ -74,9 +75,9 @@ class Tickets(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        print(self.tracker.changed())
-        for i in self.tracker.changed().items():
-            TicketHistory.objects.create(ticket_id=self.pk,
+        if  Tickets.objects.filter(id=self.id).exists():
+            for i in self.tracker.changed().items():
+                TicketHistory.objects.create(ticket_id=self.pk,
                                          field=i[0],
                                          old_value=i[1],
                                          new_value=getattr(self, i[0]))
@@ -89,11 +90,11 @@ class Tickets(models.Model):
 
 class TicketHistory(models.Model):
     """ Model for track any change on ticket model"""
-    
+
     ticket = models.ForeignKey(Tickets, related_name='ticket_id', blank=True, null=True)
-    field = models.CharField(max_length=100)
-    old_value = models.TextField()
-    new_value = models.TextField()
+    field = models.CharField(max_length=100, null=True)
+    old_value = models.TextField(null=True)
+    new_value = models.TextField(null=True)
     date_change = models.DateTimeField(auto_now=True)
 
 

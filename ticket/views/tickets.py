@@ -2,7 +2,7 @@ __author__ = 'had'
 
 from django.shortcuts import render, redirect, render_to_response
 from ticket.forms import TicketForm, ResponseForm
-from ticket.models import Tickets, UserProfile, response
+from ticket.models import Tickets, UserProfile, response, TicketHistory
 from ticket.views.auth import home
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -67,10 +67,10 @@ def ticket_list_work(request):
 
     if request.user.is_staff:
         ticket_list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
-            .filter(status=1).exclude(assign_to=None).order_by('-created')
+            .filter(status='OPEN').exclude(assign_to=None).order_by('-created')
     else:
         ticket_list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
-            .filter(create_by=request.user, status=1).exclude(assign_to=None).order_by('-created')
+            .filter(create_by=request.user, status='OPEN').exclude(assign_to=None).order_by('-created')
 
     paginator = Paginator(ticket_list, PER_PAGE)
 
@@ -96,10 +96,10 @@ def ticket_list_work(request):
 def ticket_list_resolved(request):
     if request.user.is_staff:
         ticket_list = Tickets.objects.select_related('create_by', 'assign_to')\
-            .filter(status=3).exclude(assign_to=None).order_by('-created')
+            .filter(status='RESOLVED').exclude(assign_to=None).order_by('-created')
     else:
         ticket_list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
-            .filter(create_by=request.user, status=3).order_by('-created')
+            .filter(create_by=request.user, status='RESOLVED').order_by('-created')
 
     paginator = Paginator(ticket_list, PER_PAGE)
 
@@ -120,10 +120,10 @@ def ticket_list_resolved(request):
 def ticket_list_clos(request):
     if request.user.is_staff:
         ticket_list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by', 'assign_to')\
-            .filter(status=4).exclude(assign_to=None).order_by('-created')
+            .filter(status='CLOSED').exclude(assign_to=None).order_by('-created')
     else:
         ticket_list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
-            .filter(create_by=request.user, status=4).order_by('-created')
+            .filter(create_by=request.user, status='CLOSED').order_by('-created')
 
     paginator = Paginator(ticket_list, PER_PAGE)
 
@@ -188,9 +188,11 @@ def ticket_edit(request, id):
 
 @login_required(login_url='login/')
 def view_ticket(request, id):
+
+
     tickets = Tickets.objects.select_related('create_by').get(id=id)
     reponse = response.objects.filter(ticket=id)
-
+    history = TicketHistory.objects.filter(ticket_id=id)
 
     if request.method == 'POST':
         form = ResponseForm(data=request.POST)

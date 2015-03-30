@@ -12,16 +12,16 @@ def all_tick(user):
 
 def ticket_resolved(user):
     if user.is_staff:
-        return Tickets.objects.filter(status=3).count()
+        return Tickets.objects.filter(status='RESOLVED').count()
     else:
-        return Tickets.objects.filter(create_by = user, status=3).count()
+        return Tickets.objects.filter(create_by = user, status='RESOLVED').count()
 
 
 def ticket_open(user):
     if user.is_staff:
-        return Tickets.objects.filter(status=1).exclude(assign_to=None).count()
+        return Tickets.objects.filter(status='OPEN').exclude(assign_to=None).count()
     else:
-        return Tickets.objects.filter(create_by = user, status=1).exclude(assign_to=None).count()
+        return Tickets.objects.filter(create_by = user, status='OPEN').exclude(assign_to=None).count()
 
 
 def ticket_new(user):
@@ -32,7 +32,7 @@ def ticket_new(user):
 
 def ticket_clos(user):
     if user.is_staff:
-        return Tickets.objects.filter(status=4).count()
+        return Tickets.objects.filter(status='CLOSED').count()
     else:
         return Tickets.objects.filter(create_by=user, status=4).count()
 

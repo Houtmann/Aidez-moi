@@ -43,7 +43,7 @@
                     <tr>
                         <td><a href="{% url "ticket.views.tickets.view_ticket" tick.id %}">{{ tick.title }}</a></td>
                         <td>{{ tick.created }}</td>
-                        {% if tick.status == 1 %}
+                        {% if tick.status == 'OPEN' %}
                    <td> <span class="uk-text-success">{{ tick.get_status_display}}</span></td>
                     {% else %}
                     <td><span class="uk-text-warning">{{ tick.get_status_display}}</span></td>

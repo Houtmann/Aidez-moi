@@ -2,10 +2,6 @@
 
 {% block content %}
 
-{% for i in version_list %}
-    {{ i }}
-    {% endfor %}
-
 
 
 
@@ -60,9 +56,24 @@
         <hr class="uk-grid-divider">
         <p>Ticket : <p>{{ tickets.content }}</p></div>
 
+{% for item in reponse %}
+    {% for i in history %}
+
+        <div class="uk-width-1-2 uk-container-center uk-panel-box ">
+        <article class="uk-comment uk-comment-primary">
+        <header class="uk-comment-header">
+        <h4 class="uk-comment-title">{{ i.field }}</h4>
+    <div class="uk-comment-meta">{{ i.old_value }}</div>
+        </header>
+    <div class="uk-comment-body"> </div>
+        </article>
+    </div>
+    <p></p>
+
+    {% endfor %}
 
 <p></p>
-{% for item in reponse %}
+
     <div class="uk-width-1-2 uk-container-center uk-panel-box ">
         <article class="uk-comment uk-comment-primary">
         <header class="uk-comment-header">
