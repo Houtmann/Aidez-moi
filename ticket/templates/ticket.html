@@ -2,9 +2,6 @@
 
 {% block content %}
 
-
-
-
 <div class="uk-width-1-2 uk-container-center uk-panel-box ">
     <div class="uk-button-group">
        <button class="uk-button">Menu</button>
@@ -28,11 +25,6 @@
                        </ul></div></div></div></div></div>
 
 
-
-
-
-
-
 <p><span class="uk-badge">Ticket id : {{ tickets.id}}</span></p>
 <p>Titre : {{ tickets.title}}</p>
 
@@ -54,39 +46,39 @@
         <p>Type : {{ tickets.get_types_display }}</p>
         <p>Derniere edition le : {{ tickets.last_edited }}</p>
         <hr class="uk-grid-divider">
-        <p>Ticket : <p>{{ tickets.content }}</p></div>
+        <p>Ticket : <p>{{ tickets.content }}</p>
 
-{% for item in reponse %}
-    {% for i in history %}
 
-        <div class="uk-width-1-2 uk-container-center uk-panel-box ">
-        <article class="uk-comment uk-comment-primary">
-        <header class="uk-comment-header">
-        <h4 class="uk-comment-title">{{ i.field }}</h4>
-    <div class="uk-comment-meta">{{ i.old_value }}</div>
-        </header>
-    <div class="uk-comment-body"> </div>
-        </article>
-    </div>
-    <p></p>
+</div><p></p>
 
-    {% endfor %}
+
 
 <p></p>
-
+{% for item in follow_up  %}
+    {% if item.follow == None %}
     <div class="uk-width-1-2 uk-container-center uk-panel-box ">
         <article class="uk-comment uk-comment-primary">
         <header class="uk-comment-header">
-        <h4 class="uk-comment-title">{{ item.response_by }}</h4>
-    <div class="uk-comment-meta">.{{ item.date_response }}</div>
+        <h4 class="uk-comment-title">{{ item.follow_by }}</h4>
+    <div class="uk-comment-meta">{{ item.date_follow }}</div>
         </header>
-    <div class="uk-comment-body"> {{ item.response }}</div>
+    <div class="uk-comment-body"> {{ item.field }} changé de {{ item.old_value }} à {{ item.new_value }}</div>
+        </article>
+    </div><p></p>
+    {% else %}
+    <div class="uk-width-1-2 uk-container-center uk-panel-box ">
+        <article class="uk-comment uk-comment-primary">
+        <header class="uk-comment-header">
+        <h4 class="uk-comment-title">{{ item.follow_by }}</h4>
+    <div class="uk-comment-meta">{{ item.date_follow }}</div>
+        </header>
+    <div class="uk-comment-body"> {{ item.follow }}</div>
         </article>
     </div>
     <p></p>
+    {% endif %}
+
 {% endfor %}
-
-
 
 <div class="uk-width-1-2 uk-container-center uk-panel-box ">
     <form action="" name="post_response" method="post">{% csrf_token %}
@@ -94,13 +86,6 @@
 
 <button  class="uk-button-success uk-width-1-6 uk-center  ">Soumettre</button></center></div>
     </form> <p></p>
-
-
-
-
-
-
-
 
         </div></div>
 </body>

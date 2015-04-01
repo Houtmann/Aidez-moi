@@ -13,12 +13,12 @@ def sing_sen_maker():
     
     return(random.choice(s_nouns) + random.choice(s_verbs)+ random.choice(s_nouns).lower() or random.choice(p_nouns).lower() + random.choice(infinitives))
 
-status = ['1', '3', '4']
-priority = ['1', '2', '3', '4', '5']
+status = ['OPEN', 'CLOSED', 'RESOLVED']
+priority = ['CRITICAL', 'HIGH', 'NORMAL', 'LOW', 'VERYLOW']
 
-create_by = ['1', '2', '3']
+create_by = ['1']
 
-assign_to = ['1', '2', '3']
+assign_to = ['1']
 types = ['1', '2']
 
 
@@ -28,7 +28,7 @@ cur = conn.cursor()
 
 i = 0
 print(datetime.datetime.now())
-while i < 2000:
+while i < 40000:
     sentence = sing_sen_maker()
     cur.execute("""INSERT INTO ticket_tickets (content, title, status, priority, assign_to_id , create_by_id, types, last_edited, created) VALUES
                ('%s', '%s', '%s', '%s', '%s', '%s', '%s' , '%s' , '%s')""" %(sentence,

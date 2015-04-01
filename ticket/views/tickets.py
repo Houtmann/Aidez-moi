@@ -2,7 +2,7 @@ __author__ = 'had'
 
 from django.shortcuts import render, redirect, render_to_response
 from ticket.forms import TicketForm, ResponseForm
-from ticket.models import Tickets, UserProfile, response, TicketHistory
+from ticket.models import Tickets, UserProfile, Follow
 from ticket.views.auth import home
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -14,6 +14,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from datetime import datetime
+from itertools import chain
 
 
 PER_PAGE = 100
@@ -25,7 +26,6 @@ def add_ticket(request):
         form = TicketForm(data=request.POST, user=request.user)
         # return redirect('/')
         if form.is_valid():
-
             ticket = form.save(commit=False)
             ticket.create_by = request.user
             ticket.created = datetime.now()
@@ -45,7 +45,6 @@ def ticket_list_new(request):
         ticket_list = Tickets.objects.filter(assign_to=None).order_by('-created')
     else:
         ticket_list = Tickets.objects.filter(create_by=request.user, assign_to=None).order_by('-created')
-
     paginator = Paginator(ticket_list, PER_PAGE)
 
     page = request.GET.get('page')
@@ -59,7 +58,6 @@ def ticket_list_new(request):
         tickets = paginator.page(paginator.num_pages)
 
     return render(request, 'ticket_list.html', locals())
-
 
 #@cache_page(60*1)
 @login_required(login_url='login/')
@@ -166,13 +164,12 @@ def ticket_all(request):
 #@cache_page(60*15)
 @login_required(login_url='login/')
 def ticket_edit(request, id):
-
     ticket = get_object_or_404(Tickets, id=id)
     if request.method=='POST' and 'edit' in request.POST:
         form = TicketForm(request.POST, user=request.user, instance=ticket)
 
         if form.is_valid():
-            form.save()
+            form.edit(commit=False, ticket_id=id, user=request.user)
             #messages.add_message(request, messages.INFO, 'Ticket mis à jour OK')
             return redirect(view_ticket, id)
             # If the save was successful, redirect to another page
@@ -189,21 +186,18 @@ def ticket_edit(request, id):
 @login_required(login_url='login/')
 def view_ticket(request, id):
 
-
     tickets = Tickets.objects.select_related('create_by').get(id=id)
-    reponse = response.objects.filter(ticket=id)
-    history = TicketHistory.objects.filter(ticket_id=id)
+    follow_up = Follow.objects.filter(ticket=id)
 
     if request.method == 'POST':
         form = ResponseForm(data=request.POST)
         #if form.is_valid():
-        comment = form.save(commit=False)
-        comment.ticket = Tickets.objects.get(id=id)
-        comment.response_by = request.user
-        comment.save()
-
+        follow = form.save(commit=False)
+        follow.ticket_id=id
+        follow.follow_by=request.user
+        follow.save()
     else:
-        form = ResponseForm
+        form = ResponseForm()
 
     return render(request,'ticket.html', locals())
 

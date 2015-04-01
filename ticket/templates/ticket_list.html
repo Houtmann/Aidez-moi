@@ -1,9 +1,17 @@
 {% extends "base.html" %}
 
-
 {% block content %}
 
     <div class="uk-container uk-container-center">
+
+
+    <nav class="uk-navbar">
+    <ul class="uk-navbar-nav">
+        <li class="uk-active"><a href="">...</a></li>
+        <li><a href="">...</a></li>
+        <li class="uk-parent"><a href="">...</a></li>
+    </ul>
+</nav>
 <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.tablesorter.js"></script>
 <link href="{{ STATIC_URL }}tablesorter/dist/css/theme.default.min.css" rel="stylesheet">
 	<script src="{{ STATIC_URL }}tablesorter/dist/js/jquery.tablesorter.min.js"></script>
@@ -38,7 +46,7 @@
                         <td><a href="{% url "ticket.views.tickets.view_ticket" tick.id %}">{{ tick.title }}</a></td>
                         <td>{{ tick.created }}</td>
 
-                    {% if tick.status == 1 %}
+                    {% if tick.status == 'OPEN' %}
                    <td> <span class="uk-text-success">{{ tick.get_status_display}}</span></td>
                     {% else %}
                     <td><span class="uk-text-warning">{{ tick.get_status_display}}</span></td>
@@ -71,8 +79,6 @@
         {% endif %}
     </span>
 </div></center>
-
-
 
 </body>
 {% endblock %}

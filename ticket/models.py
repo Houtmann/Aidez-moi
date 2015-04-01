@@ -2,13 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 
-from model_utils import FieldTracker
-
 
 class UserProfile(models.Model):
 
     user = models.OneToOneField(User)
-
 
 
 class Tickets( models.Model):
@@ -64,7 +61,7 @@ class Tickets( models.Model):
         blank='NORMAL',
         help_text=('1 = Highest Priority, 5 = Low Priority'),)
 
-    tracker = FieldTracker()
+
 
     def __str__(self):
         """
@@ -74,36 +71,18 @@ class Tickets( models.Model):
         """
         return self.title
 
-    def save(self, *args, **kwargs):
-        if  Tickets.objects.filter(id=self.id).exists():
-            for i in self.tracker.changed().items():
-                TicketHistory.objects.create(ticket_id=self.pk,
-                                         field=i[0],
-                                         old_value=i[1],
-                                         new_value=getattr(self, i[0]))
 
+class Follow(models.Model):
 
-        super(Tickets, self).save(*args, **kwargs)
+    follow_by = models.ForeignKey(User, related_name='follower')
+    follow = models.TextField(blank=True, null=True)
+    ticket = models.ForeignKey(Tickets, related_name='ticket_id')
+    date_follow = models.DateTimeField(auto_now=True, )
 
-
-
-
-class TicketHistory(models.Model):
-    """ Model for track any change on ticket model"""
-
-    ticket = models.ForeignKey(Tickets, related_name='ticket_id', blank=True, null=True)
     field = models.CharField(max_length=100, null=True)
     old_value = models.TextField(null=True)
     new_value = models.TextField(null=True)
-    date_change = models.DateTimeField(auto_now=True)
 
-
-class response(models.Model):
-
-    response_by = models.ForeignKey(User)
-    response = models.TextField()
-    ticket = models.ForeignKey(Tickets)
-    date_response = models.DateTimeField(auto_now=True)
 
 
 

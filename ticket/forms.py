@@ -1,7 +1,8 @@
 __author__ = 'had'
 
 from django import forms
-from ticket.models import User, Tickets, UserProfile, response
+from ticket.models import User, Tickets, UserProfile, Follow
+from model_utils import FieldTracker
 
 
 class ConnexionForm(forms.Form):
@@ -17,6 +18,7 @@ class ConnexionForm(forms.Form):
                                widget=forms.PasswordInput(attrs={
                                                             'type':"password",
                                                             'placeholder':"Password"}))
+
 
 
 class TicketForm(forms.ModelForm):
@@ -60,12 +62,31 @@ class TicketForm(forms.ModelForm):
             del self.fields['assign_to']
             del self.fields['status']
 
+    def edit(self,ticket_id, user, *args, **kwargs):
+        print(args)
+        if  Tickets.objects.filter(id=ticket_id).exists():
+            if self.has_changed():
+                ticket = Tickets.objects.filter(pk=ticket_id)
+                for field in self.changed_data:
+                    oldvalue = ticket.values(field)
+                    Follow.objects.create(
+                                    ticket_id=ticket_id,
+                                    field=field,
+                                    old_value=oldvalue[0].get(field),
+                                    new_value=self[field].value(),
+                                    follow_by=user
+                                     )
+        else:
+            pass
 
+        super(TicketForm, self).save(*args, **kwargs)
 
 class ResponseForm(forms.ModelForm):
-    response = forms.CharField(label='Ticket',widget=forms.Textarea(
+    follow = forms.CharField(label='Ticket',widget=forms.Textarea(
         attrs={'placeholder': 'Réponse au ticket','rows':'4','class':'uk-width-1-1'}))
 
+
     class Meta:
-        model = response
-        exclude = ('date_response', 'response_by', 'ticket')
+        model = Follow
+        fields = ['follow']
+        exclude = ('date_follow', 'ticket_id', 'field', 'new_value', 'old_value', 'follower')
