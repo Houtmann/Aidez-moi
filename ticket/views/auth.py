@@ -9,17 +9,18 @@ from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
+from tables import TicketsTables
 
 
 # Create your views here.
 @login_required(login_url='login/')
 def home(request):
     if request.user.is_staff:
-        ticket = Tickets.objects.filter(assign_to = request.user).order_by('-created')
-
-
+        list = Tickets.objects.select_related('create_by', 'assign_to').filter(assign_to = request.user).order_by('-created')[:25:1]
+        ticket = TicketsTables(list)
     else:
-        ticket = Tickets.objects.filter(create_by = request.user).order_by('-created')
+        list = Tickets.objects.filter(create_by = request.user).order_by('-created')[:25:1]
+        ticket = TicketsTables(list)
 
 
     return render(request, 'home.html', locals())
