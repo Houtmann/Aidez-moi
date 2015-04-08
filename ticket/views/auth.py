@@ -4,11 +4,8 @@ __author__ = 'had'
 from django.shortcuts import render, redirect, render_to_response
 from ticket.forms import TicketForm, ConnexionForm
 from ticket.models import Tickets
-
 from django.contrib.auth import authenticate, login, logout
-
 from django.http import HttpResponseForbidden, HttpResponseRedirect
-
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
@@ -18,9 +15,12 @@ from django.template import RequestContext
 @login_required(login_url='login/')
 def home(request):
     if request.user.is_staff:
-        ticket = Tickets.objects.filter(assign_to = request.user).order_by('-created')[:10:1]
+        ticket = Tickets.objects.filter(assign_to = request.user).order_by('-created')
+
+
     else:
-        ticket = Tickets.objects.filter(create_by = request.user).order_by('-created')[:10:1]
+        ticket = Tickets.objects.filter(create_by = request.user).order_by('-created')
+
 
     return render(request, 'home.html', locals())
 

@@ -26,44 +26,11 @@
 
 </table>
 
-
-            <table class="uk-table uk-table-hover uk-table-striped">
-                <caption>Votre historique récent:</caption>
-                <thead>
-                    <tr>
-                        <th>Titre du ticket</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th>Priorité</th>
-                        <th>Assigné a</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for tick in ticket %}
-                    <tr>
-                        <td><a href="{% url "ticket.views.tickets.view_ticket" tick.id %}">{{ tick.title }}</a></td>
-                        <td>{{ tick.created }}</td>
-                        {% if tick.status == 'OPEN' %}
-                   <td> <span class="uk-text-success">{{ tick.get_status_display}}</span></td>
-                    {% else %}
-                    <td><span class="uk-text-warning">{{ tick.get_status_display}}</span></td>
-                    {% endif %}
-
-                        <td><code>{{ tick.get_priority_display  }}</code></td>
-
-                        {%  if tick.assign_to == None %}
-                            <td>
-                            <span class="uk-text-warning">Pas encore assigné</span>
-                        </td>
-                        {% else %}
-                        <td>{{ tick.assign_to }}</td>
-                    {% endif %}
-                    </tr>
-
-                 {% endfor %}
-                </tbody>
-            </table>
-        </div>
-</body>
+{% load render_table from django_tables2 %}
+            <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
+    </head>
+    <body>
+        {% render_table ticket%}
+    </body>
 
 {% endblock %}
