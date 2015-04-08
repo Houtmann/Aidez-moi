@@ -1,9 +1,11 @@
 # Aidez-moi
 
 Systeme de ticket pour entreprise 
-Ecrit avec Django 1.8 et python 3.4
+Ecrit avec Django 1.8 et python 3.4, django-tables2
 
 Concu pour être une application de ticket performante, lisible et compléte et en français (on vera pour la traduction plustard)
+
+
 
 Recherche contributeurs
 
