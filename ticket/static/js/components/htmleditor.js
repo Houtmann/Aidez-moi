@@ -453,7 +453,7 @@
                     cm.setCursor({ line: posend.line, ch: cm.getLine(posend.line).length });
                     cm.focus();
                 }
-            }
+            };
 
             editor.on('action.listUl', function() {
                 listfn();
@@ -585,7 +585,7 @@
             UI.$.extend(editor, {
 
                 enableMarkdown: function() {
-                    enableMarkdown()
+                    enableMarkdown();
                     this.render();
                 },
                 disableMarkdown: function() {

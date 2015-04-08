@@ -20,7 +20,6 @@ class ConnexionForm(forms.Form):
                                                             'placeholder':"Password"}))
 
 
-
 class TicketForm(forms.ModelForm):
     """
     Pour ajouter un ticket
@@ -46,14 +45,13 @@ class TicketForm(forms.ModelForm):
     # Pour choisir que les membres du staff
     assign_to = forms.ModelChoiceField(queryset=User.objects.all().filter(is_staff=1))
 
-
     class Meta:
         model = Tickets
         exclude = ('created', 'create_by')
 
     def __init__(self, *args, **kwargs):
         """
-        Pour exlcure certains champs de la classe TicketForm
+        Pour exclure certains champs de la classe TicketForm
         afin d'afficher assign_to et status pour un membre du staff
         """
         user = kwargs.pop('user', None)
@@ -84,7 +82,6 @@ class TicketForm(forms.ModelForm):
 class ResponseForm(forms.ModelForm):
     follow = forms.CharField(label='Ticket',widget=forms.Textarea(
         attrs={'placeholder': 'Réponse au ticket','rows':'4','class':'uk-width-1-1'}))
-
 
     class Meta:
         model = Follow

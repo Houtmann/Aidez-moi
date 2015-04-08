@@ -219,7 +219,7 @@
 
                         delayIdle = false;
                     }
-                }
+                };
 
                 if (!supportsDragAndDrop) {
                     e.preventDefault();
@@ -484,7 +484,7 @@
                     setTimeout(function(){
                         ele.animate({'top':offset.top, 'left':offset.left}, $this.options.animation, function() {
                             ele.css({'position':'','top':'', 'left':'', 'min-width': '', 'pointer-events':''}).removeClass($this.options.overClass).attr('data-child-dragenter', '');
-                            count--
+                            count--;
                             if (!count) {
                                 list.css('min-height', '');
                                 UI.Utils.checkDisplay($this.element.parent());

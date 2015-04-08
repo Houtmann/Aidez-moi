@@ -28,7 +28,7 @@ cur = conn.cursor()
 
 i = 0
 print(datetime.datetime.now())
-while i < 40000:
+while i < 1500:
     sentence = sing_sen_maker()
     cur.execute("""INSERT INTO ticket_tickets (content, title, status, priority, assign_to_id , create_by_id, types, last_edited, created) VALUES
                ('%s', '%s', '%s', '%s', '%s', '%s', '%s' , '%s' , '%s')""" %(sentence,

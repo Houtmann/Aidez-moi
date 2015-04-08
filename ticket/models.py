@@ -8,13 +8,14 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
 
+
 class Tickets( models.Model):
 
-    title = models.TextField()
-    content = models.TextField()
-    create_by = models.ForeignKey(User)
-    created = models.DateTimeField()
-    last_edited = models.DateTimeField(auto_now=True)
+    title = models.TextField(verbose_name='Titre',)
+    content = models.TextField(verbose_name='Contenu',)
+    create_by = models.ForeignKey(User, verbose_name='Crée par',)
+    created = models.DateTimeField(verbose_name='Crée le',)
+    last_edited = models.DateTimeField(auto_now=True, verbose_name='Edité le',)
 
     TYPES_CHOICES = (
         (1, 'Incident'),
@@ -24,7 +25,7 @@ class Tickets( models.Model):
         ('Types'),
         choices=TYPES_CHOICES )
 
-    OPEN_STATUS = 1
+    OPEN_STATUS = 'OPEN'
     RESOLVED_STATUS = 3
     CLOSED_STATUS = 4
 
@@ -46,20 +47,22 @@ class Tickets( models.Model):
         related_name='assigned_to',
         blank=True,
         null=True,
-        verbose_name=('Assigned to'),
+        verbose_name=('Assigné à'),
         )
 
     status = models.CharField(max_length=15
         ,
         choices=STATUS_CHOICES,
-        default=OPEN_STATUS, )
+        default=OPEN_STATUS,
+        verbose_name='Statut',)
 
     priority = models.CharField(max_length=15
         ,
         choices=PRIORITY_CHOICES,
         default='NORMAL',
         blank='NORMAL',
-        help_text=('1 = Highest Priority, 5 = Low Priority'),)
+        help_text=('1 = Highest Priority, 5 = Low Priority'),
+        verbose_name='Priorité',)
 
 
 

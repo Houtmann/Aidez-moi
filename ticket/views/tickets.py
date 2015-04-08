@@ -14,7 +14,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 from datetime import datetime
-from itertools import chain
+
+from tables import TicketsTables
+
 
 
 PER_PAGE = 100
@@ -42,20 +44,13 @@ def add_ticket(request):
 @login_required(login_url='login/')
 def ticket_list_new(request):
     if request.user.is_staff:
-        ticket_list = Tickets.objects.filter(assign_to=None).order_by('-created')
+        list = Tickets.objects.filter(assign_to=None).order_by('-created')
+        ticket_list = TicketsTables(list)
     else:
-        ticket_list = Tickets.objects.filter(create_by=request.user, assign_to=None).order_by('-created')
-    paginator = Paginator(ticket_list, PER_PAGE)
+        list = Tickets.objects.filter(create_by=request.user, assign_to=None).order_by('-created')
+        ticket_list = TicketsTables(list)
 
-    page = request.GET.get('page')
-    try:
-        tickets = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        tickets = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        tickets = paginator.page(paginator.num_pages)
+
 
     return render(request, 'ticket_list.html', locals())
 
@@ -64,28 +59,14 @@ def ticket_list_new(request):
 def ticket_list_work(request):
 
     if request.user.is_staff:
-        ticket_list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
+        list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
             .filter(status='OPEN').exclude(assign_to=None).order_by('-created')
+        ticket_list = TicketsTables(list)
     else:
-        ticket_list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
+        list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
             .filter(create_by=request.user, status='OPEN').exclude(assign_to=None).order_by('-created')
+        ticket_list = TicketsTables(list)
 
-    paginator = Paginator(ticket_list, PER_PAGE)
-
-    page = request.GET.get('page')
-    try:
-        tickets = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        tickets = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        tickets = paginator.page(paginator.num_pages)
-    # return render_to_response('index.html', {"articles": articles})
-
-    #return render_to_response('ticket_list.html',
-        #RequestContext(request, {
-            #'ticket': ticket,}))
     return render(request, 'ticket_list.html', locals())
 
 
@@ -93,71 +74,40 @@ def ticket_list_work(request):
 @login_required(login_url='login/')
 def ticket_list_resolved(request):
     if request.user.is_staff:
-        ticket_list = Tickets.objects.select_related('create_by', 'assign_to')\
+        list = Tickets.objects.select_related('create_by', 'assign_to')\
             .filter(status='RESOLVED').exclude(assign_to=None).order_by('-created')
+        ticket_list = TicketsTables(list)
     else:
-        ticket_list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
+        list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
             .filter(create_by=request.user, status='RESOLVED').order_by('-created')
-
-    paginator = Paginator(ticket_list, PER_PAGE)
-
-    page = request.GET.get('page')
-    try:
-        tickets = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        tickets = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        tickets = paginator.page(paginator.num_pages)
-    # return render_to_response('index.html', {"articles": articles})
+        ticket_list = TicketsTables(list)
     return render(request, 'ticket_list.html', locals())
 
 #@cache_page(60*1)
 @login_required(login_url='login/')
 def ticket_list_clos(request):
     if request.user.is_staff:
-        ticket_list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by', 'assign_to')\
+        list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by', 'assign_to')\
             .filter(status='CLOSED').exclude(assign_to=None).order_by('-created')
+        ticket_list = TicketsTables(list)
     else:
-        ticket_list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
+        list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
             .filter(create_by=request.user, status='CLOSED').order_by('-created')
+        ticket_list = TicketsTables(list)
 
-    paginator = Paginator(ticket_list, PER_PAGE)
 
-    page = request.GET.get('page')
-    try:
-        tickets = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        tickets = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        tickets = paginator.page(paginator.num_pages)
-    # return render_to_response('index.html', {"articles": articles})
     return render(request, 'ticket_list.html', locals())
 
 
 
 
-#@cache_page(60*1)
+
 @login_required(login_url='login/')
 def ticket_all(request):
-    ticket_list = Tickets.objects.select_related('create_by', 'assign_to')
-    paginator = Paginator(ticket_list, PER_PAGE)
+    list = Tickets.objects.select_related('create_by', 'assign_to')
+    ticket_list = TicketsTables(list)
 
-    page = request.GET.get('page')
-    try:
-        tickets = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
-        tickets = paginator.page(1)
-    except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-        tickets = paginator.page(paginator.num_pages)
-    # return render_to_response('index.html', {"articles": articles})
     return render(request, 'ticket_list.html', locals())
-
 
 
 
@@ -169,7 +119,8 @@ def ticket_edit(request, id):
         form = TicketForm(request.POST, user=request.user, instance=ticket)
 
         if form.is_valid():
-            form.edit(commit=False, ticket_id=id, user=request.user)
+            #form.edit(commit=False, ticket_id=id, user=request.user)
+            form.edit(ticket_id=id, user=request.user)
             #messages.add_message(request, messages.INFO, 'Ticket mis à jour OK')
             return redirect(view_ticket, id)
             # If the save was successful, redirect to another page
@@ -187,7 +138,7 @@ def ticket_edit(request, id):
 def view_ticket(request, id):
 
     tickets = Tickets.objects.select_related('create_by').get(id=id)
-    follow_up = Follow.objects.filter(ticket=id)
+    follow_up = Follow.objects.select_related('follow_by', 'ticket').filter(ticket=id)
 
     if request.method == 'POST':
         form = ResponseForm(data=request.POST)
