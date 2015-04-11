@@ -18,19 +18,20 @@
     <tbody>
 
                     <tr>
-                        <td class="uk-width-1-4 uk-text-center">{{ request.user | all_tick}}</td>
-                        <td class="uk-width-1-4 uk-text-center">{{ request.user | ticket_open}}</td>
-                        <td class="uk-width-1-4 uk-text-center">{{ request.user | ticket_resolved}}</td>
-                        <td class="uk-width-1-4 uk-text-center">{{ request.user | ticket_clos}}</td>
-                        <td></td></tbody>
+                        <td class="uk-width-1-10 uk-text-center">{{ request.user | all_tick}}</td>
+                        <td class="uk-width-1-10 uk-text-center">{{ request.user | ticket_open}}</td>
+                        <td class="uk-width-1-10 uk-text-center">{{ request.user | ticket_resolved}}</td>
+                        <td class="uk-width-1-10 uk-text-center">{{ request.user | ticket_clos}}</td>
+                        </tbody>
 
 </table>
 
 {% load render_table from django_tables2 %}
             <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
-    </head>
+
     <body>
         {% render_table ticket%}
     </body>
-
+</div>
+    </head>
 {% endblock %}

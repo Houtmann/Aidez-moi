@@ -38,7 +38,7 @@ class TicketForm(forms.ModelForm):
         choices=Tickets.PRIORITY_CHOICES,
         required=True,
         initial='3',
-        label=('Urgency'),
+        label=('Urgence'),
         help_text=('Please select a priority carefully.'),
          )
 
