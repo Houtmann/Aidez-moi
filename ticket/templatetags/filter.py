@@ -36,6 +36,7 @@ def ticket_clos(user):
     else:
         return Tickets.objects.filter(create_by=user, status=4).count()
 
+
 register.filter('ticket_resolved', ticket_resolved)
 register.filter('ticket_open', ticket_open)
 register.filter('ticket_new', ticket_new)
