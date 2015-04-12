@@ -1,6 +1,5 @@
 __author__ = 'had'
 
-
 from django.shortcuts import render, redirect, render_to_response
 from ticket.forms import TicketForm, ConnexionForm
 from ticket.models import Tickets
@@ -9,10 +8,11 @@ from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
-from tables import TicketsTables
-
+from ticket.tables import TicketsTables
+from django.views.decorators.cache import cache_page
 
 # Create your views here.
+@cache_page(60*3)
 @login_required(login_url='login/')
 def home(request):
     if request.user.is_staff:
@@ -22,9 +22,7 @@ def home(request):
         list = Tickets.objects.filter(create_by = request.user).order_by('-created')[:25:1]
         ticket = TicketsTables(list)
 
-
     return render(request, 'home.html', locals())
-
 
 
 def user_login(request):
@@ -43,7 +41,6 @@ def user_login(request):
         pass
     form = ConnexionForm()
     return render_to_response('login.html', locals(), RequestContext(request))
-
 
 
 @login_required(login_url='login/')

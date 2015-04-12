@@ -1878,7 +1878,7 @@ html:not(.uk-touch) .uk-nav-offcanvas ul a:hover {
 }
 .uk-table td {
   vertical-align: top;
-  border: 1px solid black;
+  border: 0px solid black;
   border-collapse: collapse;
   
 }

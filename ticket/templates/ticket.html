@@ -28,23 +28,38 @@
 <p><span class="uk-badge">Ticket id : {{ tickets.id}}</span></p>
 <p>Titre : {{ tickets.title}}</p>
 
-    {% if tickets.status == 1 %}
+<table class="uk-table uk-table-hover " >
+   <tr>
+       <td >{% if tickets.status == 1 %}
         <p>Status : <span class="uk-text-success">{{ tickets.get_status_display}}</span></p>
     {% else %}
         <p>Status : <span class="uk-text-warning">{{ tickets.get_status_display}}</span></p>
-    {% endif %}
+    {% endif %}</td>
+       <td><p>Urgence : <code>{{ tickets.get_priority_display }}</code></p></td>
 
-        <p>Urgence : <code>{{ tickets.get_priority_display }}</code></p>
-        <p>Crée le : {{ tickets.created }}</p>
-        <p>Demandeur : {{ tickets.create_by }}</p>
-    {%  if tickets.assign_to == None %}
-        <td>Assigné à : <span class="uk-text-warning">Pas encore assigné</span></td>
+   </tr>
+   <tr>
+       <td><p>Demandeur : {{ tickets.create_by }}</p></td>
+
+       <td><p>Type : {{ tickets.get_types_display }}</p></td>
+   </tr>
+ <tr>
+     <td><p>Crée le : {{ tickets.created }}</p></td>
+     <td>{%  if tickets.assign_to == None %}
+        >Assigné à : <span class="uk-text-warning">Pas encore assigné</span>
     {% else %}
-        <td>Assigné à : {{ tickets.assign_to }}</td>
-    {% endif %}
+        Assigné à : {{ tickets.assign_to }}
+    {% endif %}</td>
 
-        <p>Type : {{ tickets.get_types_display }}</p>
-        <p>Derniere edition le : {{ tickets.last_edited }}</p>
+ </tr>
+<tr>
+    <td><p>Derniere edition le : {{ tickets.last_edited }}</p></td>
+</tr>
+</table>
+
+
+
+
         <hr class="uk-grid-divider">
         <p>Ticket : <p>{{ tickets.content }}</p>
 

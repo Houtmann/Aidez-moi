@@ -3,12 +3,6 @@ from django.contrib.auth.models import User
 from django.conf import settings
 
 
-class UserProfile(models.Model):
-
-    user = models.OneToOneField(User)
-
-
-
 class Tickets( models.Model):
 
     title = models.TextField(verbose_name='Titre',)
@@ -65,7 +59,6 @@ class Tickets( models.Model):
         verbose_name='Priorité',)
 
 
-
     def __str__(self):
         """
         Cette méthode que nous définirons dans tous les modèles
@@ -88,4 +81,6 @@ class Follow(models.Model):
 
 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
 

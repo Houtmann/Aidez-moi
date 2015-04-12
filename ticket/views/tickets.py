@@ -8,11 +8,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.decorators.cache import cache_page
 from datetime import datetime
-from tables import TicketsTables
+from ticket.tables import TicketsTables
 from django_tables2 import RequestConfig
 
 
-@cache_page(60*1)
+
 @login_required(login_url='login/')
 def add_ticket(request):
     if request.method == 'POST':
@@ -41,7 +41,7 @@ def ticket_list_new(request):
         list = Tickets.objects.filter(create_by=request.user, assign_to=None).order_by('-created')
         ticket_list = TicketsTables(list)
 
-    RequestConfig(request).configure(ticket_list)
+    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 #@cache_page(60*1)
@@ -57,7 +57,7 @@ def ticket_list_work(request):
             .filter(create_by=request.user, status='OPEN').exclude(assign_to=None).order_by('-created')
         ticket_list = TicketsTables(list)
 
-    RequestConfig(request).configure(ticket_list)
+    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
@@ -72,7 +72,7 @@ def ticket_list_resolved(request):
         list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
             .filter(create_by=request.user, status='RESOLVED').order_by('-created')
         ticket_list = TicketsTables(list)
-    RequestConfig(request).configure(ticket_list)
+    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 #@cache_page(60*1)
@@ -88,7 +88,7 @@ def ticket_list_clos(request):
         ticket_list = TicketsTables(list)
 
 
-    RequestConfig(request).configure(ticket_list)
+    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
@@ -97,7 +97,7 @@ def ticket_all(request):
     list = Tickets.objects.select_related('create_by', 'assign_to')
     ticket_list = TicketsTables(list)
 
-    RequestConfig(request).configure(ticket_list)
+    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list)
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 

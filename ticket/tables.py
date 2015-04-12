@@ -20,7 +20,6 @@ class CourtColumn(tables.Column):
       return value
 
 
-
 class TicketsTables(tables.Table):
     title = tables.LinkColumn('view', args=[A('id')])
     priority = CourtColumn()
