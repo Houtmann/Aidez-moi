@@ -12,7 +12,7 @@ from ticket.tables import TicketsTables
 from django.views.decorators.cache import cache_page
 
 # Create your views here.
-@cache_page(60*3)
+#@cache_page(60*3)
 @login_required(login_url='login/')
 def home(request):
     if request.user.is_staff:
