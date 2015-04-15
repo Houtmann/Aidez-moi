@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
 
 <div class="uk-width-1-2 uk-container-center uk-panel-box ">
@@ -14,11 +14,11 @@
                    <div class="uk-width-1-2">
                        <ul class="uk-nav uk-nav-dropdown uk-panel">
 
-                           <li><a href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">Editer le ticket</a></li>
+                           <li><a href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">{% trans "Editer le ticket" %}</a></li>
                            {% if request.user.is_staff %}
-                               <li><a href="#">Supprimez le ticket</a></li>
+                               <li><a href="#">{% trans "Supprimez le ticket" %}</a></li>
                            {% else %}
-                               <li><a href="#">Demande de suppression</a></li>
+                               <li><a href="#">{% trans "Demande de suppression" %}</a></li>
                            {% endif %}
 
                            </li>
@@ -26,42 +26,40 @@
 
 
 <p><span class="uk-badge">Ticket id : {{ tickets.id}}</span></p>
-<p><center>Titre : {{ tickets.title}}</center></p>
+<p><center>{% trans "Titre" %} : {{ tickets.title}}</center></p>
 
 <table class="uk-table uk-table-hover " >
- <tr><td>Catégorie: {{ tickets.category }}</td></tr
+ <tr><td>{% trans "Catégorie" %}: {{ tickets.category }}</td></tr>
    <tr>
        <td >{% if tickets.status == 1 %}
-        <p>Status : <span class="uk-text-success">{{ tickets.get_status_display}}</span></p>
+        <p>{% trans "Status" %}: <span class="uk-text-success">{{ tickets.get_status_display}}</span></p>
     {% else %}
-        <p>Status : <span class="uk-text-warning">{{ tickets.get_status_display}}</span></p>
+        <p>{% trans "Status" %} : <span class="uk-text-warning">{{ tickets.get_status_display}}</span></p>
     {% endif %}</td>
-       <td><p>Urgence : <code>{{ tickets.get_priority_display }}</code></p></td>
+       <td><p>{% trans "Urgence" %} : <code>{{ tickets.get_priority_display }}</code></p></td>
 
    </tr>
    <tr>
-       <td><p>Demandeur : {{ tickets.create_by }}</p></td>
+       <td><p>{% trans "Demandeur" %} : {{ tickets.create_by }}</p></td>
 
-       <td><p>Type : {{ tickets.get_types_display }}</p></td>
+       <td><p>{% trans "Type" %} : {{ tickets.get_types_display }}</p></td>
    </tr>
  <tr>
-     <td><p>Crée le : {{ tickets.created }}</p></td>
+     <td><p>{% trans "Crée le" %} : {{ tickets.created }}</p></td>
      <td>{%  if tickets.assign_to == None %}
-        >Assigné à : <span class="uk-text-warning">Pas encore assigné</span>
+        >{% trans "Assigné à" %} : <span class="uk-text-warning">Pas encore assigné</span>
     {% else %}
-        Assigné à : {{ tickets.assign_to }}
+        {% trans "Assigné à" %} : {{ tickets.assign_to }}
     {% endif %}</td>
  </tr>
 <tr>
-    <td><p>Derniere edition le : {{ tickets.last_edited }}</p></td>
+    <td><p>{% trans "Derniere edition le" %} : {{ tickets.last_edited }}</p></td>
 </tr>
 </table>
 
 
-
-
         <hr class="uk-grid-divider">
-        <p>Ticket : <p>{{ tickets.content }}</p>
+        <p>{% trans "Ticket" %} : <p>{{ tickets.content }}</p>
 
 
 </div><p></p>
@@ -77,7 +75,7 @@
         <h4 class="uk-comment-title">{{ item.follow_by}}</h4>
     <div class="uk-comment-meta">{{ item.date_follow }}</div>
         </header>
-    <div class="uk-comment-body"> {{ item.field }} changé de {{ item.old_value}} à {{ item.new_value}}</div>
+    <div class="uk-comment-body"> {{ item.field }} {% trans "changé de" %} {{ item.old_value}} {% trans "à" %} {{ item.new_value}}</div>
         </article>
     </div><p></p>
     {% else %}
@@ -99,7 +97,7 @@
     <form action="" name="post_response" method="post">{% csrf_token %}
         {{ form }}
 
-<button  class="uk-button-success uk-width-1-6 uk-center  ">Soumettre</button></center></div>
+<button  class="uk-button-success uk-width-1-6 uk-center  ">{% trans "Soumettre" %}</button></center></div>
     </form> <p></p>
 
         </div></div>

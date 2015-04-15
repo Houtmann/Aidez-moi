@@ -17,7 +17,7 @@ from django.views.decorators.cache import cache_page
 @login_required(login_url='login/')
 def home(request):
     if request.user.is_staff:
-        list = Tickets.objects.select_related('create_by', 'assign_to').filter(assign_to = request.user).order_by('-created')[:25:1]
+        list = Tickets.objects.select_related('create_by', 'assign_to', 'category').filter(assign_to = request.user).order_by('-created')[:25:1]
         ticket_list = TicketsTables(list)
     else:
         list = Tickets.objects.filter(create_by = request.user).order_by('-created')[:25:1]

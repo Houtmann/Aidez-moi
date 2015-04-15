@@ -56,11 +56,11 @@ def ticket_list_work(request):
     sinon pour l'utilisateur seulement ses tickets seront affiché
     """
     if request.user.is_staff:
-        list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
+        list = Tickets.objects.select_related('create_by', 'assign_to', 'category').prefetch_related('create_by', 'category')\
             .filter(status='OPEN').exclude(assign_to=None).order_by('-created')
         ticket_list = TicketsTables(list)
     else:
-        list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
+        list = Tickets.objects.select_related('create_by', 'assign_to', 'category').prefetch_related('create_by', 'category')\
             .filter(create_by=request.user, status='OPEN').exclude(assign_to=None).order_by('-created')
         ticket_list = TicketsTables(list)
 
@@ -71,16 +71,19 @@ def ticket_list_work(request):
 #@cache_page(60*1)
 @login_required(login_url='login/')
 def ticket_list_resolved(request):
+
     """
     Retourne la page des tickets résolus. Si le membre fait partie du staff tous les tickets sont affichés,
     sinon pour l'utilisateur seulement ses tickets seront affiché
     """
+
     if request.user.is_staff:
-        list = Tickets.objects.select_related('create_by', 'assign_to')\
+        list = Tickets.objects.select_related('create_by', 'assign_to', 'category')\
             .filter(status='RESOLVED').exclude(assign_to=None).order_by('-created')
         ticket_list = TicketsTables(list)
     else:
-        list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
+        list = Tickets.objects.select_related('create_by', 'assign_to', 'category')\
+            .prefetch_related('create_by', 'category')\
             .filter(create_by=request.user, status='RESOLVED').order_by('-created')
         ticket_list = TicketsTables(list)
 
@@ -96,12 +99,16 @@ def ticket_list_clos(request):
     sinon pour l'utilisateur seulement ses tickets seront affiché
     """
     if request.user.is_staff:
-        list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by', 'assign_to')\
+        list = Tickets.objects.select_related('create_by', 'assign_to', 'category')\
+            .prefetch_related('create_by', 'assign_to', 'category')\
             .filter(status='CLOSED').exclude(assign_to=None).order_by('-created')
+
         ticket_list = TicketsTables(list)
     else:
-        list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
+        list = Tickets.objects.select_related('create_by', 'assign_to', 'category')\
+            .prefetch_related('create_by', 'category')\
             .filter(create_by=request.user, status='CLOSED').order_by('-created')
+
         ticket_list = TicketsTables(list)
 
     RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
@@ -113,7 +120,7 @@ def ticket_all(request):
     """
     Retourne la page de tous les tickets pour le staff.
     """
-    list = Tickets.objects.select_related('create_by', 'assign_to')
+    list = Tickets.objects.select_related('create_by', 'assign_to', 'category')
     ticket_list = TicketsTables(list)
 
     RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs

@@ -1,19 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
-
+from django.utils.translation import ugettext as _
 
 class Tickets( models.Model):
 
-    title = models.TextField(verbose_name='Titre',)
-    content = models.TextField(verbose_name='Contenu',)
-    create_by = models.ForeignKey(User, verbose_name='Crée par',)
-    created = models.DateTimeField(verbose_name='Crée le',)
-    last_edited = models.DateTimeField(auto_now=True, verbose_name='Edité le',)
-    category = models.ForeignKey('TicketCategory',verbose_name='Catégorie',)
+    title = models.TextField(verbose_name=_('Titre'),)
+    content = models.TextField(verbose_name=_('Contenu'),)
+    create_by = models.ForeignKey(User, verbose_name=_('Crée par'),)
+    created = models.DateTimeField(verbose_name=_('Crée le'),)
+    last_edited = models.DateTimeField(auto_now=True, verbose_name=_('Edité le'),)
+    category = models.ForeignKey('TicketCategory',verbose_name=_('Catégorie'),)
 
     TYPES_CHOICES = (
-        (1, 'Incident'),
+        (1, _('Incident')),
         (2, 'Demande'),)
 
     types = models.IntegerField(
@@ -25,39 +25,39 @@ class Tickets( models.Model):
     CLOSED_STATUS = 4
 
     STATUS_CHOICES = (
-        ('OPEN', 'Open'),
-        ('RESOLVED', 'Resolved'),
-        ('CLOSED', 'Closed'),
+        ('OPEN', _('Open')),
+        ('RESOLVED', _('Resolved')),
+        ('CLOSED', _('Closed')),
     )
 
     PRIORITY_CHOICES = (
-        ('CRITICAL', 'Critical'),
-        ('HIGH', 'High'),
-        ('NORMAL', 'Normal'),
-        ('LOW', 'Low'),
-        ('VERYLOW', 'Very Low'),)
+        ('CRITICAL', _('Critical')),
+        ('HIGH', _('High')),
+        ('NORMAL', _('Normal')),
+        ('LOW', _('Low')),
+        ('VERYLOW', _('Very Low')),)
 
     assign_to = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name='assigned_to',
         blank=True,
         null=True,
-        verbose_name=('Assigné à'),
+        verbose_name=(_('Assigné à')),
         )
 
     status = models.CharField(max_length=15
         ,
         choices=STATUS_CHOICES,
         default=OPEN_STATUS,
-        verbose_name='Statut',)
+        verbose_name=_('Statut'),)
 
     priority = models.CharField(max_length=15
         ,
         choices=PRIORITY_CHOICES,
         default='NORMAL',
         blank='NORMAL',
-        help_text=('1 = Highest Priority, 5 = Low Priority'),
-        verbose_name='Priorité',)
+        help_text=_(('1 = Highest Priority, 5 = Low Priority')),
+        verbose_name=_('Priorité'),)
 
     def __str__(self):
         """
@@ -72,7 +72,7 @@ class TicketCategory(models.Model):
     """
     Nom de catégorie pour mieux cibler les tickets
     """
-    category = models.TextField(verbose_name='Catégorie', db_index=True)
+    category = models.TextField(verbose_name=_('Catégorie'), db_index=True)
     def __str__(self):
         """
         Cette méthode que nous définirons dans tous les modèles

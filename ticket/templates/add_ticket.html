@@ -1,13 +1,8 @@
 {% extends "base.html" %}
 
-
-
-
-
+{% load i18n %}
 
 {% block content %}
-
-
 
     <div class="uk-width-medium-1-2 uk-container-center uk-panel-box ">
 
@@ -21,15 +16,9 @@
                                 <a class="uk-alert-close uk-close"></a>
                                 <p>{{ message }}</p>
                             </div>
-
     {% endfor %}
-
 </ul>
-
 {% endif %}
-
-
-
 
     <form class="uk-form uk-form" action='' method="POST">{% csrf_token %}
 
@@ -46,7 +35,7 @@
 </div>
     {% endfor %}
     <center>
-    <button name="edit" class="uk-button-success uk-width-1-4  ">Soumettre</button></center></div></div>
+    <button name="edit" class="uk-button-success uk-width-1-4  ">{% trans 'Soumettre' %}</button></center></div></div>
         </fieldset>
 
 </form>
@@ -56,10 +45,7 @@
     </div>
 
 
-
-
 </body>
-
 {% endblock %}
 
 
