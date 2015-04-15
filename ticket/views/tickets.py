@@ -33,6 +33,10 @@ def add_ticket(request):
 #@cache_page(60*1)
 @login_required(login_url='login/')
 def ticket_list_new(request):
+    """
+    Retourne la page des tickets ouvert non assigné. Si le membre fait partie du staff tous les tickets sont affichés,
+    sinon pour l'utilisateur seulement ses tickets seront affiché
+    """
     if request.user.is_staff:
         list = Tickets.objects.filter(assign_to=None).order_by('-created')
         ticket_list = TicketsTables(list)
@@ -43,10 +47,14 @@ def ticket_list_new(request):
     RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
+
 #@cache_page(60*1)
 @login_required(login_url='login/')
 def ticket_list_work(request):
-
+    """
+    Retourne la page des tickets ouvert. Si le membre fait partie du staff tous les tickets sont affichés,
+    sinon pour l'utilisateur seulement ses tickets seront affiché
+    """
     if request.user.is_staff:
         list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
             .filter(status='OPEN').exclude(assign_to=None).order_by('-created')
@@ -63,6 +71,10 @@ def ticket_list_work(request):
 #@cache_page(60*1)
 @login_required(login_url='login/')
 def ticket_list_resolved(request):
+    """
+    Retourne la page des tickets résolus. Si le membre fait partie du staff tous les tickets sont affichés,
+    sinon pour l'utilisateur seulement ses tickets seront affiché
+    """
     if request.user.is_staff:
         list = Tickets.objects.select_related('create_by', 'assign_to')\
             .filter(status='RESOLVED').exclude(assign_to=None).order_by('-created')
@@ -75,9 +87,14 @@ def ticket_list_resolved(request):
     RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
+
 #@cache_page(60*1)
 @login_required(login_url='login/')
 def ticket_list_clos(request):
+    """
+    Retourne la page des tickets clos. Si le membre fait partie du staff tous les tickets sont affichés,
+    sinon pour l'utilisateur seulement ses tickets seront affiché
+    """
     if request.user.is_staff:
         list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by', 'assign_to')\
             .filter(status='CLOSED').exclude(assign_to=None).order_by('-created')
@@ -93,6 +110,9 @@ def ticket_list_clos(request):
 
 @login_required(login_url='login/')
 def ticket_all(request):
+    """
+    Retourne la page de tous les tickets pour le staff.
+    """
     list = Tickets.objects.select_related('create_by', 'assign_to')
     ticket_list = TicketsTables(list)
 
@@ -103,6 +123,10 @@ def ticket_all(request):
 #@cache_page(60*15)
 @login_required(login_url='login/')
 def ticket_edit(request, id):
+    """
+    :param id: ticket id
+    Pour editer un ticket
+    """
     ticket = get_object_or_404(Tickets, id=id)
     if request.method=='POST' and 'edit' in request.POST:
         form = TicketForm(request.POST, user=request.user, instance=ticket)
