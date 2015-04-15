@@ -10,7 +10,7 @@ class Tickets( models.Model):
     create_by = models.ForeignKey(User, verbose_name='Crée par',)
     created = models.DateTimeField(verbose_name='Crée le',)
     last_edited = models.DateTimeField(auto_now=True, verbose_name='Edité le',)
-    category = models.ForeignKey('TicketCategory')
+    category = models.ForeignKey('TicketCategory',verbose_name='Catégorie',)
 
     TYPES_CHOICES = (
         (1, 'Incident'),

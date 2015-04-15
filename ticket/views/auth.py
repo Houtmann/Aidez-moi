@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from ticket.tables import TicketsTables
+from django_tables2 import RequestConfig
 from django.views.decorators.cache import cache_page
 
 # Create your views here.
@@ -17,12 +18,13 @@ from django.views.decorators.cache import cache_page
 def home(request):
     if request.user.is_staff:
         list = Tickets.objects.select_related('create_by', 'assign_to').filter(assign_to = request.user).order_by('-created')[:25:1]
-        ticket = TicketsTables(list)
+        ticket_list = TicketsTables(list)
     else:
         list = Tickets.objects.filter(create_by = request.user).order_by('-created')[:25:1]
-        ticket = TicketsTables(list)
+        ticket_list = TicketsTables(list)
 
-    return render(request, 'home.html', locals())
+    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list)
+    return render(request, 'home.html', {'ticket_list': ticket_list})
 
 
 def user_login(request):

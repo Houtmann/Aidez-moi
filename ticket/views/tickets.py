@@ -12,7 +12,6 @@ from ticket.tables import TicketsTables
 from django_tables2 import RequestConfig
 
 
-
 @login_required(login_url='login/')
 def add_ticket(request):
     if request.method == 'POST':
@@ -72,6 +71,7 @@ def ticket_list_resolved(request):
         list = Tickets.objects.select_related('create_by', 'assign_to').prefetch_related('create_by')\
             .filter(create_by=request.user, status='RESOLVED').order_by('-created')
         ticket_list = TicketsTables(list)
+
     RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
@@ -87,7 +87,6 @@ def ticket_list_clos(request):
             .filter(create_by=request.user, status='CLOSED').order_by('-created')
         ticket_list = TicketsTables(list)
 
-
     RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
@@ -97,7 +96,7 @@ def ticket_all(request):
     list = Tickets.objects.select_related('create_by', 'assign_to')
     ticket_list = TicketsTables(list)
 
-    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list)
+    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
