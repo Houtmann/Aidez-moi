@@ -14,7 +14,9 @@ class TicketsAdmin(admin.ModelAdmin):
     actions = [close]
 
 
-
+class TicketsCategoryAdmin(admin.ModelAdmin):
+    pass
 
 
 admin.site.register(Tickets, TicketsAdmin)
+admin.site.register(TicketCategory, TicketsCategoryAdmin)

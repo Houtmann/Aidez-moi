@@ -10,6 +10,7 @@ class Tickets( models.Model):
     create_by = models.ForeignKey(User, verbose_name='Crée par',)
     created = models.DateTimeField(verbose_name='Crée le',)
     last_edited = models.DateTimeField(auto_now=True, verbose_name='Edité le',)
+    category = models.ForeignKey('TicketCategory')
 
     TYPES_CHOICES = (
         (1, 'Incident'),
@@ -58,7 +59,6 @@ class Tickets( models.Model):
         help_text=('1 = Highest Priority, 5 = Low Priority'),
         verbose_name='Priorité',)
 
-
     def __str__(self):
         """
         Cette méthode que nous définirons dans tous les modèles
@@ -68,7 +68,24 @@ class Tickets( models.Model):
         return self.title
 
 
+class TicketCategory(models.Model):
+    """
+    Nom de catégorie pour mieux cibler les tickets
+    """
+    category = models.TextField(verbose_name='Catégorie', db_index=True)
+    def __str__(self):
+        """
+        Cette méthode que nous définirons dans tous les modèles
+        nous permettra de reconnaître facilement les différents objets que
+        nous traiterons plus tard et dans l'administration
+        """
+        return self.category
+
+
 class Follow(models.Model):
+    """
+    Pour suivre les changements et les reponse d'un ticket
+    """
 
     follow_by = models.ForeignKey(User, related_name='follower')
     follow = models.TextField(blank=True, null=True)
@@ -78,7 +95,6 @@ class Follow(models.Model):
     field = models.CharField(max_length=100, null=True)
     old_value = models.TextField(null=True)
     new_value = models.TextField(null=True)
-
 
 
 class UserProfile(models.Model):
