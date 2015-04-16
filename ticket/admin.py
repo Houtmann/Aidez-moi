@@ -1,5 +1,6 @@
 from django.contrib.auth.admin import UserAdmin
 from django.contrib import admin
+from django.utils.translation import ugettext as _
 from .models import *
 
 
@@ -11,7 +12,6 @@ def close(modeladmin, request, queryset):
 
 
 class TicketsAdmin(admin.ModelAdmin):
-
     list_display = ('title', 'types', 'created', 'status', 'priority' )
     actions = [close]
 
@@ -36,14 +36,26 @@ admin.site.register(Entity, EntityAdmin)
 class UserProfileInline(admin.TabularInline):
     model = UserProfile
 
+
 class MyUserAdmin(UserAdmin):
+
+    def entity(self, obj):
+        """
+        Retourne l'entité à laquelle appartient l'utilisateur
+        """
+        entity = obj.userprofile.entity
+        return entity
+    entity.short_description = _('Entité')
+
+
     list_display = ('id','username','email','first_name',
                     'last_name','date_joined','last_login'
-                    ,'is_active','is_staff', )
+                    ,'is_active','is_staff','entity', )
+
+
     list_select_related = True
     inlines = [
-        UserProfileInline,
-    ]
+        UserProfileInline,]
 
 admin.site.unregister(User)
 admin.site.register(User, MyUserAdmin)

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.translation import ugettext as _
+from django.contrib.auth.models import AbstractBaseUser
 
 class Tickets( models.Model):
 
@@ -107,11 +108,15 @@ class Entity(models.Model):
     adress = models.TextField(verbose_name=_('Adresse'), null=True, blank=True)
     postal = models.TextField(verbose_name=_('Code postal'), null=True, blank=True)
 
+    def __unicode__(self):
+        return self.name
+
     def __str__(self):
         return self.name
 
 
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    entity = models.ForeignKey(Entity)
+    entity = models.ForeignKey(Entity, verbose_name=_('Entité'))
 
