@@ -97,6 +97,21 @@ class Follow(models.Model):
     new_value = models.TextField(null=True)
 
 
+class Entity(models.Model):
+    """
+    Modele pour créer des entités, exemple service comptabilité
+    """
+    name = models.TextField(verbose_name=_('Nom'))
+    description = models.TextField(verbose_name=_('Description'), null=True, blank=True)
+    telephone = models.TextField(verbose_name=_('Téléphone'), null=True, blank=True)
+    adress = models.TextField(verbose_name=_('Adresse'), null=True, blank=True)
+    postal = models.TextField(verbose_name=_('Code postal'), null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
+    entity = models.ForeignKey(Entity)
 
