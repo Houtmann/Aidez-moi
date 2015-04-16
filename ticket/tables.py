@@ -4,8 +4,12 @@ import django_tables2 as tables
 from django_tables2.utils import A
 from django.utils.safestring import mark_safe
 
-class CourtColumn(tables.Column):
-   def render(self, value):
+class PriorityColumn(tables.Column):
+    """
+    Class qui sert à colorer les cellules en fonction de leurs
+    priorité
+    """
+    def render(self, value):
       if value == 'Critical':
             self.attrs ={"td": {"bgcolor": "FF3333"}}
 
@@ -21,6 +25,9 @@ class CourtColumn(tables.Column):
       return value
 
 class StatusColumn(tables.Column):
+    """
+    Class met un badge en fonction du status
+    """
     def render(self, value):
         if value == 'Open':
             return mark_safe('<span class="uk-badge uk-badge-success">Ouvert</span>')
@@ -31,10 +38,9 @@ class StatusColumn(tables.Column):
 
 
 
-
 class TicketsTables(tables.Table):
     title = tables.LinkColumn('view', args=[A('id')])
-    priority = CourtColumn()
+    priority = PriorityColumn()
     status = StatusColumn()
 
     class Meta:

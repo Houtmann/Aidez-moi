@@ -1,0 +1,155 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-04-16 14:26+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: .\ticket\models.py:8 .\ticket\templates\ticket.html:29
+msgid "Titre"
+msgstr ""
+
+#: .\ticket\models.py:9
+msgid "Contenu"
+msgstr ""
+
+#: .\ticket\models.py:10
+msgid "Crée par"
+msgstr ""
+
+#: .\ticket\models.py:11 .\ticket\templates\ticket.html:48
+msgid "Crée le"
+msgstr ""
+
+#: .\ticket\models.py:12
+msgid "Edité le"
+msgstr ""
+
+#: .\ticket\models.py:13 .\ticket\models.py:75
+#: .\ticket\templates\ticket.html:32
+msgid "Catégorie"
+msgstr ""
+
+#: .\ticket\models.py:16
+msgid "Incident"
+msgstr ""
+
+#: .\ticket\models.py:28
+msgid "Open"
+msgstr ""
+
+#: .\ticket\models.py:29
+msgid "Resolved"
+msgstr ""
+
+#: .\ticket\models.py:30
+msgid "Closed"
+msgstr ""
+
+#: .\ticket\models.py:34
+msgid "Critical"
+msgstr ""
+
+#: .\ticket\models.py:35
+msgid "High"
+msgstr ""
+
+#: .\ticket\models.py:36
+msgid "Normal"
+msgstr ""
+
+#: .\ticket\models.py:37
+msgid "Low"
+msgstr ""
+
+#: .\ticket\models.py:38
+msgid "Very Low"
+msgstr ""
+
+#: .\ticket\models.py:45 .\ticket\templates\ticket.html:50
+#: .\ticket\templates\ticket.html.py:52
+msgid "Assigné à"
+msgstr ""
+
+#: .\ticket\models.py:52
+msgid "Statut"
+msgstr ""
+
+#: .\ticket\models.py:60
+msgid "Priorité"
+msgstr ""
+
+#: .\ticket\templates\add_ticket.html:38 .\ticket\templates\ticket.html:100
+msgid "Soumettre"
+msgstr ""
+
+#: .\ticket\templates\home.html:14
+msgid "Nombre de ticket"
+msgstr ""
+
+#: .\ticket\templates\home.html:15
+msgid "Tickets en cours de traitement"
+msgstr ""
+
+#: .\ticket\templates\home.html:16
+msgid "Tickets résolus"
+msgstr ""
+
+#: .\ticket\templates\home.html:17
+msgid "Tickets clos"
+msgstr ""
+
+#: .\ticket\templates\ticket.html:17
+msgid "Editer le ticket"
+msgstr ""
+
+#: .\ticket\templates\ticket.html:19
+msgid "Supprimez le ticket"
+msgstr ""
+
+#: .\ticket\templates\ticket.html:21
+msgid "Demande de suppression"
+msgstr ""
+
+#: .\ticket\templates\ticket.html:35 .\ticket\templates\ticket.html.py:37
+msgid "Status"
+msgstr ""
+
+#: .\ticket\templates\ticket.html:39
+msgid "Urgence"
+msgstr ""
+
+#: .\ticket\templates\ticket.html:43
+msgid "Demandeur"
+msgstr ""
+
+#: .\ticket\templates\ticket.html:45
+msgid "Type"
+msgstr ""
+
+#: .\ticket\templates\ticket.html:56
+msgid "Derniere edition le"
+msgstr ""
+
+#: .\ticket\templates\ticket.html:62
+msgid "Ticket"
+msgstr ""
+
+#: .\ticket\templates\ticket.html:78
+msgid "changé de"
+msgstr ""
+
+#: .\ticket\templates\ticket.html:78
+msgid "à"
+msgstr ""
