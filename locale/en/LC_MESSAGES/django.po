@@ -18,138 +18,138 @@ msgstr ""
 
 #: .\ticket\models.py:8 .\ticket\templates\ticket.html:29
 msgid "Titre"
-msgstr ""
+msgstr "Title"
 
 #: .\ticket\models.py:9
 msgid "Contenu"
-msgstr ""
+msgstr "Content"
 
 #: .\ticket\models.py:10
 msgid "Crée par"
-msgstr ""
+msgstr "Create by"
 
 #: .\ticket\models.py:11 .\ticket\templates\ticket.html:48
 msgid "Crée le"
-msgstr ""
+msgstr "Create on"
 
 #: .\ticket\models.py:12
 msgid "Edité le"
-msgstr ""
+msgstr "Edit on"
 
 #: .\ticket\models.py:13 .\ticket\models.py:75
 #: .\ticket\templates\ticket.html:32
 msgid "Catégorie"
-msgstr ""
+msgstr "Category"
 
 #: .\ticket\models.py:16
 msgid "Incident"
-msgstr ""
+msgstr "Incident"
 
 #: .\ticket\models.py:28
 msgid "Open"
-msgstr ""
+msgstr "Open"
 
 #: .\ticket\models.py:29
 msgid "Resolved"
-msgstr ""
+msgstr "Resolved"
 
 #: .\ticket\models.py:30
 msgid "Closed"
-msgstr ""
+msgstr "Closed"
 
 #: .\ticket\models.py:34
 msgid "Critical"
-msgstr ""
+msgstr "Critical"
 
 #: .\ticket\models.py:35
 msgid "High"
-msgstr ""
+msgstr "High"
 
 #: .\ticket\models.py:36
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: .\ticket\models.py:37
 msgid "Low"
-msgstr ""
+msgstr "Low"
 
 #: .\ticket\models.py:38
 msgid "Very Low"
-msgstr ""
+msgstr "Very Low"
 
 #: .\ticket\models.py:45 .\ticket\templates\ticket.html:50
 #: .\ticket\templates\ticket.html.py:52
 msgid "Assigné à"
-msgstr ""
+msgstr "Assign to"
 
 #: .\ticket\models.py:52
 msgid "Statut"
-msgstr ""
+msgstr "Status"
 
 #: .\ticket\models.py:60
 msgid "Priorité"
-msgstr ""
+msgstr "Priority"
 
 #: .\ticket\templates\add_ticket.html:38 .\ticket\templates\ticket.html:100
 msgid "Soumettre"
-msgstr ""
+msgstr "Send"
 
 #: .\ticket\templates\home.html:14
 msgid "Nombre de ticket"
-msgstr ""
+msgstr "Number of ticket"
 
 #: .\ticket\templates\home.html:15
 msgid "Tickets en cours de traitement"
-msgstr ""
+msgstr "Tickets being processed"
 
 #: .\ticket\templates\home.html:16
 msgid "Tickets résolus"
-msgstr ""
+msgstr "resolved tickets"
 
 #: .\ticket\templates\home.html:17
 msgid "Tickets clos"
-msgstr ""
+msgstr "closed tickets"
 
 #: .\ticket\templates\ticket.html:17
 msgid "Editer le ticket"
-msgstr ""
+msgstr "Edit ticket"
 
 #: .\ticket\templates\ticket.html:19
 msgid "Supprimez le ticket"
-msgstr ""
+msgstr "Delete ticket"
 
 #: .\ticket\templates\ticket.html:21
 msgid "Demande de suppression"
-msgstr ""
+msgstr "Ask for delete"
 
 #: .\ticket\templates\ticket.html:35 .\ticket\templates\ticket.html.py:37
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: .\ticket\templates\ticket.html:39
 msgid "Urgence"
-msgstr ""
+msgstr "Urgency"
 
 #: .\ticket\templates\ticket.html:43
 msgid "Demandeur"
-msgstr ""
+msgstr "applicant"
 
 #: .\ticket\templates\ticket.html:45
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: .\ticket\templates\ticket.html:56
 msgid "Derniere edition le"
-msgstr ""
+msgstr "Last edition"
 
 #: .\ticket\templates\ticket.html:62
 msgid "Ticket"
-msgstr ""
+msgstr "Ticket"
 
 #: .\ticket\templates\ticket.html:78
 msgid "changé de"
-msgstr ""
+msgstr "change to"
 
 #: .\ticket\templates\ticket.html:78
 msgid "à"
-msgstr ""
+msgstr "to"
