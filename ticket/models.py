@@ -10,7 +10,7 @@ class Tickets( models.Model):
     content = models.TextField(verbose_name=_('Contenu'),)
     create_by = models.ForeignKey(User, verbose_name=_('Crée par'),)
     created = models.DateTimeField(verbose_name=_('Crée le'),)
-    last_edited = models.DateTimeField(auto_now=True, verbose_name=_('Edité le'),)
+    last_edited = models.DateTimeField(verbose_name=_('Edité le'),auto_now=True)
     category = models.ForeignKey('TicketCategory',verbose_name=_('Catégorie'),)
 
     TYPES_CHOICES = (
@@ -113,7 +113,6 @@ class Entity(models.Model):
 
     def __str__(self):
         return self.name
-
 
 
 class UserProfile(models.Model):

@@ -3,6 +3,7 @@ __author__ = 'had'
 from django.conf.urls import patterns, url
 from ticket.views import tickets, auth
 
+
 urlpatterns = patterns('ticket.views',
 
     url(r'^$', 'auth.home'),

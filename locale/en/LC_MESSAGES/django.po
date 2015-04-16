@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-16 14:26+0200\n"
+"POT-Creation-Date: 2015-04-16 16:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,99 +16,123 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: .\ticket\models.py:8 .\ticket\templates\ticket.html:29
+#: .\ticket\admin.py:48 .\ticket\models.py:120
+msgid "Entité"
+msgstr "Entity"
+
+#: .\ticket\models.py:9 .\ticket\templates\ticket.html:29
 msgid "Titre"
 msgstr "Title"
 
-#: .\ticket\models.py:9
+#: .\ticket\models.py:10
 msgid "Contenu"
 msgstr "Content"
 
-#: .\ticket\models.py:10
+#: .\ticket\models.py:11
 msgid "Crée par"
 msgstr "Create by"
 
-#: .\ticket\models.py:11 .\ticket\templates\ticket.html:48
+#: .\ticket\models.py:12 .\ticket\templates\ticket.html:48
 msgid "Crée le"
 msgstr "Create on"
 
-#: .\ticket\models.py:12
+#: .\ticket\models.py:13
 msgid "Edité le"
-msgstr "Edit on"
+msgstr "Last edit"
 
-#: .\ticket\models.py:13 .\ticket\models.py:75
+#: .\ticket\models.py:14 .\ticket\models.py:76
 #: .\ticket\templates\ticket.html:32
 msgid "Catégorie"
 msgstr "Category"
 
-#: .\ticket\models.py:16
+#: .\ticket\models.py:17
 msgid "Incident"
 msgstr "Incident"
 
-#: .\ticket\models.py:28
+#: .\ticket\models.py:29
 msgid "Open"
 msgstr "Open"
 
-#: .\ticket\models.py:29
+#: .\ticket\models.py:30
 msgid "Resolved"
 msgstr "Resolved"
 
-#: .\ticket\models.py:30
+#: .\ticket\models.py:31
 msgid "Closed"
 msgstr "Closed"
 
-#: .\ticket\models.py:34
+#: .\ticket\models.py:35
 msgid "Critical"
 msgstr "Critical"
 
-#: .\ticket\models.py:35
+#: .\ticket\models.py:36
 msgid "High"
 msgstr "High"
 
-#: .\ticket\models.py:36
+#: .\ticket\models.py:37
 msgid "Normal"
 msgstr "Normal"
 
-#: .\ticket\models.py:37
+#: .\ticket\models.py:38
 msgid "Low"
 msgstr "Low"
 
-#: .\ticket\models.py:38
+#: .\ticket\models.py:39
 msgid "Very Low"
 msgstr "Very Low"
 
-#: .\ticket\models.py:45 .\ticket\templates\ticket.html:50
+#: .\ticket\models.py:46 .\ticket\templates\ticket.html:50
 #: .\ticket\templates\ticket.html.py:52
 msgid "Assigné à"
 msgstr "Assign to"
 
-#: .\ticket\models.py:52
+#: .\ticket\models.py:53
 msgid "Statut"
 msgstr "Status"
 
-#: .\ticket\models.py:60
+#: .\ticket\models.py:61
 msgid "Priorité"
 msgstr "Priority"
+
+#: .\ticket\models.py:105
+msgid "Nom"
+msgstr "Name"
+
+#: .\ticket\models.py:106
+msgid "Description"
+msgstr "Description"
+
+#: .\ticket\models.py:107
+msgid "Téléphone"
+msgstr "Phone"
+
+#: .\ticket\models.py:108
+msgid "Adresse"
+msgstr "Adress"
+
+#: .\ticket\models.py:109
+msgid "Code postal"
+msgstr "Postal Code"
 
 #: .\ticket\templates\add_ticket.html:38 .\ticket\templates\ticket.html:100
 msgid "Soumettre"
 msgstr "Send"
 
-#: .\ticket\templates\home.html:14
+#: .\ticket\templates\home.html:13
 msgid "Nombre de ticket"
-msgstr "Number of ticket"
+msgstr "Number of tickets"
 
-#: .\ticket\templates\home.html:15
+#: .\ticket\templates\home.html:14
 msgid "Tickets en cours de traitement"
 msgstr "Tickets being processed"
 
-#: .\ticket\templates\home.html:16
+#: .\ticket\templates\home.html:15
 msgid "Tickets résolus"
-msgstr "resolved tickets"
+msgstr "Resolved tickets"
 
-#: .\ticket\templates\home.html:17
+#: .\ticket\templates\home.html:16
 msgid "Tickets clos"
-msgstr "closed tickets"
+msgstr "Closed tickets"
 
 #: .\ticket\templates\ticket.html:17
 msgid "Editer le ticket"
@@ -140,7 +164,7 @@ msgstr "Type"
 
 #: .\ticket\templates\ticket.html:56
 msgid "Derniere edition le"
-msgstr "Last edition"
+msgstr "Last edit on"
 
 #: .\ticket\templates\ticket.html:62
 msgid "Ticket"
