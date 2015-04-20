@@ -1,18 +1,18 @@
 __author__ = 'had'
 from django import forms
 from ticket.models import User, Tickets, UserProfile, Follow
-from model_utils import FieldTracker
+from django.utils.translation import ugettext as _
 
 
 class ConnexionForm(forms.Form):
     """
     Pour la page de login
     """
-    username = forms.CharField(label="Nom d'utilisateur", max_length=30,
+    username = forms.CharField(label=_("Nom d'utilisateur"), max_length=30,
                                widget=forms.TextInput(attrs={
                                                             'type':"text",
                                                             'placeholder':"Username"}))
-    password = forms.CharField(label="Mot de passe",
+    password = forms.CharField(label=_("Mot de passe"),
                                widget=forms.PasswordInput(attrs={
                                                             'type':"password",
                                                             'placeholder':"Password"}))
@@ -21,14 +21,14 @@ class TicketForm(forms.ModelForm):
     """
     Pour ajouter un ticket
     """
-    title = forms.CharField(label='Titre',
+    title = forms.CharField(label=_('Titre'),
                             widget=forms.TextInput
-                            (attrs={'placeholder': 'Titre',
+                            (attrs={'placeholder': _('Titre'),
                                     'size':'110',
                                     }))
-    content = forms.CharField(label='Ticket',
+    content = forms.CharField(label=_('Ticket'),
                               widget=forms.Textarea
-                              (attrs={'placeholder': 'Contenu du ticket',
+                              (attrs={'placeholder': _('Contenu du ticket'),
                                       'rows':'5',
                                       'class':'uk-width-1-1'}))
 
@@ -36,11 +36,13 @@ class TicketForm(forms.ModelForm):
         choices=Tickets.PRIORITY_CHOICES,
         required=True,
         initial='3',
-        label=('Urgence'),
-        help_text=('Please select a priority carefully.'),
+        label=(_('Urgence')),
+        help_text=(_('Veuillez selectionner une priorité.')),
          )
     # Pour choisir que les membres du staff
-    assign_to = forms.ModelChoiceField(queryset=User.objects.all().filter(is_staff=1))
+    assign_to = forms.ModelChoiceField(
+                    queryset=User.objects.all().filter(is_staff=1),
+                    label=_('Assigné à'))
 
     class Meta:
         model = Tickets
@@ -76,7 +78,8 @@ class TicketForm(forms.ModelForm):
                     #column = Tickets._meta.get_field(field).verbose_name
                     Follow.objects.create(
                                     ticket_id=ticket_id,
-                                    field=Tickets._meta.get_field_by_name(field)[0].verbose_name, # Pour avoir le nom verbeux dans la table de suivi
+                                    field=Tickets._meta.get_field_by_name(field)[0].verbose_name,
+                                    # Pour avoir le nom verbeux dans la table de suivi
                                     old_value=oldvalue[0].get(field),
                                     new_value=self[field].value(),
                                     follow_by=user
@@ -88,7 +91,7 @@ class TicketForm(forms.ModelForm):
 
 class ResponseForm(forms.ModelForm):
     follow = forms.CharField(label='Ticket',widget=forms.Textarea(
-        attrs={'placeholder': 'Réponse au ticket','rows':'4','class':'uk-width-1-1'}))
+        attrs={'placeholder': _('Réponse au ticket'),'rows':'4','class':'uk-width-1-1'}))
 
     class Meta:
         model = Follow
