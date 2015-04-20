@@ -77,7 +77,7 @@ class TicketForm(forms.ModelForm):
                     Follow.objects.create(
                                     ticket_id=ticket_id,
                                     field=field,
-                                    old_value=oldvalue,
+                                    old_value=oldvalue[0].get(field),
                                     new_value=self[field].value(),
                                     follow_by=user
                                      )

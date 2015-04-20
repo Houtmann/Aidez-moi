@@ -15,17 +15,17 @@ def close(modeladmin, request, queryset):
 
 
 
-class TicketsAdmin(admin.ModelAdmin):
+class TicketAdmin(admin.ModelAdmin):
     list_display = ('title', 'types', 'created', 'status', 'priority' )
     actions = [close]
 
-admin.site.register(Tickets, TicketsAdmin)
+admin.site.register(Tickets, TicketAdmin)
 
 
 
-class TicketsCategoryAdmin(admin.ModelAdmin):
+class TicketCategoryAdmin(admin.ModelAdmin):
     pass
-admin.site.register(TicketCategory, TicketsCategoryAdmin)
+admin.site.register(TicketCategory, TicketCategoryAdmin)
 
 
 
