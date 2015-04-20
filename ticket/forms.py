@@ -76,7 +76,7 @@ class TicketForm(forms.ModelForm):
                     #column = Tickets._meta.get_field(field).verbose_name
                     Follow.objects.create(
                                     ticket_id=ticket_id,
-                                    field=field,
+                                    field=Tickets._meta.get_field_by_name(field)[0].verbose_name, # Pour avoir le nom verbeux dans la table de suivi
                                     old_value=oldvalue[0].get(field),
                                     new_value=self[field].value(),
                                     follow_by=user
