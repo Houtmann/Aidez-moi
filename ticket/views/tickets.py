@@ -2,7 +2,7 @@ __author__ = 'had'
 
 from django.shortcuts import render, redirect, render_to_response
 from ticket.forms import TicketForm, ResponseForm
-from ticket.models import Tickets, UserProfile, Follow
+from ticket.models import Tickets, UserProfile, Follow, Entity
 from ticket.views.auth import home
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
@@ -21,6 +21,12 @@ def add_ticket(request):
             ticket = form.save(commit=False)
             ticket.create_by = request.user
             ticket.created = datetime.now()
+            try:
+                entity = UserProfile.objects.get(user=request.user)
+                ticket.title = '['+ str(entity.entity)+']' + '' + ticket.title # Pour ajouter au titre l'entité à laquelle appartient l'utilisateur
+            except:
+                pass
+
             ticket.save()
             return redirect(home)
         else:
@@ -120,7 +126,7 @@ def ticket_all(request):
     """
     Retourne la page de tous les tickets pour le staff.
     """
-    list = Tickets.objects.select_related('create_by', 'assign_to', 'category')
+    list = Tickets.objects.select_related('create_by', 'assign_to', 'category').order_by('-created')
     ticket_list = TicketsTables(list)
 
     RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs

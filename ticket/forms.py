@@ -1,5 +1,4 @@
 __author__ = 'had'
-
 from django import forms
 from ticket.models import User, Tickets, UserProfile, Follow
 from model_utils import FieldTracker
@@ -57,6 +56,7 @@ class TicketForm(forms.ModelForm):
         if user.is_staff is False:
             del self.fields['assign_to']
             del self.fields['status']
+
 
 
     def edit(self,ticket_id, user, *args, **kwargs):
