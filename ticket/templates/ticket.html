@@ -16,14 +16,16 @@
                            {% if request.user.is_staff %}
 
                                <div class="uk-button-group">
-                               <a class="uk-button" href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">
+                               <a class="uk-button"  href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}"
+                                  onclick="return confirm('Etes vous sure de vouloir supprimez ce ticket ?');">
                            {% trans "Supprimez le ticket" %}</a>
                                </div>
 
                            {% else %}
                                <div class="uk-button-group">
-                               <a class="uk-button" href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">
-                           {% trans "Supprimez le ticket" %}</a>
+                               <a class="uk-button" href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}"
+                                  onclick="return confirm('Etes vous sure de vouloir supprimez ce ticket ?');">
+                           {% trans "Demande de suppression" %}</a>
                                </div>
                            {% endif %}
 
@@ -52,7 +54,7 @@
  <tr>
      <td><p>{% trans "Crée le" %} : {{ tickets.created }}</p></td>
      <td>{%  if tickets.assign_to == None %}
-        >{% trans "Assigné à" %} : <span class="uk-text-warning">Pas encore assigné</span>
+        >{% trans "Assigné à" %} : <span class="uk-text-warning">{% trans "Pas encore assigné" %}</span>
     {% else %}
         {% trans "Assigné à" %} : {{ tickets.assign_to }}
     {% endif %}</td>

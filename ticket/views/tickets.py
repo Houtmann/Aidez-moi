@@ -25,7 +25,8 @@ def add_ticket(request):
             try:
                 entity = UserProfile.objects.get(user=request.user)
                 ticket.title = '[' + str(
-                    entity.entity) + ']' + '' + ticket.title  # Pour ajouter au titre l'entité à laquelle appartient l'utilisateur
+                    entity.entity) + ']' + '' + ticket.title
+                    # Pour ajouter au titre l'entité à laquelle appartient l'utilisateur
             except:
                 pass
 
@@ -188,6 +189,12 @@ def my_ticket_assign(request):
 
     RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
+
+@login_required(login_url='login/')
+def delete_ticket(request, id):
+    Follow.objects.filter(ticket_id=id).delete()
+    Tickets.objects.filter(id=id).delete()
+    return redirect('/')
 
 
 
