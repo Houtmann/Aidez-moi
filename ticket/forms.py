@@ -32,6 +32,7 @@ class TicketForm(forms.ModelForm):
                                       'rows':'5',
                                       'class':'uk-width-1-1'}))
 
+
     priority = forms.ChoiceField(
         choices=Tickets.PRIORITY_CHOICES,
         required=True,

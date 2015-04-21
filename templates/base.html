@@ -1,4 +1,5 @@
 {% block head %}
+    {% load i18n %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
@@ -22,18 +23,18 @@
 {% load filter %}
     <ul class="uk-navbar-nav">
         <li class="uk-active"><a href="{% url "ticket.views.auth.home" %}">{{ request.user }}</a></li>
-        <li><a href="{% url "ticket.views.tickets.add_ticket" %}">Ajouter un tickets</a></li>
-        <li><a href="{% url "ticket.views.stats.statistic" %}">Statistiques</a></li>
+        <li><a href="{% url "ticket.views.tickets.add_ticket" %}">{% trans "Ajouter un tickets" %}</a></li>
+        <li><a href="{% url "ticket.views.stats.statistic" %}">{% trans "Statistiques" %}</a></li>
 
         <li class="uk-parent" data-uk-dropdown="">
-            <a href="">Tickets</a>
+            <a href="">{% trans "Tickets" %}</a>
             <div style="" class="uk-dropdown uk-dropdown-navbar">
                 <ul class="uk-nav uk-nav-navbar">
-                    <li><a href="{% url "ticket.views.tickets.ticket_list_work" %}">En cours
+                    <li><a href="{% url "ticket.views.tickets.ticket_list_work" %}">{% trans "En cours" %}
                     <span class="uk-badge uk-badge-warning uk-badge-notification">{{ request.user|ticket_open }}</span>
                     </a></li>
 
-                    <li><a href="{% url "ticket.views.tickets.ticket_list_resolved" %}">Résolus
+                    <li><a href="{% url "ticket.views.tickets.ticket_list_resolved" %}">{% trans "Résolus" %}
                     <span class="uk-badge uk-badge-success uk-badge-notification">
 
                     {{ request.user|ticket_resolved }}
@@ -41,7 +42,7 @@
                     </span>
                     </a></li>
 
-                    <li><a href="{% url "ticket.views.tickets.ticket_list_clos" %}">Clos
+                    <li><a href="{% url "ticket.views.tickets.ticket_list_clos" %}">{% trans "Clos" %}
 
 
 
@@ -51,19 +52,20 @@
 
                     <li class="uk-nav-header">---</li>
 
-                    <li><a href="{% url "ticket.views.tickets.ticket_list_new" %}">Nouveaux
+                    <li><a href="{% url "ticket.views.tickets.ticket_list_new" %}">{% trans "Nouveaux" %}
                         <span class="uk-badge uk-badge-notification">{{ request.user|ticket_new }}</span>
                     </a> </li>
 
                 </ul>
             </div>
         {% if request.user.is_staff %}
-        <li><a href="{% url "ticket.views.tickets.ticket_all" %}">Staff</a></li>
+        <li><a href="{% url "ticket.views.tickets.ticket_all" %}">{% trans "Staff" %}</a></li>
+            <li><a href="{% url "ticket.views.tickets.my_ticket_assign" %}">{% trans "Vos tickets assignés" %}</a></li>
         {% endif %}
     {% if request.user.is_superuser%}
-        <li><a href="/admin">Administration</a></li>
+        <li><a href="/admin">{% trans "Administration" %}</a></li>
     {% endif %}
-        <li><a href="/logout">Déconnexion</a></li>
+        <li><a href="/logout">{% trans "Déconnexion" %}</a></li>
     <div class="uk-navbar-content uk-hidden-small">
                                         <form class="uk-form uk-margin-remove uk-display-inline-block">
                                             <input placeholder="Search" type="text">

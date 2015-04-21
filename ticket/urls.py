@@ -16,6 +16,7 @@ urlpatterns = patterns('ticket.views',
     url(r'^ticket/edit_id=(?P<id>\d+)$', 'tickets.ticket_edit'),
     url(r'^ticket/id=(?P<id>\d+)$', 'tickets.view_ticket', name='view'),
     url(r'^ticket_all/$', 'tickets.ticket_all'),
+    url(r'^my_ticket_assign/$', 'tickets.my_ticket_assign'),
     url(r'^stat/$', 'stats.statistic'),
     url(r'^logout/$', 'auth.logout_view'),
 

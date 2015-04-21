@@ -175,5 +175,18 @@ def view_ticket(request, id):
     return render(request,'ticket.html', locals())
 
 
+@login_required(login_url='login/')
+def my_ticket_assign(request):
+    """
+    Retourne la page de tous vos tickets assigné à vous.
+    """
+    list = Tickets.objects.filter(assign_to = request.user).select_related('create_by', 'assign_to', 'category').order_by('-created')
+    ticket_list = TicketsTables(list)
+
+    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
+    return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
+
+
+
 
 
