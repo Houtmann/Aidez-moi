@@ -2,7 +2,10 @@
 *.db
 *.sqlite3
 *.sqlite
-
+*.DJCACHE
+.idea
+*.xml
+.pycache
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
