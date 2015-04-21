@@ -12,6 +12,7 @@ class Tickets( models.Model):
     created = models.DateTimeField(verbose_name=_('Crée le'),)
     last_edited = models.DateTimeField(verbose_name=_('Edité le'),auto_now=True)
     category = models.ForeignKey('TicketCategory',verbose_name=_('Catégorie'), null=True, blank=True )
+    incomplete = models.BooleanField(default=0) # Marque le ticket comme incomplete et attente d'informations
 
     TYPES_CHOICES = (
         (1, _('Incident')),
