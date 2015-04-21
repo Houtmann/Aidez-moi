@@ -5,32 +5,33 @@
 <div class="uk-width-1-2 uk-container-center uk-panel-box ">
     <div class="uk-button-group">
 
-               <div class="uk-grid ">
+        <div class="uk-grid ">
 
-                   <div class="uk-button-group">
-                       <a class="uk-button" href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">
-                           {% trans "Editer le ticket" %}</a>
+            <div class="uk-button-group">
+                <a class="uk-button" href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">
+                    {% trans "Editer le ticket" %}</a>
 
-                   </div>
+            </div>
 
-                           {% if request.user.is_staff %}
+            {% if request.user.is_staff %}
 
-                               <div class="uk-button-group">
-                               <a class="uk-button"  href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}"
-                                  onclick="return confirm('Etes vous sure de vouloir supprimez ce ticket ?');">
-                           {% trans "Supprimez le ticket" %}</a>
-                               </div>
+                <div class="uk-button-group">
+                    <a class="uk-button"  href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}"
+                       onclick="return confirm('Etes vous sure de vouloir supprimez ce ticket ?');">
+                        {% trans "Supprimez le ticket" %}</a>
+                </div>
 
-                           {% else %}
-                               <div class="uk-button-group">
-                               <a class="uk-button" href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}"
-                                  onclick="return confirm('Etes vous sure de vouloir supprimez ce ticket ?');">
-                           {% trans "Demande de suppression" %}</a>
-                               </div>
-                           {% endif %}
+            {% else %}
+                <div class="uk-button-group">
+                    <a class="uk-button" href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}"
+                       onclick="return confirm('Etes vous sure de vouloir supprimez ce ticket ?');">
+                        {% trans "Demande de suppression" %}</a>
+                </div>
+            {% endif %}
 
-                           </li>
-                       </div></div>
+            </li>
+        </div>
+    </div>
 
 <p><span class="uk-badge">Ticket id : {{ tickets.id}}</span></p>
 <p><center>{% trans "Titre" %} : {{ tickets.title}}</center></p>
@@ -68,7 +69,6 @@
         <p>{% trans "Ticket" %} : <p>{{ tickets.content }}</p>
 
 </div><p></p>
-
 
 <p></p>
 {% for item in follow_up  %}
