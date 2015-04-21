@@ -1,15 +1,16 @@
 __author__ = 'had'
 
-from django.shortcuts import render, redirect, render_to_response
-from ticket.forms import TicketForm, ResponseForm
-from ticket.models import Tickets, UserProfile, Follow, Entity
-from ticket.views.auth import home
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render_to_response, get_object_or_404
-from django.views.decorators.cache import cache_page
 from datetime import datetime
-from ticket.tables import TicketsTables
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 from django_tables2 import RequestConfig
+
+from ticket.forms import TicketForm, ResponseForm
+from ticket.models import Tickets, UserProfile, Follow
+from ticket.views.auth import home
+from ticket.tables import TicketsTables
 
 
 @login_required(login_url='login/')
@@ -23,7 +24,8 @@ def add_ticket(request):
             ticket.created = datetime.now()
             try:
                 entity = UserProfile.objects.get(user=request.user)
-                ticket.title = '['+ str(entity.entity)+']' + '' + ticket.title # Pour ajouter au titre l'entité à laquelle appartient l'utilisateur
+                ticket.title = '[' + str(
+                    entity.entity) + ']' + '' + ticket.title  # Pour ajouter au titre l'entité à laquelle appartient l'utilisateur
             except:
                 pass
 
@@ -36,7 +38,7 @@ def add_ticket(request):
     return render(request, 'add_ticket.html', locals())
 
 
-#@cache_page(60*1)
+# @cache_page(60*1)
 @login_required(login_url='login/')
 def ticket_list_new(request):
     """
@@ -50,11 +52,11 @@ def ticket_list_new(request):
         list = Tickets.objects.filter(create_by=request.user, assign_to=None).order_by('-created')
         ticket_list = TicketsTables(list)
 
-    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
+    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
-#@cache_page(60*1)
+# @cache_page(60*1)
 @login_required(login_url='login/')
 def ticket_list_work(request):
     """
@@ -62,38 +64,39 @@ def ticket_list_work(request):
     sinon pour l'utilisateur seulement ses tickets seront affiché
     """
     if request.user.is_staff:
-        list = Tickets.objects.select_related('create_by', 'assign_to', 'category').prefetch_related('create_by', 'category')\
+        list = Tickets.objects.select_related('create_by', 'assign_to', 'category').prefetch_related('create_by',
+                                                                                                     'category') \
             .filter(status='OPEN').exclude(assign_to=None).order_by('-created')
         ticket_list = TicketsTables(list)
     else:
-        list = Tickets.objects.select_related('create_by', 'assign_to', 'category').prefetch_related('create_by', 'category')\
+        list = Tickets.objects.select_related('create_by', 'assign_to', 'category').prefetch_related('create_by',
+                                                                                                     'category') \
             .filter(create_by=request.user, status='OPEN').exclude(assign_to=None).order_by('-created')
         ticket_list = TicketsTables(list)
 
-    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
+    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
 #@cache_page(60*1)
 @login_required(login_url='login/')
 def ticket_list_resolved(request):
-
     """
     Retourne la page des tickets résolus. Si le membre fait partie du staff tous les tickets sont affichés,
     sinon pour l'utilisateur seulement ses tickets seront affiché
     """
 
     if request.user.is_staff:
-        list = Tickets.objects.select_related('create_by', 'assign_to', 'category')\
+        list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
             .filter(status='RESOLVED').exclude(assign_to=None).order_by('-created')
         ticket_list = TicketsTables(list)
     else:
-        list = Tickets.objects.select_related('create_by', 'assign_to', 'category')\
-            .prefetch_related('create_by', 'category')\
+        list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
+            .prefetch_related('create_by', 'category') \
             .filter(create_by=request.user, status='RESOLVED').order_by('-created')
         ticket_list = TicketsTables(list)
 
-    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
+    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
@@ -105,19 +108,19 @@ def ticket_list_clos(request):
     sinon pour l'utilisateur seulement ses tickets seront affiché
     """
     if request.user.is_staff:
-        list = Tickets.objects.select_related('create_by', 'assign_to', 'category')\
-            .prefetch_related('create_by', 'assign_to', 'category')\
+        list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
+            .prefetch_related('create_by', 'assign_to', 'category') \
             .filter(status='CLOSED').exclude(assign_to=None).order_by('-created')
 
         ticket_list = TicketsTables(list)
     else:
-        list = Tickets.objects.select_related('create_by', 'assign_to', 'category')\
-            .prefetch_related('create_by', 'category')\
+        list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
+            .prefetch_related('create_by', 'category') \
             .filter(create_by=request.user, status='CLOSED').order_by('-created')
 
         ticket_list = TicketsTables(list)
 
-    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
+    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
@@ -129,7 +132,7 @@ def ticket_all(request):
     list = Tickets.objects.select_related('create_by', 'assign_to', 'category').order_by('-created')
     ticket_list = TicketsTables(list)
 
-    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
+    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
@@ -141,7 +144,7 @@ def ticket_edit(request, id):
     Pour editer un ticket
     """
     ticket = get_object_or_404(Tickets, id=id)
-    if request.method=='POST' and 'edit' in request.POST:
+    if request.method == 'POST' and 'edit' in request.POST:
         form = TicketForm(request.POST, user=request.user, instance=ticket)
 
         if form.is_valid():
@@ -151,15 +154,14 @@ def ticket_edit(request, id):
             return redirect(view_ticket, id)
             # If the save was successful, redirect to another page
     else:
-            form = TicketForm(user=request.user, instance=ticket)
-            response = ResponseForm()
+        form = TicketForm(user=request.user, instance=ticket)
+        response = ResponseForm()
 
     return render(request, 'add_ticket.html', locals())
 
 
 @login_required(login_url='login/')
 def view_ticket(request, id):
-
     tickets = Tickets.objects.select_related('create_by').get(id=id)
     follow_up = Follow.objects.select_related('follow_by', 'ticket').filter(ticket=id)
 
@@ -167,12 +169,12 @@ def view_ticket(request, id):
         form = ResponseForm(data=request.POST)
         #if form.is_valid():
         follow = form.save(commit=False)
-        follow.ticket_id=id
-        follow.follow_by=request.user
+        follow.ticket_id = id
+        follow.follow_by = request.user
         follow.save()
     else:
         form = ResponseForm()
-    return render(request,'ticket.html', locals())
+    return render(request, 'ticket.html', locals())
 
 
 @login_required(login_url='login/')
@@ -180,10 +182,11 @@ def my_ticket_assign(request):
     """
     Retourne la page de tous vos tickets assigné à vous.
     """
-    list = Tickets.objects.filter(assign_to = request.user).select_related('create_by', 'assign_to', 'category').order_by('-created')
+    list = Tickets.objects.filter(assign_to=request.user).select_related('create_by', 'assign_to', 'category').order_by(
+        '-created')
     ticket_list = TicketsTables(list)
 
-    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list) # See django_tables2 Docs
+    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 

@@ -10,12 +10,13 @@ class ConnexionForm(forms.Form):
     """
     username = forms.CharField(label=_("Nom d'utilisateur"), max_length=30,
                                widget=forms.TextInput(attrs={
-                                                            'type':"text",
-                                                            'placeholder':"Username"}))
+                                   'type': "text",
+                                   'placeholder': "Username"}))
     password = forms.CharField(label=_("Mot de passe"),
                                widget=forms.PasswordInput(attrs={
-                                                            'type':"password",
-                                                            'placeholder':"Password"}))
+                                   'type': "password",
+                                   'placeholder': "Password"}))
+
 
 class TicketForm(forms.ModelForm):
     """
@@ -24,14 +25,13 @@ class TicketForm(forms.ModelForm):
     title = forms.CharField(label=_('Titre'),
                             widget=forms.TextInput
                             (attrs={'placeholder': _('Titre'),
-                                    'size':'110',
+                                    'size': '110',
                                     }))
     content = forms.CharField(label=_('Ticket'),
                               widget=forms.Textarea
                               (attrs={'placeholder': _('Contenu du ticket'),
-                                      'rows':'5',
-                                      'class':'uk-width-1-1'}))
-
+                                      'rows': '5',
+                                      'class': 'uk-width-1-1'}))
 
     priority = forms.ChoiceField(
         choices=Tickets.PRIORITY_CHOICES,
@@ -39,11 +39,11 @@ class TicketForm(forms.ModelForm):
         initial='3',
         label=(_('Urgence')),
         help_text=(_('Veuillez selectionner une priorité.')),
-         )
+    )
     # Pour choisir que les membres du staff
     assign_to = forms.ModelChoiceField(
-                    queryset=User.objects.all().filter(is_staff=1),
-                    label=_('Assigné à'))
+        queryset=User.objects.all().filter(is_staff=1),
+        label=_('Assigné à'))
 
     class Meta:
         model = Tickets
@@ -60,39 +60,36 @@ class TicketForm(forms.ModelForm):
             del self.fields['assign_to']
             del self.fields['status']
 
-
-
-    def edit(self,ticket_id, user, *args, **kwargs):
+    def edit(self, ticket_id, user, *args, **kwargs):
         """
         :param ticket_id: Clé du ticket
         :param user: id de la session user
         La fonction edit est pour l'édition d'un ticket et elle permet de sauvegarder les
         élements changant dans la table Follow afin d'avoir un suivi du ticket"""
 
-        if  Tickets.objects.filter(id=ticket_id).exists():
+        if Tickets.objects.filter(id=ticket_id).exists():
             if self.has_changed():
 
                 ticket = Tickets.objects.filter(pk=ticket_id)
                 for field in self.changed_data:
-
                     oldvalue = ticket.values(field)
-                    #column = Tickets._meta.get_field(field).verbose_name
+                    # column = Tickets._meta.get_field(field).verbose_name
                     Follow.objects.create(
-                                    ticket_id=ticket_id,
-                                    field=Tickets._meta.get_field_by_name(field)[0].verbose_name,
-                                    # Pour avoir le nom verbeux dans la table de suivi
-                                    old_value=oldvalue[0].get(field),
-                                    new_value=self[field].value(),
-                                    follow_by=user
-                                     )
+                        ticket_id=ticket_id,
+                        field=Tickets._meta.get_field_by_name(field)[0].verbose_name,
+                        # Pour avoir le nom verbeux dans la table de suivi
+                        old_value=oldvalue[0].get(field),
+                        new_value=self[field].value(),
+                        follow_by=user
+                    )
         else:
             pass
         super(TicketForm, self).save(*args, **kwargs)
 
 
 class ResponseForm(forms.ModelForm):
-    follow = forms.CharField(label='Ticket',widget=forms.Textarea(
-        attrs={'placeholder': _('Réponse au ticket'),'rows':'4','class':'uk-width-1-1'}))
+    follow = forms.CharField(label='Ticket', widget=forms.Textarea(
+        attrs={'placeholder': _('Réponse au ticket'), 'rows': '4', 'class': 'uk-width-1-1'}))
 
     class Meta:
         model = Follow
