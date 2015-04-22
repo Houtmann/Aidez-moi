@@ -16,7 +16,7 @@ class Tickets( models.Model):
 
     TYPES_CHOICES = (
         (1, _('Incident')),
-        (2, 'Demande'),)
+        (2, _('Demande')),)
 
     types = models.IntegerField(
         ('Types'),
@@ -27,17 +27,17 @@ class Tickets( models.Model):
     CLOSED_STATUS = 4
 
     STATUS_CHOICES = (
-        ('OPEN', _('Open')),
-        ('RESOLVED', _('Resolved')),
-        ('CLOSED', _('Closed')),
+        ('OPEN', _('Ouvert')),
+        ('RESOLVED', _('Résolus')),
+        ('CLOSED', _('Clos')),
     )
 
     PRIORITY_CHOICES = (
-        ('CRITICAL', _('Critical')),
-        ('HIGH', _('High')),
+        ('CRITICAL', _('Critique')),
+        ('HIGH', _('Haute')),
         ('NORMAL', _('Normal')),
-        ('LOW', _('Low')),
-        ('VERYLOW', _('Very Low')),)
+        ('LOW', _('Basse')),
+        ('VERYLOW', _('Très basse')),)
 
     assign_to = models.ForeignKey(
         settings.AUTH_USER_MODEL,
