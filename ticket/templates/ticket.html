@@ -21,6 +21,12 @@
                         {% trans "Supprimez le ticket" %}</a>
                 </div>
 
+                <div class="uk-button-group">
+                    <a class="uk-button"  href="{% url "ticket.views.tickets.set_incomplete" tickets.id %}">
+                        {% trans "Marquer comme incomplet" %}</a>
+                </div>
+
+
             {% else %}
                 <div class="uk-button-group">
                     <a class="uk-button" href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}"
