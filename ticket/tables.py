@@ -10,14 +10,14 @@ class PriorityColumn(tables.Column):
     priorité
     """
     def render(self, value):
-      if value == 'Critical':
+      if value == 'Critique':
             self.attrs ={"td": {"bgcolor": "FF3333"}}
 
-      elif value == 'High':
+      elif value == 'Haute':
             self.attrs ={"td": {"bgcolor": "FF8585"}}
-      elif value == 'Low':
+      elif value == 'BAsse':
             self.attrs ={"td": {"bgcolor": "FFC299"}}
-      elif value == 'Very Low':
+      elif value == 'Très basse':
             self.attrs ={"td": {"bgcolor": "FFE2CE"}}
       elif value =='Normal':
           self.attrs ={}
@@ -29,11 +29,11 @@ class StatusColumn(tables.Column):
     Class met un badge en fonction du status
     """
     def render(self, value):
-        if value == 'Open':
+        if value == 'Ouvert':
             return mark_safe('<span class="uk-badge uk-badge-success">Ouvert</span>')
-        elif value == 'Closed':
+        elif value == 'Clos':
             return mark_safe('<span class="uk-badge uk-badge-warning">Clos</span>')
-        elif value == 'Resolved':
+        elif value == 'Resolus':
             return mark_safe('<span class="uk-badge">Resolus</span>')
 
 
