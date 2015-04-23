@@ -39,7 +39,7 @@ def add_ticket(request):
     return render(request, 'add_ticket.html', locals())
 
 
-# @cache_page(60*1)
+
 @login_required(login_url='login/')
 def ticket_list_new(request):
     """
@@ -57,7 +57,7 @@ def ticket_list_new(request):
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
-# @cache_page(60*1)
+
 @login_required(login_url='login/')
 def ticket_list_work(request):
     """
@@ -79,7 +79,7 @@ def ticket_list_work(request):
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
-#@cache_page(60*1)
+
 @login_required(login_url='login/')
 def ticket_list_resolved(request):
     """
@@ -101,7 +101,7 @@ def ticket_list_resolved(request):
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
-#@cache_page(60*1)
+
 @login_required(login_url='login/')
 def ticket_list_clos(request):
     """
@@ -216,6 +216,28 @@ def set_complete(request, id):
     ticket.incomplete = 1
     ticket.save()
     return redirect('/ticket/id=%s' %(id))
+
+@login_required(login_url='login/')
+def ticket_list_incomplet(request):
+    """
+    Retourne la page des tickets clos. Si le membre fait partie du staff tous les tickets sont affichés,
+    sinon pour l'utilisateur seulement ses tickets seront affiché
+    """
+    if request.user.is_staff:
+        list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
+            .prefetch_related('create_by', 'assign_to', 'category') \
+            .filter(incomplete=0).order_by('-created')
+
+        ticket_list = TicketsTables(list)
+    else:
+        list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
+            .prefetch_related('create_by', 'category') \
+            .filter(create_by=request.user, incomplete=0).order_by('-created')
+
+        ticket_list = TicketsTables(list)
+
+    RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
+    return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
 

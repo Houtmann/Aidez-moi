@@ -16,11 +16,16 @@
                 </thead>
     <tbody>
                     <tr>
-                        <td class="uk-width-1-10 uk-text-center">{{ request.user | all_tick}}</td>
-                        <td class="uk-width-1-10 uk-text-center">{{ request.user | ticket_open}}</td>
-                        <td class="uk-width-1-10 uk-text-center">{{ request.user | ticket_incomplete}}</td>
-                        <td class="uk-width-1-10 uk-text-center">{{ request.user | ticket_resolved}}</td>
-                        <td class="uk-width-1-10 uk-text-center">{{ request.user | ticket_clos}}</td>
+                        <td class="uk-width-1-10 uk-text-center"><a href={% url "ticket.views.tickets.ticket_all" %}>
+                                                                            {{ request.user | all_tick}}</a></td>
+                        <td class="uk-width-1-10 uk-text-center"><a href={% url "ticket.views.tickets.ticket_list_work" %}>
+                                                                            {{ request.user | ticket_open}}</a></td>
+                        <td class="uk-width-1-10 uk-text-center"><a href={% url "ticket.views.tickets.ticket_list_incomplet" %}>
+                                                                            {{ request.user | ticket_incomplete}}</a></td>
+                        <td class="uk-width-1-10 uk-text-center"><a href={% url "ticket.views.tickets.ticket_list_resolved" %}>
+                                                                            {{ request.user | ticket_resolved}}</a></td>
+                        <td class="uk-width-1-10 uk-text-center"><a href={% url "ticket.views.tickets.ticket_list_clos" %}>
+                                                                            {{ request.user | ticket_clos}}</a></td>
                         </tbody>
 
 </table>
