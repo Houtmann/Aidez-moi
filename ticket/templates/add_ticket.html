@@ -4,7 +4,27 @@
 
 {% block content %}
 
-    <div class="uk-width-medium-1-2 uk-container-center uk-panel-box ">
+    <div class="uk-width-medium-1-2 uk-container-center ">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     {% if messages %}
 
@@ -19,7 +39,7 @@
     {% endfor %}
 </ul>
 {% endif %}
-
+<fieldset>
     <form class="uk-form uk-form" action='' method="POST">{% csrf_token %}
 
     <fieldset data-uk-margin >
@@ -43,7 +63,7 @@
         </div>
 
     </div>
-
+</fieldset>
 
 </body>
 {% endblock %}
