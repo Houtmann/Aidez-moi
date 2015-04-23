@@ -4,28 +4,29 @@
 
 <div class="uk-width-1-2 uk-container-center uk-panel-box ">
     <div class="uk-button-group">
-
         <div class="uk-grid ">
-
             <div class="uk-button-group">
                 <a class="uk-button" href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">
                     {% trans "Editer le ticket" %}</a>
-
             </div>
 
             {% if request.user.is_staff %}
-
                 <div class="uk-button-group">
                     <a class="uk-button"  href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}"
                        onclick="return confirm('Etes vous sure de vouloir supprimez ce ticket ?');">
-                        {% trans "Supprimez le ticket" %}</a>
+                        {% trans "Supprimez le ticket" %}  </a>
                 </div>
+
 
                 <div class="uk-button-group">
-                    <a class="uk-button"  href="{% url "ticket.views.tickets.set_incomplete" tickets.id %}">
+                    {% if tickets.incomplete == 0 %}
+                    <a class="uk-button"  href="{% url "ticket.views.tickets.set_complete" tickets.id %}">
+                        {% trans "Marquer comme complet" %}</a>
+                        {% else %}
+                        <a class="uk-button"  href="{% url "ticket.views.tickets.set_incomplete" tickets.id %}">
                         {% trans "Marquer comme incomplet" %}</a>
+                        {% endif %}
                 </div>
-
 
             {% else %}
                 <div class="uk-button-group">
@@ -51,7 +52,6 @@
         <p>{% trans "Status" %} : <span class="uk-text-warning">{{ tickets.get_status_display}}</span></p>
     {% endif %}</td>
        <td><p>{% trans "Urgence" %} : <code>{{ tickets.get_priority_display }}</code></p></td>
-
    </tr>
    <tr>
        <td><p>{% trans "Demandeur" %} : {{ tickets.create_by }}</p></td>
@@ -108,9 +108,7 @@
 
 <div class="uk-width-1-2 uk-container-center uk-panel-box ">
     <form action="" name="post_response" method="post">{% csrf_token %}
-
         {{ form }}
-
 <button  class="uk-button-success uk-width-1-6 uk-center  ">{% trans "Soumettre" %}</button></center></div></form>
     <p></p>
 

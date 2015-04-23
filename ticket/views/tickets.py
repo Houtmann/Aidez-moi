@@ -196,8 +196,12 @@ def delete_ticket(request, id):
     Tickets.objects.filter(id=id).delete()
     return redirect('/')
 
+
 @login_required(login_url='login/')
 def set_incomplete(request, id):
+    """
+    Marque un ticket comme incomplet et attente d'informations complémentaire
+    """
     ticket = Tickets.objects.get(pk=id)
     ticket.incomplete = 0
     ticket.save()
@@ -205,6 +209,9 @@ def set_incomplete(request, id):
 
 @login_required(login_url='login/')
 def set_complete(request, id):
+    """
+    Marque un ticket comme complet
+    """
     ticket = Tickets.objects.get(pk=id)
     ticket.incomplete = 1
     ticket.save()
