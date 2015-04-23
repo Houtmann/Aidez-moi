@@ -13,8 +13,7 @@ from ticket.models import Tickets
 from ticket.tables import TicketsTables
 
 
-# Create your views here.
-#@cache_page(60*3)
+
 @login_required(login_url='login/')
 def home(request):
     if request.user.is_staff:

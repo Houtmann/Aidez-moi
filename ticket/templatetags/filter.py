@@ -38,9 +38,9 @@ def ticket_clos(user):
 
 def ticket_incomplete(user):
     if user.is_staff:
-        return Tickets.objects.filter(incomplete=1).count()
+        return Tickets.objects.filter(incomplete=0).count()
     else:
-        return Tickets.objects.filter(create_by=user, incomplete=1).count()
+        return Tickets.objects.filter(create_by=user, incomplete=0).count()
 
 
 register.filter('ticket_resolved', ticket_resolved)
