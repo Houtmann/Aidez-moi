@@ -36,9 +36,16 @@ def ticket_clos(user):
     else:
         return Tickets.objects.filter(create_by=user, status=4).count()
 
+def ticket_incomplete(user):
+    if user.is_staff:
+        return Tickets.objects.filter(incomplete=1).count()
+    else:
+        return Tickets.objects.filter(create_by=user, incomplete=1).count()
+
 
 register.filter('ticket_resolved', ticket_resolved)
 register.filter('ticket_open', ticket_open)
 register.filter('ticket_new', ticket_new)
 register.filter('ticket_clos', ticket_clos)
 register.filter('all_tick', all_tick)
+register.filter('ticket_incomplete', all_tick)

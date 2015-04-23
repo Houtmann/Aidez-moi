@@ -12,6 +12,7 @@
     <tr>
         <th>{% trans "Nombre de ticket"%}:</th>
         <th>{% trans 'Tickets en cours de traitement'%} :</th>
+        <th>{% trans "En attente d'informations"%} :</th>
         <th>{% trans 'Tickets résolus'%} :</th>
         <th>{% trans 'Tickets clos'%} :</th>
                     </tr>
@@ -19,6 +20,7 @@
     <tbody>
                     <tr>
                         <td class="uk-width-1-10 uk-text-center">{{ request.user | all_tick}}</td>
+                        <td class="uk-width-1-10 uk-text-center">{{ request.user | ticket_incomplete}}</td>
                         <td class="uk-width-1-10 uk-text-center">{{ request.user | ticket_open}}</td>
                         <td class="uk-width-1-10 uk-text-center">{{ request.user | ticket_resolved}}</td>
                         <td class="uk-width-1-10 uk-text-center">{{ request.user | ticket_clos}}</td>
