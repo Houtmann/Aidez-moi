@@ -2,155 +2,161 @@
 {% load i18n %}
 {% block content %}
 
-<div class="uk-width-1-2 uk-container-center uk-panel-box ">
-    <div class="uk-button-group">
-        <div class="uk-grid ">
-            <div class="uk-button-group">
-                <a class="uk-button" href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">
-                    {% trans "Editer le ticket" %}</a>
-            </div>
-
-            {% if request.user.is_staff %}
+    <div class="uk-width-1-2 uk-container-center uk-panel-box ">
+        <div class="uk-button-group">
+            <div class="uk-grid ">
                 <div class="uk-button-group">
-                    <a class="uk-button"  href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}"
-                       onclick="return confirm('Etes vous sure de vouloir supprimez ce ticket ?');">
-                        {% trans "Supprimez le ticket" %}  </a>
+                    <a class="uk-button" href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">
+                        {% trans "Editer le ticket" %}</a>
                 </div>
 
+                {% if request.user.is_staff %}
+                    <div class="uk-button-group">
+                        <a class="uk-button" href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}"
+                           onclick="return confirm('Etes vous sure de vouloir supprimez ce ticket ?');">
+                            {% trans "Supprimez le ticket" %}  </a>
+                    </div>
 
-                <div class="uk-button-group">
-                    {% if tickets.incomplete == 0 %}
-                    <a class="uk-button"  href="{% url "ticket.views.tickets.set_complete" tickets.id %}">
-                        {% trans "Marquer comme complet" %}</a>
+
+                    <div class="uk-button-group">
+                        {% if tickets.incomplete == 0 %}
+                            <a class="uk-button" href="{% url "ticket.views.tickets.set_complete" tickets.id %}">
+                                {% trans "Marquer comme complet" %}</a>
                         {% else %}
-                        <a class="uk-button"  href="{% url "ticket.views.tickets.set_incomplete" tickets.id %}">
-                        {% trans "Marquer comme incomplet" %}</a>
+                            <a class="uk-button" href="{% url "ticket.views.tickets.set_incomplete" tickets.id %}">
+                                {% trans "Marquer comme incomplet" %}</a>
                         {% endif %}
-                </div>
+                    </div>
 
-            {% else %}
-                <div class="uk-button-group">
-                    <a class="uk-button" href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}"
-                       onclick="return confirm('Etes vous sure de vouloir supprimez ce ticket ?');">
-                        {% trans "Demande de suppression" %}</a>
-                </div>
-            {% endif %}
+                {% else %}
+                    <div class="uk-button-group">
+                        <a class="uk-button" href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}"
+                           onclick="return confirm('Etes vous sure de vouloir supprimez ce ticket ?');">
+                            {% trans "Demande de suppression" %}</a>
+                    </div>
+                {% endif %}
 
-            </li>
+                </li>
+            </div>
         </div>
-    </div>
 
 
-<p><center>{% trans "Titre" %} : {{ tickets.title}} <span class="uk-badge">Ticket id : {{ tickets.id}}</span></center></p>
-
-<table border="1" class="uk-table uk-table-hover uk-table-condensed " >
- <tr >
-     <td>{% trans "Catégorie" %}:
-         {% if tickets.category == None %} {% trans "Pas de catégories"%}
-             {% else %}{{ tickets.category }}
-         {% endif %}
-     </td>
- <td></td>
- </tr>
-
-   <tr>
-       <td >{% if tickets.status == 1 %}
-        <p>{% trans "Status" %}: <span class="uk-text-success">{{ tickets.get_status_display}}</span></p>
-    {% else %}
-        <p>{% trans "Status" %} : <span class="uk-text-warning">{{ tickets.get_status_display}}</span></p>
-    {% endif %}
-       </td>
-
-       <td>
-           <p>{% trans "Urgence" %} : <code>{{ tickets.get_priority_display }}</code></p>
-       </td>
-   </tr>
-   <tr>
-       <td><p>{% trans "Demandeur" %} : {{ tickets.create_by }}</p>
-       </td>
-
-       <td><p>{% trans "Type" %} : {{ tickets.get_types_display }}</p>
-       </td>
-
-   </tr>
- <tr>
-     <td><p>{% trans "Crée le" %} : {{ tickets.created }}</p>
-     </td>
-
-     <td>{%  if tickets.assign_to == None %}
-        >{% trans "Assigné à" %} : <span class="uk-text-warning">{% trans "Pas encore assigné" %}</span>
-    {% else %}
-        {% trans "Assigné à" %} : {{ tickets.assign_to }}
-    {% endif %}
-     </td>
-
- </tr>
-<tr>
-    <td>
-        <p>{% trans "Derniere edition le" %} : {{ tickets.last_edited }}
+        <p>
+        <center>{% trans "Titre" %} : {{ tickets.title }} <span class="uk-badge">Ticket id : {{ tickets.id }}</span>
+        </center>
         </p>
-    </td>
-    <td></td>
-</tr>
-</table>
+
+        <table border="1" class="uk-table uk-table-hover uk-table-condensed ">
+            <tr>
+                <td>{% trans "Catégorie" %}:
+                    {% if tickets.category == None %} {% trans "Pas de catégories" %}
+                        {% else %}{{ tickets.category }}
+                    {% endif %}
+                </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>{% if tickets.status == 1 %}
+                    <p>{% trans "Status" %}: <span class="uk-text-success">{{ tickets.get_status_display }}</span></p>
+                {% else %}
+                    <p>{% trans "Status" %} : <span class="uk-text-warning">{{ tickets.get_status_display }}</span></p>
+                {% endif %}
+                </td>
+
+                <td>
+                    <p>{% trans "Urgence" %} : <code>{{ tickets.get_priority_display }}</code></p>
+                </td>
+            </tr>
+            <tr>
+                <td><p>{% trans "Demandeur" %} : {{ tickets.create_by }}</p>
+                </td>
+
+                <td><p>{% trans "Type" %} : {{ tickets.get_types_display }}</p>
+                </td>
+
+            </tr>
+            <tr>
+                <td><p>{% trans "Crée le" %} : {{ tickets.created }}</p>
+                </td>
+
+                <td>{% if tickets.assign_to == None %}
+                    >{% trans "Assigné à" %} : <span class="uk-text-warning">{% trans "Pas encore assigné" %}</span>
+                {% else %}
+                    {% trans "Assigné à" %} : {{ tickets.assign_to }}
+                {% endif %}
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <p>{% trans "Derniere edition le" %} : {{ tickets.last_edited }}
+                    </p>
+                </td>
+                <td>
+            </tr>
+            </td>
+
+        </table>
 
         <hr class="uk-grid-divider">
-        <p>{% trans "Ticket" %} : <p>{{ tickets.content }}</p>
+        <p>{% trans "Ticket" %} :
 
-</div><p></p>
+        <p>{{ tickets.content }}</p>
 
-<p></p>
-
-
-<div class="uk-width-1-1">
-
-
-
-{% for item in follow_up  %}
-    {% if item.follow == None %}
-
-    <div class="uk-width-1-2 uk-container-center uk-panel-box ">
-
-
-
-
-
-
-
-
-        <article class="uk-comment uk-comment-primary">
-        <header class="uk-comment-header">
-        <h4 class="uk-comment-title">{{ item.follow_by}}</h4>
-    <div class="uk-comment-meta">{{ item.date_follow }}</div>
-        </header>
-    <div class="uk-comment-body"> {{ item.field }} {% trans "changé de" %} {{ item.old_value}} {% trans "à" %} {{ item.new_value}}</div>
-        </article>
     </div><p></p>
 
-    {% else %}
-
-    <div class="uk-width-1-2 uk-container-center uk-panel-box ">
-        <article class="uk-comment uk-comment-primary">
-        <header class="uk-comment-header">
-        <h4 class="uk-comment-title">{{ item.follow_by }}</h4>
-    <div class="uk-comment-meta">{{ item.date_follow }}</div>
-        </header>
-    <div class="uk-comment-body"> {{ item.follow }}</div>
-        </article>
-    </div>
     <p></p>
 
-    {% endif %}
-{% endfor %}
 
-<div class="uk-width-1-2 uk-container-center uk-panel-box ">
-    <form action="" name="post_response" method="post">{% csrf_token %}
-        {{ form }}
-<button  class="uk-button-success uk-width-1-6 uk-center  ">{% trans "Soumettre" %}</button></center>
-</div>
-    </form>
-    <p></p>
+    <div class="uk-width-1-1">
 
-        </div></div>
-</body>
+        {% for item in follow_up %}
+            {% if item.follow == None %}
+
+                <div class="uk-width-1-2 uk-container-center uk-panel-box ">
+
+
+                    <article class="uk-comment uk-comment-primary">
+                        <header class="uk-comment-header">
+                            <h4 class="uk-comment-title">{{ item.follow_by }}</h4>
+
+                            <div class="uk-comment-meta">{{ item.date_follow }}</div>
+                        </header>
+                        <div class="uk-comment-body"> {{ item.field }} {% trans "changé de" %} {{ item.old_value }} {% trans "à" %} {{ item.new_value }}</div>
+                    </article>
+                </div><p></p>
+
+            {% else %}
+
+                <div class="uk-width-1-2 uk-container-center uk-panel-box ">
+                    <article class="uk-comment uk-comment-primary">
+                        <header class="uk-comment-header">
+                            <h4 class="uk-comment-title">{{ item.follow_by }}</h4>
+
+                            <div class="uk-comment-meta">{{ item.date_follow }}</div>
+                        </header>
+                        <div class="uk-comment-body"> {{ item.follow }}</div>
+                    </article>
+                </div>
+                <p></p>
+
+            {% endif %}
+        {% endfor %}
+
+        <div class="uk-width-1-2 uk-container-center uk-panel-box ">
+            <form action="" name="post_response" method="post">{% csrf_token %}
+                {{ form }}
+
+
+                <center>
+
+                    <button class="uk-button uk-button-success uk-center ">{% trans "Soumettre" %}</button>
+                </center>
+        </div>
+        </form>
+        <p></p>
+
+    </div></div>
+    </body>
 {% endblock %}
