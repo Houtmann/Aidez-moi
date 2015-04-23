@@ -4,17 +4,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" /><title> Tickets </title>
-{% load cache %}
-{% cache 500 head %}
+
 
 <link rel="stylesheet" href="{{ STATIC_URL }}css/uikit.css" type="text/css" media="all" />
 <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js">"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/uikit.min.js"></script>
 
 
-
-
-    </head>{% endcache %}
+    </head>
     {% endblock %}
 
 {% block menu %}
@@ -43,9 +40,6 @@
                     </a></li>
 
                     <li><a href="{% url "ticket.views.tickets.ticket_list_clos" %}">{% trans "Clos" %}
-
-
-
 
                     </span>
                     </a></li>
@@ -83,7 +77,6 @@
     <div class="uk-width-1-1  uk-margin-large-top">
 
 {% block content %}{% endblock %}
-
 
 </div>
 </div>

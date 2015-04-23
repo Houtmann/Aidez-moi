@@ -40,16 +40,17 @@
         </div>
     </div>
 
-<p><span class="uk-badge">Ticket id : {{ tickets.id}}</span></p>
-<p><center>{% trans "Titre" %} : {{ tickets.title}}</center></p>
 
-<table class="uk-table uk-table-hover " >
- <tr>
+<p><center>{% trans "Titre" %} : {{ tickets.title}} <span class="uk-badge">Ticket id : {{ tickets.id}}</span></center></p>
+
+<table border="1" class="uk-table uk-table-hover uk-table-condensed " >
+ <tr >
      <td>{% trans "Catégorie" %}:
          {% if tickets.category == None %} {% trans "Pas de catégories"%}
              {% else %}{{ tickets.category }}
          {% endif %}
      </td>
+ <td></td>
  </tr>
 
    <tr>
@@ -89,6 +90,7 @@
         <p>{% trans "Derniere edition le" %} : {{ tickets.last_edited }}
         </p>
     </td>
+    <td></td>
 </tr>
 </table>
 
@@ -130,7 +132,9 @@
 <div class="uk-width-1-2 uk-container-center uk-panel-box ">
     <form action="" name="post_response" method="post">{% csrf_token %}
         {{ form }}
-<button  class="uk-button-success uk-width-1-6 uk-center  ">{% trans "Soumettre" %}</button></center></div></form>
+<button  class="uk-button-success uk-width-1-6 uk-center  ">{% trans "Soumettre" %}</button></center>
+</div>
+    </form>
     <p></p>
 
         </div></div>
