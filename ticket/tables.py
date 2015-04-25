@@ -3,6 +3,7 @@ from ticket.models import Tickets
 import django_tables2 as tables
 from django_tables2.utils import A
 from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext as _
 
 class PriorityColumn(tables.Column):
     """
@@ -10,16 +11,15 @@ class PriorityColumn(tables.Column):
     priorité
     """
     def render(self, value):
-      if value == 'Critique':
+      if value == _('Critique'):
             self.attrs ={"td": {"bgcolor": "FF3333"}}
-
-      elif value == 'Haute':
+      elif value == _('Haute'):
             self.attrs ={"td": {"bgcolor": "FF8585"}}
-      elif value == 'BAsse':
+      elif value == _('Basse'):
             self.attrs ={"td": {"bgcolor": "FFC299"}}
-      elif value == 'Très basse':
+      elif value == _('Très basse'):
             self.attrs ={"td": {"bgcolor": "FFE2CE"}}
-      elif value =='Normal':
+      elif value ==_('Normal'):
           self.attrs ={}
 
       return value
@@ -28,12 +28,14 @@ class StatusColumn(tables.Column):
     """
     Class met un badge en fonction du status
     """
+
     def render(self, value):
-        if value == 'Ouvert':
+
+        if value == _('Ouvert'):
             return mark_safe('<span class="uk-badge uk-badge-success">Ouvert</span>')
-        elif value == 'Clos':
+        elif value == _('Clos'):
             return mark_safe('<span class="uk-badge uk-badge-warning">Clos</span>')
-        elif value == 'Resolus':
+        elif value == _('Résolus'):
             return mark_safe('<span class="uk-badge">Resolus</span>')
 
 

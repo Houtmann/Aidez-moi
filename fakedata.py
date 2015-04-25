@@ -21,6 +21,7 @@ create_by = ['1']
 
 assign_to = ['1']
 types = ['1', '2']
+incomplete = ['0', '1']
 
 
 
@@ -29,10 +30,14 @@ cur = conn.cursor()
 
 i = 0
 print(datetime.datetime.now())
-while i < 1500:
+while i < 500:
     sentence = sing_sen_maker()
-    cur.execute("""INSERT INTO ticket_tickets (content, title, status, priority, assign_to_id , create_by_id, types, last_edited, created, category_id) VALUES
-               ('%s', '%s', '%s', '%s', '%s', '%s', '%s' , '%s' , '%s', '%s')""" %(sentence,
+    cur.execute("""INSERT INTO ticket_tickets (content, title, status, priority, assign_to_id ,
+                                               create_by_id, types,
+                                               last_edited, created,
+                                               category_id,
+                                               incomplete) VALUES
+               ('%s', '%s', '%s', '%s', '%s', '%s', '%s' , '%s' , '%s', '%s', '%s')""" %(sentence,
                                                                             sentence,
                                                                             random.choice(status),
                                                                             random.choice(priority),
@@ -41,7 +46,8 @@ while i < 1500:
                                                                             random.choice(types),
                                                                             datetime.datetime.now(),
                                                                             datetime.datetime.now(),
-                                                                            random.choice(category)))
+                                                                            random.choice(category),
+                                                                            random.choice(incomplete)))
     conn.commit()
     i += 1
 
