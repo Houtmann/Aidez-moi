@@ -3,7 +3,23 @@
 {% load filter %}
 {% load i18n %}
 
+
+
+
+
 <div class="uk-container uk-container-center">
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="uk-alert" data-uk-alert="">{% if message.tags %}
+            <a class="uk-alert-close uk-close"></a>
+        <p>{{ message }}</p>{% endif %}{% endfor %}{% endif %}
+    </div>
+
+
+
+
+
 <table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
   <thead>
     <tr>
