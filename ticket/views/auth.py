@@ -23,15 +23,16 @@ def home(request):
         ticket_incomplete = Tickets.objects.filter(incomplete=0).count()
     else:
         list = Tickets.objects.filter(
-            create_by=request.user).order_by('-created')[:25:1]
+                                create_by=request.user).order_by('-created')[:25:1]
         ticket_list = TicketsTables(list)
         ticket_incomplete = Tickets.objects.filter(
-            create_by=request.user,
-            incomplete=0).count()
+                                create_by=request.user,
+                                incomplete=0).count()
 
     if ticket_incomplete != 0:
         messages.add_message(request, messages.INFO,
-                             "Vous avez %s tickets en attente d'informations complémenataires" % (ticket_incomplete))
+                             "Vous avez %s tickets en attente d'informations complémenataires"
+                             % (ticket_incomplete))
     else:
         pass
 

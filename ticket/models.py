@@ -11,16 +11,14 @@ class Tickets(models.Model):
     content = models.TextField(verbose_name=_('Contenu'),)
     create_by = models.ForeignKey(User, verbose_name=_('Crée par'),)
     created = models.DateTimeField(verbose_name=_('Crée le'),)
-    last_edited = models.DateTimeField(
-        verbose_name=_('Edité le'),
-        auto_now=True)
-    category = models.ForeignKey(
-        'TicketCategory',
-        verbose_name=_('Catégorie'),
-        null=True,
-        blank=True)
+    last_edited = models.DateTimeField(verbose_name=_('Edité le'),auto_now=True)
+    category = models.ForeignKey('TicketCategory',verbose_name=_('Catégorie'),
+                                    null=True,
+                                    blank=True)
     # Marque le ticket comme incomplete et attente d'informations
     incomplete = models.BooleanField(default=1, verbose_name=_('Complet'))
+    depends_on = models.Charfield(null=True, blank=True, verbose_name=_('Dépend'))
+
 
     TYPES_CHOICES = (
         (1, _('Incident')),

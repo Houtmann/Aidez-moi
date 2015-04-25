@@ -182,9 +182,8 @@ def ticket_edit(request, id):
 def view_ticket(request, id):
     tickets = Tickets.objects.select_related('create_by').get(id=id)
     follow_up = Follow.objects.select_related(
-        'follow_by',
-        'ticket').filter(
-        ticket=id)
+                            'follow_by',
+                            'ticket').filter(ticket=id)
 
     if request.method == 'POST':
         form = ResponseForm(data=request.POST)
@@ -251,14 +250,14 @@ def ticket_list_incomplet(request):
     """
     if request.user.is_staff:
         list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
-            .prefetch_related('create_by', 'assign_to', 'category') \
-            .filter(incomplete=0).order_by('-created')
+                    .prefetch_related('create_by', 'assign_to', 'category') \
+                    .filter(incomplete=0).order_by('-created')
 
         ticket_list = TicketsTables(list)
     else:
         list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
-            .prefetch_related('create_by', 'category') \
-            .filter(create_by=request.user, incomplete=0).order_by('-created')
+                    .prefetch_related('create_by', 'category') \
+                    .filter(create_by=request.user, incomplete=0).order_by('-created')
 
         ticket_list = TicketsTables(list)
 
