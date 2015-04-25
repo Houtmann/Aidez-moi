@@ -15,7 +15,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='History',
             fields=[
-                ('id', models.AutoField(serialize=False, verbose_name='ID', auto_created=True, primary_key=True)),
+                ('id',
+                 models.AutoField(serialize=False,
+                                  verbose_name='ID',
+                                  auto_created=True,
+                                  primary_key=True)),
                 ('o2o', models.OneToOneField(to='ticket.Tickets')),
             ],
             options={

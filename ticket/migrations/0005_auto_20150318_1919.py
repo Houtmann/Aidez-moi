@@ -14,7 +14,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='tickets',
             name='status',
-            field=models.IntegerField(choices=[(1, 'Open'), (3, 'Resolved'), (4, 'Closed')], default=1, verbose_name='Status'),
+            field=models.IntegerField(
+                choices=[
+                    (1, 'Open'), (3, 'Resolved'), (4, 'Closed')], default=1, verbose_name='Status'),
             preserve_default=True,
         ),
     ]

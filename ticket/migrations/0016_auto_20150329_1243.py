@@ -14,7 +14,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ask_del',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
+                ('id',
+                 models.AutoField(verbose_name='ID',
+                                  primary_key=True,
+                                  auto_created=True,
+                                  serialize=False)),
                 ('ask_del', models.BooleanField(default=0)),
                 ('ticket', models.ForeignKey(to='ticket.Tickets')),
             ],
@@ -25,7 +29,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TicketHistory',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True, serialize=False)),
+                ('id',
+                 models.AutoField(verbose_name='ID',
+                                  primary_key=True,
+                                  auto_created=True,
+                                  serialize=False)),
                 ('field', models.CharField(max_length=100)),
                 ('old_value', models.TextField()),
                 ('new_value', models.TextField()),

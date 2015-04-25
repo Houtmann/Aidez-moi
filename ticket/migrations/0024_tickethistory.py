@@ -14,7 +14,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TicketHistory',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
+                ('id',
+                 models.AutoField(auto_created=True,
+                                  serialize=False,
+                                  primary_key=True,
+                                  verbose_name='ID')),
                 ('field', models.CharField(max_length=100)),
                 ('old_value', models.TextField()),
                 ('new_value', models.TextField()),

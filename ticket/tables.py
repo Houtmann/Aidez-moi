@@ -5,26 +5,31 @@ from django_tables2.utils import A
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
 
+
 class PriorityColumn(tables.Column):
+
     """
     Class qui sert à colorer les cellules en fonction de leurs
     priorité
     """
-    def render(self, value):
-      if value == _('Critique'):
-            self.attrs ={"td": {"bgcolor": "FF3333"}}
-      elif value == _('Haute'):
-            self.attrs ={"td": {"bgcolor": "FF8585"}}
-      elif value == _('Basse'):
-            self.attrs ={"td": {"bgcolor": "FFC299"}}
-      elif value == _('Très basse'):
-            self.attrs ={"td": {"bgcolor": "FFE2CE"}}
-      elif value ==_('Normal'):
-          self.attrs ={}
 
-      return value
+    def render(self, value):
+        if value == _('Critique'):
+            self.attrs = {"td": {"bgcolor": "FF3333"}}
+        elif value == _('Haute'):
+            self.attrs = {"td": {"bgcolor": "FF8585"}}
+        elif value == _('Basse'):
+            self.attrs = {"td": {"bgcolor": "FFC299"}}
+        elif value == _('Très basse'):
+            self.attrs = {"td": {"bgcolor": "FFE2CE"}}
+        elif value == _('Normal'):
+            self.attrs = {}
+
+        return value
+
 
 class StatusColumn(tables.Column):
+
     """
     Class met un badge en fonction du status
     """
@@ -32,12 +37,13 @@ class StatusColumn(tables.Column):
     def render(self, value):
 
         if value == _('Ouvert'):
-            return mark_safe('<span class="uk-badge uk-badge-success">Ouvert</span>')
+            return mark_safe(
+                '<span class="uk-badge uk-badge-success">Ouvert</span>')
         elif value == _('Clos'):
-            return mark_safe('<span class="uk-badge uk-badge-warning">Clos</span>')
+            return mark_safe(
+                '<span class="uk-badge uk-badge-warning">Clos</span>')
         elif value == _('Résolus'):
             return mark_safe('<span class="uk-badge">Resolus</span>')
-
 
 
 class TicketsTables(tables.Table):

@@ -14,21 +14,33 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='entity',
             name='adress',
-            field=models.TextField(verbose_name='Adresse', null=True, blank=True),
+            field=models.TextField(
+                verbose_name='Adresse',
+                null=True,
+                blank=True),
         ),
         migrations.AlterField(
             model_name='entity',
             name='description',
-            field=models.TextField(verbose_name='Description', null=True, blank=True),
+            field=models.TextField(
+                verbose_name='Description',
+                null=True,
+                blank=True),
         ),
         migrations.AlterField(
             model_name='entity',
             name='postal',
-            field=models.TextField(verbose_name='Code postal', null=True, blank=True),
+            field=models.TextField(
+                verbose_name='Code postal',
+                null=True,
+                blank=True),
         ),
         migrations.AlterField(
             model_name='entity',
             name='telephone',
-            field=models.TextField(verbose_name='Téléphone', null=True, blank=True),
+            field=models.TextField(
+                verbose_name='Téléphone',
+                null=True,
+                blank=True),
         ),
     ]

@@ -14,6 +14,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='tickets',
             name='category',
-            field=models.ForeignKey(null=True, blank=True, verbose_name='Catégorie', to='ticket.TicketCategory'),
+            field=models.ForeignKey(
+                null=True,
+                blank=True,
+                verbose_name='Catégorie',
+                to='ticket.TicketCategory'),
         ),
     ]

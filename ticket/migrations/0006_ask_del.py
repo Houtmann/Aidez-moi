@@ -14,7 +14,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ask_del',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id',
+                 models.AutoField(auto_created=True,
+                                  primary_key=True,
+                                  verbose_name='ID',
+                                  serialize=False)),
                 ('ask_del', models.BooleanField(default=0)),
                 ('ticket', models.ForeignKey(to='ticket.Tickets')),
             ],

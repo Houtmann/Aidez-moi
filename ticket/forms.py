@@ -5,6 +5,7 @@ from django.utils.translation import ugettext as _
 
 
 class ConnexionForm(forms.Form):
+
     """
     Pour la page de login
     """
@@ -19,6 +20,7 @@ class ConnexionForm(forms.Form):
 
 
 class TicketForm(forms.ModelForm):
+
     """
     Pour ajouter un ticket
     """
@@ -76,7 +78,8 @@ class TicketForm(forms.ModelForm):
                     # column = Tickets._meta.get_field(field).verbose_name
                     Follow.objects.create(
                         ticket_id=ticket_id,
-                        field=Tickets._meta.get_field_by_name(field)[0].verbose_name,
+                        field=Tickets._meta.get_field_by_name(
+                            field)[0].verbose_name,
                         # Pour avoir le nom verbeux dans la table de suivi
                         old_value=oldvalue[0].get(field),
                         new_value=self[field].value(),
@@ -94,4 +97,10 @@ class ResponseForm(forms.ModelForm):
     class Meta:
         model = Follow
         fields = ['follow']
-        exclude = ('date_follow', 'ticket_id', 'field', 'new_value', 'old_value', 'follower')
+        exclude = (
+            'date_follow',
+            'ticket_id',
+            'field',
+            'new_value',
+            'old_value',
+            'follower')

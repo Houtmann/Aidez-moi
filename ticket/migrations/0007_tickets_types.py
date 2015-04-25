@@ -14,7 +14,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='tickets',
             name='types',
-            field=models.IntegerField(verbose_name='Types', default=1, choices=[(1, 'Incident'), (2, 'Demande')]),
+            field=models.IntegerField(
+                verbose_name='Types', default=1, choices=[
+                    (1, 'Incident'), (2, 'Demande')]),
             preserve_default=False,
         ),
     ]

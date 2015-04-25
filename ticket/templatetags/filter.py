@@ -4,24 +4,29 @@ from django import template
 from ticket.models import Tickets, User
 register = template.Library()
 
+
 def all_tick(user):
     try:
         return Tickets.objects.filter(create_by=user).count()
-    except:pass
+    except:
+        pass
 
 
 def ticket_resolved(user):
     if user.is_staff:
         return Tickets.objects.filter(status='RESOLVED').count()
     else:
-        return Tickets.objects.filter(create_by = user, status='RESOLVED').count()
+        return Tickets.objects.filter(
+            create_by=user, status='RESOLVED').count()
 
 
 def ticket_open(user):
     if user.is_staff:
-        return Tickets.objects.filter(status='OPEN').exclude(assign_to=None).count()
+        return Tickets.objects.filter(
+            status='OPEN').exclude(assign_to=None).count()
     else:
-        return Tickets.objects.filter(create_by = user, status='OPEN').exclude(assign_to=None).count()
+        return Tickets.objects.filter(
+            create_by=user, status='OPEN').exclude(assign_to=None).count()
 
 
 def ticket_new(user):
@@ -30,11 +35,13 @@ def ticket_new(user):
     else:
         return Tickets.objects.filter(create_by=user, assign_to=None).count()
 
+
 def ticket_clos(user):
     if user.is_staff:
         return Tickets.objects.filter(status='CLOSED').count()
     else:
         return Tickets.objects.filter(create_by=user, status=4).count()
+
 
 def ticket_incomplete(user):
     if user.is_staff:

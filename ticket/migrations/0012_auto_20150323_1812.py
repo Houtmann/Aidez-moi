@@ -16,7 +16,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TicketHistory',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, verbose_name='ID', primary_key=True)),
+                ('id',
+                 models.AutoField(auto_created=True,
+                                  serialize=False,
+                                  verbose_name='ID',
+                                  primary_key=True)),
                 ('date_closed', models.DateTimeField()),
                 ('date_resolved', models.DateTimeField()),
             ],
@@ -34,7 +38,17 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='tickets',
             name='last_edited',
-            field=models.DateTimeField(auto_now=True, default=datetime.datetime(2015, 3, 23, 17, 12, 13, 530647, tzinfo=utc)),
+            field=models.DateTimeField(
+                auto_now=True,
+                default=datetime.datetime(
+                    2015,
+                    3,
+                    23,
+                    17,
+                    12,
+                    13,
+                    530647,
+                    tzinfo=utc)),
             preserve_default=False,
         ),
         migrations.AlterField(

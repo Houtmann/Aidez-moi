@@ -16,10 +16,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='response',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
+                ('id',
+                 models.AutoField(verbose_name='ID',
+                                  auto_created=True,
+                                  serialize=False,
+                                  primary_key=True)),
                 ('response', models.TextField()),
                 ('date_response', models.DateTimeField(auto_now=True)),
-                ('response_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('response_by',
+                 models.ForeignKey(to=settings.AUTH_USER_MODEL)),
                 ('ticket_id', models.ForeignKey(to='ticket.Tickets')),
             ],
             options={

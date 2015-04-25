@@ -13,27 +13,27 @@ from ticket.models import Tickets
 from ticket.tables import TicketsTables
 
 
-
 @login_required(login_url='login/')
 def home(request):
 
-
     if request.user.is_staff:
-        list = Tickets.objects.select_related('create_by', 'assign_to', 'category').filter(assign_to = request.user).order_by('-created')[:25:1]
+        list = Tickets.objects.select_related('create_by', 'assign_to', 'category'
+                                              ).filter(assign_to=request.user).order_by('-created')[:25:1]
         ticket_list = TicketsTables(list)
-        ticket_incomplete = Tickets.objects.filter(incomplete = 0).count()
+        ticket_incomplete = Tickets.objects.filter(incomplete=0).count()
     else:
-        list = Tickets.objects.filter(create_by = request.user).order_by('-created')[:25:1]
+        list = Tickets.objects.filter(
+            create_by=request.user).order_by('-created')[:25:1]
         ticket_list = TicketsTables(list)
-        ticket_incomplete = Tickets.objects.filter(create_by=request.user, incomplete = 0).count()
+        ticket_incomplete = Tickets.objects.filter(
+            create_by=request.user,
+            incomplete=0).count()
 
-
-    if  ticket_incomplete != 0:
+    if ticket_incomplete != 0:
         messages.add_message(request, messages.INFO,
-                                "Vous avez %s tickets en attente d'informations complémenataires" %(ticket_incomplete))
+                             "Vous avez %s tickets en attente d'informations complémenataires" % (ticket_incomplete))
     else:
         pass
-
 
     RequestConfig(request, paginate={"per_page": 25}).configure(ticket_list)
     return render(request, 'home.html', {'ticket_list': ticket_list})

@@ -16,13 +16,27 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='tickethistory',
             name='date_change',
-            field=models.DateTimeField(default=datetime.datetime(2015, 3, 30, 8, 19, 46, 468510, tzinfo=utc), auto_now=True),
+            field=models.DateTimeField(
+                default=datetime.datetime(
+                    2015,
+                    3,
+                    30,
+                    8,
+                    19,
+                    46,
+                    468510,
+                    tzinfo=utc),
+                auto_now=True),
             preserve_default=False,
         ),
         migrations.AlterField(
             model_name='tickethistory',
             name='ticket',
-            field=models.ForeignKey(null=True, related_name='ticket_id', blank=True, to='ticket.Tickets'),
+            field=models.ForeignKey(
+                null=True,
+                related_name='ticket_id',
+                blank=True,
+                to='ticket.Tickets'),
             preserve_default=True,
         ),
     ]

@@ -14,9 +14,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MyUser',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
-                ('password', models.CharField(verbose_name='password', max_length=128)),
-                ('last_login', models.DateTimeField(verbose_name='last login', blank=True, null=True)),
+                ('id',
+                 models.AutoField(primary_key=True,
+                                  verbose_name='ID',
+                                  auto_created=True,
+                                  serialize=False)),
+                ('password', models.CharField(
+                    verbose_name='password', max_length=128)),
+                ('last_login',
+                 models.DateTimeField(verbose_name='last login',
+                                      blank=True,
+                                      null=True)),
                 ('entity', models.ForeignKey(to='ticket.Entity')),
             ],
             options={

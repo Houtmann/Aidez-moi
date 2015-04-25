@@ -15,7 +15,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='tickets',
             name='assign_to',
-            field=models.ForeignKey(null=True, blank=True, related_name='assigned_to', to=settings.AUTH_USER_MODEL, verbose_name='Assigné à'),
+            field=models.ForeignKey(
+                null=True,
+                blank=True,
+                related_name='assigned_to',
+                to=settings.AUTH_USER_MODEL,
+                verbose_name='Assigné à'),
         ),
         migrations.AlterField(
             model_name='tickets',
@@ -25,7 +30,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='tickets',
             name='create_by',
-            field=models.ForeignKey(verbose_name='Crée par', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(
+                verbose_name='Crée par',
+                to=settings.AUTH_USER_MODEL),
         ),
         migrations.AlterField(
             model_name='tickets',
@@ -40,12 +47,38 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='tickets',
             name='priority',
-            field=models.CharField(blank='NORMAL', choices=[('CRITICAL', 'Critical'), ('HIGH', 'High'), ('NORMAL', 'Normal'), ('LOW', 'Low'), ('VERYLOW', 'Very Low')], default='NORMAL', max_length=15, help_text='1 = Highest Priority, 5 = Low Priority', verbose_name='Priorité'),
+            field=models.CharField(
+                blank='NORMAL',
+                choices=[
+                    ('CRITICAL',
+                     'Critical'),
+                    ('HIGH',
+                     'High'),
+                    ('NORMAL',
+                     'Normal'),
+                    ('LOW',
+                     'Low'),
+                    ('VERYLOW',
+                     'Very Low')],
+                default='NORMAL',
+                max_length=15,
+                help_text='1 = Highest Priority, 5 = Low Priority',
+                verbose_name='Priorité'),
         ),
         migrations.AlterField(
             model_name='tickets',
             name='status',
-            field=models.CharField(choices=[('OPEN', 'Open'), ('RESOLVED', 'Resolved'), ('CLOSED', 'Closed')], default='OPEN', verbose_name='Statut', max_length=15),
+            field=models.CharField(
+                choices=[
+                    ('OPEN',
+                     'Open'),
+                    ('RESOLVED',
+                     'Resolved'),
+                    ('CLOSED',
+                     'Closed')],
+                default='OPEN',
+                verbose_name='Statut',
+                max_length=15),
         ),
         migrations.AlterField(
             model_name='tickets',

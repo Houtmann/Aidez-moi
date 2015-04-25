@@ -4,15 +4,23 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import AbstractBaseUser
 
-class Tickets( models.Model):
+
+class Tickets(models.Model):
 
     title = models.TextField(verbose_name=_('Titre'),)
     content = models.TextField(verbose_name=_('Contenu'),)
     create_by = models.ForeignKey(User, verbose_name=_('Crée par'),)
     created = models.DateTimeField(verbose_name=_('Crée le'),)
-    last_edited = models.DateTimeField(verbose_name=_('Edité le'),auto_now=True)
-    category = models.ForeignKey('TicketCategory',verbose_name=_('Catégorie'), null=True, blank=True )
-    incomplete = models.BooleanField(default=1,verbose_name=_('Complet')) # Marque le ticket comme incomplete et attente d'informations
+    last_edited = models.DateTimeField(
+        verbose_name=_('Edité le'),
+        auto_now=True)
+    category = models.ForeignKey(
+        'TicketCategory',
+        verbose_name=_('Catégorie'),
+        null=True,
+        blank=True)
+    # Marque le ticket comme incomplete et attente d'informations
+    incomplete = models.BooleanField(default=1, verbose_name=_('Complet'))
 
     TYPES_CHOICES = (
         (1, _('Incident')),
@@ -20,7 +28,7 @@ class Tickets( models.Model):
 
     types = models.IntegerField(
         ('Types'),
-        choices=TYPES_CHOICES )
+        choices=TYPES_CHOICES)
 
     OPEN_STATUS = 'OPEN'
     RESOLVED_STATUS = 3
@@ -45,21 +53,20 @@ class Tickets( models.Model):
         blank=True,
         null=True,
         verbose_name=(_('Assigné à')),
-        )
+    )
 
-    status = models.CharField(max_length=15
-        ,
-        choices=STATUS_CHOICES,
-        default=OPEN_STATUS,
-        verbose_name=_('Statut'),)
+    status = models.CharField(max_length=15,
+                              choices=STATUS_CHOICES,
+                              default=OPEN_STATUS,
+                              verbose_name=_('Statut'),)
 
-    priority = models.CharField(max_length=15
-        ,
-        choices=PRIORITY_CHOICES,
-        default='NORMAL',
-        blank='NORMAL',
-        help_text=_(('1 = Highest Priority, 5 = Low Priority')),
-        verbose_name=_('Priorité'),)
+    priority = models.CharField(max_length=15,
+                                choices=PRIORITY_CHOICES,
+                                default='NORMAL',
+                                blank='NORMAL',
+                                help_text=_(
+                                    ('1 = Highest Priority, 5 = Low Priority')),
+                                verbose_name=_('Priorité'),)
 
     def __str__(self):
         """
@@ -71,10 +78,12 @@ class Tickets( models.Model):
 
 
 class TicketCategory(models.Model):
+
     """
     Nom de catégorie pour mieux cibler les tickets
     """
     category = models.TextField(verbose_name=_('Catégorie'), db_index=True)
+
     def __str__(self):
         """
         Cette méthode que nous définirons dans tous les modèles
@@ -85,6 +94,7 @@ class TicketCategory(models.Model):
 
 
 class Follow(models.Model):
+
     """
     Pour suivre les changements et les reponse d'un ticket
     """
@@ -100,14 +110,24 @@ class Follow(models.Model):
 
 
 class Entity(models.Model):
+
     """
     Modele pour créer des entités, exemple service comptabilité
     """
     name = models.TextField(verbose_name=_('Nom'))
-    description = models.TextField(verbose_name=_('Description'), null=True, blank=True)
-    telephone = models.TextField(verbose_name=_('Téléphone'), null=True, blank=True)
+    description = models.TextField(
+        verbose_name=_('Description'),
+        null=True,
+        blank=True)
+    telephone = models.TextField(
+        verbose_name=_('Téléphone'),
+        null=True,
+        blank=True)
     adress = models.TextField(verbose_name=_('Adresse'), null=True, blank=True)
-    postal = models.TextField(verbose_name=_('Code postal'), null=True, blank=True)
+    postal = models.TextField(
+        verbose_name=_('Code postal'),
+        null=True,
+        blank=True)
 
     def __unicode__(self):
         return self.name
@@ -119,4 +139,3 @@ class Entity(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     entity = models.ForeignKey(Entity, verbose_name=_('Entité'))
-
