@@ -38,12 +38,12 @@ class StatusColumn(tables.Column):
 
         if value == _('Ouvert'):
             return mark_safe(
-                '<span class="uk-badge uk-badge-success">Ouvert</span>')
+                '<div class="ui orange label">Ouvert</div>')
         elif value == _('Clos'):
             return mark_safe(
-                '<span class="uk-badge uk-badge-warning">Clos</span>')
+                '<div class="ui black label">Clos</div>')
         elif value == _('Résolus'):
-            return mark_safe('<span class="uk-badge">Resolus</span>')
+            return mark_safe('<div class="ui green label">Résolus</div>')
 
 
 class TicketsTables(tables.Table):
