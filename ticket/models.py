@@ -17,7 +17,7 @@ class Tickets(models.Model):
                                     blank=True)
     # Marque le ticket comme incomplete et attente d'informations
     incomplete = models.BooleanField(default=1, verbose_name=_('Complet'))
-    depends_on = models.Charfield(null=True, blank=True, verbose_name=_('Dépend'))
+    depends_on = models.CharField(null=True, blank=True, verbose_name=_('Dépend'), max_length=100)
 
 
     TYPES_CHOICES = (
@@ -46,12 +46,12 @@ class Tickets(models.Model):
         ('VERYLOW', _('Très basse')),)
 
     assign_to = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        related_name='assigned_to',
-        blank=True,
-        null=True,
-        verbose_name=(_('Assigné à')),
-    )
+                    settings.AUTH_USER_MODEL,
+                    related_name='assigned_to',
+                    blank=True,
+                    null=True,
+                    verbose_name=(_('Assigné à')),
+                    )
 
     status = models.CharField(max_length=15,
                               choices=STATUS_CHOICES,

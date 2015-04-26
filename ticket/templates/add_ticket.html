@@ -1,51 +1,46 @@
 {% extends "base.html" %}
-
 {% load i18n %}
-
 {% block content %}
-
-    <div class="uk-width-medium-1-2 uk-container-center ">
 
     {% if messages %}
 
 <ul class="messages">
-
     {% for message in messages %}
 
-    <div class="uk-alert" data-uk-alert="">
-                                <a class="uk-alert-close uk-close"></a>
+    <div class="" data-uk-alert="">
+        <a class=""></a>
                                 <p>{{ message }}</p>
                             </div>
     {% endfor %}
 </ul>
 {% endif %}
-<fieldset>
-    <form class="uk-form uk-form" action='' method="POST">{% csrf_token %}
+    <div class="ui two column centered grid">
+    <div class="column">
 
-    <fieldset data-uk-margin >
+<fieldset>
+
+    <form class="ui form" action='' method="POST">{% csrf_token %}
+
 
  {% for field in form %}
 
-<div class="uk-form-row">
-    <label class="uk-form-label" for="form-h-it">{{ field.label_tag }}</label>
-    <div class="uk-form-controls ">
-       {{ field}}
-        <hr class="uk-grid-divider">
-    </div>
-</div>
-    {% endfor %}
+<div class="uk-form">
+
+    <label class="" for="form-h-it">{{ field.label_tag }}</label>
+    <div class="">
+       {{ field }}
+        <div class="ui divider"></div>
+    </div>{% endfor %}
+
+
     <center>
-    <button class="uk-button uk-button-success uk-center ">{% trans "Soumettre" %}</button></div></div>
-        </fieldset>
+    <button class="ui submit button">{% trans "Soumettre" %}</button> </center></div>
+        </form>
 
-</form>
 
-        </div>
-
-    </div>
-</fieldset>
-
+</div>
 </body>
+
 {% endblock %}
 
 
