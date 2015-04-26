@@ -3,24 +3,11 @@
 {% load filter %}
 {% load i18n %}
 
+<div class="ui padded grid">
+        <div class="two column row">
+          <div class="column">
 
-
-
-
-<div class="uk-container uk-container-center">
-
-{% if messages %}
-    {% for message in messages %}
-        <div class="uk-alert" data-uk-alert="">{% if message.tags %}
-            <a class="uk-alert-close uk-close"></a>
-        <p>{{ message }}</p>{% endif %}{% endfor %}{% endif %}
-    </div>
-
-
-
-
-
-<table class="uk-table uk-table-hover uk-table-striped uk-table-condensed">
+              <table class="ui unstackable table">
   <thead>
     <tr>
         <th>{% trans "Nombre de ticket"%}:</th>
@@ -42,15 +29,68 @@
                                                                             {{ request.user | ticket_resolved}}</a></td>
                         <td class="uk-width-1-10 uk-text-center"><a href={% url "ticket.views.tickets.ticket_list_clos" %}>
                                                                             {{ request.user | ticket_clos}}</a></td>
-                        </tbody>
+                        </tbody></table>
 
-</table>
-{% load render_table from django_tables2 %}
-            <link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/themes/paleblue/css/screen.css" />
+          </div>
 
-    <body>
-        {% render_table ticket_list%}
-    </body>
+
+          <div class="column">
+          <fieldset>
+
+{% for feed in ticket_list %}
+
+              <div class="ui feed">
+  <div class="event">
+    <div class="label">
+
+    </div>
+    <div class="content"><i class="add icon"></i>{{ feed.title }}
+      <div class="summary">
+        <a class="user">
+          {{ feed.create_by }}
+        </a>
+        <div class="date">
+          {{ feed.created }}
+        </div>
+      </div>
+      <div class="meta">
+        <a class="like">
+
+        </a>
+      </div>
+    </div>
+  </div>
+{% endfor %}</fieldset>
+
+
+
+
+
+          </div>
+        </div>
+
+
+
+
+        <div class="row">
+          <div class="column">
+
+          </div>
+        </div>
+        <div class="column">
+
+        </div>
+        <div class="column">
+
+        </div>
+      </div>
+
+
+
+
+
+
+
 </div>
     </head>
 {% endblock %}
