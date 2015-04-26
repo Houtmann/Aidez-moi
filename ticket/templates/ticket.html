@@ -84,34 +84,52 @@
 
 
 </div>
-        <div class="ui two column centered grid">
 
-        {% for item in follow_up %}
+        <div class="ui  column centered grid">
 <div class="column">
-
+        {% for item in follow_up %}
+<div class="ui comments">
             {% if item.follow == None %}
 
-                {{ item.follow_by }}
 
-                {{ item.date_follow }}
-                {{ item.field }} {% trans "changé de" %} {{ item.old_value }} {% trans "à" %} {{ item.new_value }}</div>
+
 
 
             {% else %}
-                {{ item.follow_by }}
 
-                {{ item.date_follow }}
-                {{ item.follow }}
+                  <div class="comment">
+    <div class="content">
+      <a class="author">{{ item.follow_by }}</a>
+      <div class="metadata">
+        <span class="date">{{ item.date_follow }}</span>
+      </div>
+      <div class="text">
+        {{ item.field }} {% trans "changé de" %} {{ item.old_value }} {% trans "à" %} {{ item.new_value }}
+      </div>
+    </div>
+  </div>
+<h3 class="ui dividing header"></h3>
 
+                <div class="ui comments">
+  <div class="comment">
+    <div class="content">
+      <a class="author">{{ item.follow_by }}</a>
+      <div class="metadata">
+        <span class="date">{{ item.date_follow }}</span>
+      </div>
+      <div class="text">
+        {{ item.follow }}
+      </div>
+    </div>
+
+<h3 class="ui dividing header"></h3>
             {% endif %}
         {% endfor %}
 
-            <form action=""   name="post_response" method="post">{% csrf_token %}
+            <form class="ui form" action=""   name="post_response" method="post">{% csrf_token %}
                 {{ form.follow }}
                 <button class="ui submit button">{% trans "Soumettre" %}</button>
-            </form></div>
-
-
+            </form></div></div>
 
     </body>
 {% endblock %}

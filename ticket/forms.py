@@ -61,13 +61,16 @@ class TicketForm(forms.ModelForm):
         if user.is_staff is False:
             del self.fields['assign_to']
             del self.fields['status']
+            del self.fields['depends_on']
 
     def edit(self, ticket_id, user, *args, **kwargs):
         """
         :param ticket_id: Clé du ticket
         :param user: id de la session user
         La fonction edit est pour l'édition d'un ticket et elle permet de sauvegarder les
-        élements changant dans la table Follow afin d'avoir un suivi du ticket"""
+        élements changant dans la table Follow afin d'avoir un suivi du ticket
+
+        """
 
         if Tickets.objects.filter(id=ticket_id).exists():
             if self.has_changed():
@@ -77,13 +80,13 @@ class TicketForm(forms.ModelForm):
                     oldvalue = ticket.values(field)
                     # column = Tickets._meta.get_field(field).verbose_name
                     Follow.objects.create(
-                        ticket_id=ticket_id,
-                        field=Tickets._meta.get_field_by_name(
-                            field)[0].verbose_name,
-                        # Pour avoir le nom verbeux dans la table de suivi
-                        old_value=oldvalue[0].get(field),
-                        new_value=self[field].value(),
-                        follow_by=user
+                            ticket_id=ticket_id,
+                            field=Tickets._meta.get_field_by_name(
+                                            field)[0].verbose_name,
+                            # Pour avoir le nom verbeux dans la table de suivi
+                            old_value=oldvalue[0].get(field),
+                            new_value=self[field].value(),
+                            follow_by=user
                     )
         else:
             pass
@@ -91,6 +94,7 @@ class TicketForm(forms.ModelForm):
 
 
 class ResponseForm(forms.ModelForm):
+
     follow = forms.CharField(label='Ticket', widget=forms.Textarea(
         attrs={'placeholder': _('Réponse au ticket'), 'rows': '4', 'class': 'uk-width-1-1'}))
 
