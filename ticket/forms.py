@@ -49,7 +49,7 @@ class TicketForm(forms.ModelForm):
 
     class Meta:
         model = Tickets
-        exclude = ('created', 'create_by', 'incomplete')
+        exclude = ('created', 'create_by', 'complete')
 
     def __init__(self, *args, **kwargs):
         """
