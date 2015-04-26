@@ -71,23 +71,21 @@ class TicketForm(forms.ModelForm):
         élements changant dans la table Follow afin d'avoir un suivi du ticket
 
         """
-
         if Tickets.objects.filter(id=ticket_id).exists():
             if self.has_changed():
-
                 ticket = Tickets.objects.filter(pk=ticket_id)
+
                 for field in self.changed_data:
                     oldvalue = ticket.values(field)
                     # column = Tickets._meta.get_field(field).verbose_name
                     Follow.objects.create(
-                            ticket_id=ticket_id,
-                            field=Tickets._meta.get_field_by_name(
-                                            field)[0].verbose_name,
+                                ticket_id=ticket_id,
+                                field=Tickets._meta.get_field_by_name(
+                                                field)[0].verbose_name,
                             # Pour avoir le nom verbeux dans la table de suivi
-                            old_value=oldvalue[0].get(field),
-                            new_value=self[field].value(),
-                            follow_by=user
-                    )
+                                old_value=oldvalue[0].get(field),
+                                new_value=self[field].value(),
+                                follow_by=user)
         else:
             pass
         super(TicketForm, self).save(*args, **kwargs)

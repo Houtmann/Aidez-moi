@@ -162,7 +162,7 @@ def ticket_edit(request, id):
     Pour editer un ticket
     """
     ticket = get_object_or_404(Tickets, id=id)
-    if request.method == 'POST' and 'edit' in request.POST:
+    if request.method == 'POST':
         form = TicketForm(request.POST, user=request.user, instance=ticket)
 
         if form.is_valid():
