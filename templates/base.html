@@ -5,78 +5,78 @@
     <head>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" /><title> Tickets </title>
 
-
-<link rel="stylesheet" href="{{ STATIC_URL }}css/uikit.css" type="text/css" media="all" />
-<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js">"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/uikit.min.js"></script>
-
+<link rel="stylesheet" href="{{ STATIC_URL }}semantic.min.css" type="text/css" media="all" />
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}semantic.min.js"></script>
 
     </head>
     {% endblock %}
 
 {% block menu %}
-  <!-- Menu-->
-<nav class="uk-navbar">
-{% load filter %}
-    <ul class="uk-navbar-nav">
-        <li class="uk-active"><a href="{% url "ticket.views.auth.home" %}">{{ request.user }}</a></li>
-        <li><a href="{% url "ticket.views.tickets.add_ticket" %}">{% trans "Ajouter un tickets" %}</a></li>
-        <li><a href="{% url "ticket.views.stats.statistic" %}">{% trans "Statistiques" %}</a></li>
+    {% load filter %}
 
-        <li class="uk-parent" data-uk-dropdown="">
-            <a href="">{% trans "Tickets" %}</a>
-            <div style="" class="uk-dropdown uk-dropdown-navbar">
-                <ul class="uk-nav uk-nav-navbar">
-                    <li><a href="{% url "ticket.views.tickets.ticket_list_work" %}">{% trans "En cours" %}
-                    <span class="uk-badge uk-badge-warning uk-badge-notification">{{ request.user|ticket_open }}</span>
-                    </a></li>
+    <div class="ui pointing small menu">
+      <a class="active green item" href="{% url "ticket.views.auth.home" %}">{{ request.user }}
+        <i class="home icon"></i>
+      </a>
 
-                    <li><a href="{% url "ticket.views.tickets.ticket_list_resolved" %}">{% trans "Résolus" %}
-                    <span class="uk-badge uk-badge-success uk-badge-notification">
+      <a class="teal item" href="{% url "ticket.views.tickets.add_ticket" %}">{% trans "Ajouter un tickets" %}
+        <i class="user icon"></i>
+      </a>
 
-                    {{ request.user|ticket_resolved }}
+    <a class="item" href="{% url "ticket.views.stats.statistic" %}">{% trans "Statistiques" %}
+        <i class=""></i>
+      </a>
 
-                    </span>
-                    </a></li>
+    <a class="item" href="{% url "ticket.views.tickets.ticket_list_work" %}">{% trans "En cours" %}
+                    <div class="ui orange label">{{ request.user|ticket_open }}</div>
+        <i class=""></i>
+      </a>
 
-                    <li><a href="{% url "ticket.views.tickets.ticket_list_clos" %}">{% trans "Clos" %}
+    <a class="item" href="{% url "ticket.views.tickets.ticket_list_resolved" %}">{% trans "Résolus" %}
+                    <div class="ui green label">{{ request.user|ticket_resolved }}</div>
+        <i class=""></i>
+      </a>
 
-                    </span>
-                    </a></li>
+    <a class="item" href="{% url "ticket.views.tickets.ticket_list_clos" %}">{% trans "Clos" %}
+        <div class="ui black label">{{ request.user|ticket_clos }}</div>
 
-                    <li class="uk-nav-header">---</li>
+        <i class=""></i>
+      </a>
 
-                    <li><a href="{% url "ticket.views.tickets.ticket_list_new" %}">{% trans "Nouveaux" %}
-                        <span class="uk-badge uk-badge-notification">{{ request.user|ticket_new }}</span>
-                    </a> </li>
+    <a class="item" href="{% url "ticket.views.tickets.ticket_list_new" %}">{% trans "Nouveaux" %}
+                        <div class="ui blue label">{{ request.user|ticket_new }}</div>
+        <i class=""></i>
+      </a>
 
-                </ul>
-            </div>
-        {% if request.user.is_staff %}
-        <li><a href="{% url "ticket.views.tickets.ticket_all" %}">{% trans "Staff" %}</a></li>
-            <li><a href="{% url "ticket.views.tickets.my_ticket_assign" %}">{% trans "Vos tickets assignés" %}</a></li>
-        {% endif %}
-    {% if request.user.is_superuser%}
-        <li><a href="/admin">{% trans "Administration" %}</a></li>
+    {% if request.user.is_staff %}
+    <a class="item" href="{% url "ticket.views.tickets.ticket_all" %}">{% trans "Staff" %}
+        <i class=""></i>
+      </a>
+    <a class="item" href="{% url "ticket.views.tickets.my_ticket_assign" %}">{% trans "Vos tickets assignés" %}
+        <i class=""></i>
+      </a>
     {% endif %}
-        <li><a href="/logout">{% trans "Déconnexion" %}</a></li>
-    <div class="uk-navbar-content uk-hidden-small">
-                                        <form class="uk-form uk-margin-remove uk-display-inline-block">
-                                            <input placeholder="Search" type="text">
-                                            <button class="uk-button uk-button-primary">Submit</button>
-                                        </form>
-                                    </div>
-        </li>
-    </ul>
-</nav>
+
+    {% if request.user.is_superuser%}
+    <a class="item" href="{% url "ticket.views.tickets.ticket_all" %}">{% trans "Staff" %}
+        <i class=""></i>
+      </a>
+    <a class="item" href=href="/admin">{% trans "Administration" %}
+        <i class=""></i>
+      </a>
+    {% endif %}
+
+    <a class="item" href="/logout">{% trans "Déconnexion" %}
+        <i class=""></i>
+      </a>
+
+    </div>
 <!-- Menu-->
     {% endblock %}
-
-
-<div class="uk-grid">
-    <div class="uk-width-1-1  uk-margin-large-top">
-
+<div class=" ui centered grid grid basic segment">
+    <div class="column">
 {% block content %}{% endblock %}
 
-</div>
+ </div>
 </div>

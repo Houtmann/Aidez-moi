@@ -54,4 +54,4 @@ class TicketsTables(tables.Table):
     class Meta:
         model = Tickets
         attrs = {"class": "paleblue"}
-        exclude = ('content',)
+        exclude = ('content', 'depends_on')
