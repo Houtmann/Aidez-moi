@@ -16,7 +16,7 @@ class Tickets(models.Model):
                                     null=True,
                                     blank=True)
     # Marque le ticket comme incomplete et attente d'informations
-    incomplete = models.BooleanField(default=1, verbose_name=_('Complet'))
+    complete = models.BooleanField(default=1, verbose_name=_('Complet'))
     depends_on = models.CharField(null=True, blank=True, verbose_name=_('Dépend'), max_length=100)
 
 

@@ -226,7 +226,7 @@ def set_incomplete(request, id):
     Marque un ticket comme incomplet et attente d'informations complémentaire
     """
     ticket = Tickets.objects.get(pk=id)
-    ticket.incomplete = 0
+    ticket.complete = 0
     ticket.save()
     return redirect('/ticket/id=%s' % (id))
 
@@ -237,7 +237,7 @@ def set_complete(request, id):
     Marque un ticket comme complet
     """
     ticket = Tickets.objects.get(pk=id)
-    ticket.incomplete = 1
+    ticket.complete = 1
     ticket.save()
     return redirect('/ticket/id=%s' % (id))
 
@@ -251,13 +251,13 @@ def ticket_list_incomplet(request):
     if request.user.is_staff:
         list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
                     .prefetch_related('create_by', 'assign_to', 'category') \
-                    .filter(incomplete=0).order_by('-created')
+                    .filter(complete=0).order_by('-created')
 
         ticket_list = TicketsTables(list)
     else:
         list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
                     .prefetch_related('create_by', 'category') \
-                    .filter(create_by=request.user, incomplete=0).order_by('-created')
+                    .filter(create_by=request.user, complete=0).order_by('-created')
 
         ticket_list = TicketsTables(list)
 

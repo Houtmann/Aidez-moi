@@ -44,11 +44,12 @@
     <div class="label">
 
     </div>
-    <div class="content"><i class="add icon"></i>{{ feed.title }}
+    <div class="content"><i class="add icon"></i>
+        <a href="{% url "ticket.views.tickets.view_ticket" feed.id %}">{{ feed.title }}</a>
       <div class="summary">
-        <a class="user">
+        <div class="user">
           {{ feed.create_by }}
-        </a>
+        </div>
         <div class="date">
           {{ feed.created }}
         </div>

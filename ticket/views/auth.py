@@ -18,16 +18,16 @@ def home(request):
 
     if request.user.is_staff:
         ticket_list = Tickets.objects.select_related('create_by', 'assign_to', 'category'
-                                              ).filter(assign_to=request.user).order_by('-created')[:10:1]
+                                              ).filter().order_by('-created')[:10:1]
 
-        ticket_incomplete = Tickets.objects.filter(incomplete=0).count()
+        ticket_incomplete = Tickets.objects.filter(complete=0).count()
     else:
         ticket_list = Tickets.objects.filter(
                                 create_by=request.user).order_by('-created')[:10:1]
 
         ticket_incomplete = Tickets.objects.filter(
                                 create_by=request.user,
-                                incomplete=0).count()
+                                complete=0).count()
 
     if ticket_incomplete != 0:
         messages.add_message(request, messages.INFO,

@@ -12,7 +12,7 @@
         <div class="ui  button"><a href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}">
             {% trans "Supprimez le ticket" %}</a></div>
 
-        {% if tickets.incomplete == 0 %}
+        {% if tickets.complete == 0 %}
             <div class="ui  button"><a href="{% url "ticket.views.tickets.set_complete" tickets.id %}">
             {% trans "Marquer comme complet" %}</a></div>
         {% else %}
