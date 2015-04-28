@@ -29,8 +29,6 @@ class Tickets(models.Model):
         choices=TYPES_CHOICES)
 
     OPEN_STATUS = 'OPEN'
-    RESOLVED_STATUS = 3
-    CLOSED_STATUS = 4
 
     STATUS_CHOICES = (
         ('OPEN', _('Ouvert')),

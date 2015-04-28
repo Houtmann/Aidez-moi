@@ -9,6 +9,8 @@ from ticket.forms import TicketForm, ResponseForm
 from ticket.models import Tickets, UserProfile, Follow
 from ticket.views.auth import home
 from ticket.tables import TicketsTables
+from django.contrib import messages
+from django.utils.translation import ugettext as _
 
 @login_required(login_url='login/')
 def add_ticket(request):
@@ -264,3 +266,18 @@ def ticket_list_incomplet(request):
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
+
+
+def close_ticket(request, id):
+    ticket = Tickets.objects.get(pk=id)
+    if ticket.depends_on == '':
+        ticket.status = 'CLOSED'
+        ticket.save()
+        return redirect('/ticket/id=%s' % (id))
+    else:
+        messages.warning(request, _('Vous devez clore le ticket {0}').format(ticket.depends_on))
+        return redirect('/ticket/id=%s' % (id))
+
+
+
+

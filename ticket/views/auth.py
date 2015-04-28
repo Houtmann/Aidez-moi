@@ -29,12 +29,6 @@ def home(request):
                                 create_by=request.user,
                                 complete=0).count()
 
-    if ticket_incomplete != 0:
-        messages.add_message(request, messages.INFO,
-                             "Vous avez %s tickets en attente d'informations complémenataires"
-                             % (ticket_incomplete))
-    else:
-        pass
 
     return render(request, 'home.html', {'ticket_list': ticket_list})
 

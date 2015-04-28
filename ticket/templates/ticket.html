@@ -5,12 +5,25 @@
     <div class="column">
 
 <fieldset>
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+
     <div class="ui  button"><a href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">
         {% trans "Editer le ticket" %}</a></div>
 
     {% if request.user.is_staff %}
         <div class="ui  button"><a href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}">
             {% trans "Supprimez le ticket" %}</a></div>
+
+        <div class="ui  button"><a href="{% url "ticket.views.tickets.close_ticket" tickets.id %}">
+            {% trans "Clore le ticket" %}</a></div>
 
         {% if tickets.complete == 0 %}
             <div class="ui  button"><a href="{% url "ticket.views.tickets.set_complete" tickets.id %}">
