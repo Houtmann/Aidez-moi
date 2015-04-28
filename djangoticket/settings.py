@@ -71,6 +71,9 @@ ROOT_URLCONF = 'djangoticket.urls'
 WSGI_APPLICATION = 'djangoticket.wsgi.application'
 
 
+# remove this for production
+
+
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
@@ -130,4 +133,14 @@ CACHES = {
     }
 }
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Host for sending e-mail.
+EMAIL_HOST = 'localhost'
+
+# Port for sending e-mail.
+EMAIL_PORT = '587'
+
+# Optional SMTP authentication information for EMAIL_HOST.
 

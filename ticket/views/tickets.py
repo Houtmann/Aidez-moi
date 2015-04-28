@@ -11,10 +11,11 @@ from ticket.forms import TicketForm, ResponseForm
 from ticket.models import Tickets, UserProfile, Follow
 from ticket.views.auth import home
 from ticket.tables import TicketsTables
-
+from django.core.mail import send_mail
 
 @login_required(login_url='login/')
 def add_ticket(request):
+
     if request.method == 'POST':
         form = TicketForm(data=request.POST, user=request.user)
         # return redirect('/')
