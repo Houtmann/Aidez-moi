@@ -1,36 +1,28 @@
+{% load i18n %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 <meta http-equiv="Content-type" content="text/html; charset=utf-8" /><title> Tickets </title>
 
-<link rel="stylesheet" href="{{ STATIC_URL }}css/uikit.css" type="text/css" media="all" />
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-
-    <script type="text/javascript" src="{{ STATIC_URL }}js/uikit.min.js"></script>
-
+<link rel="stylesheet" href="{{ STATIC_URL }}semantic.min.css" type="text/css" media="all" />
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.js"></script>
+        <script type="text/javascript" src="{{ STATIC_URL }}semantic.min.js"></script>
     </head>
+<div class="ui two column centered grid">
+    <div class="column">
 
- <body class="uk-height-1-1">
-
-        <div class="uk-container-center uk-text-center uk-height-1-2">
-            <div class="uk-vertical-align-middle" style="width: 350px;">
-
-                <h3 class="uk-panel-title">Ticket</h3>
-
-
-
-                <form class="uk-panel uk-panel-box uk-form" action='' method="POST">{% csrf_token %}
-                    <div class="uk-form-row">
+                <h3 class="">Ticket</h3>
+                <form class="ui form" action='' method="POST">{% csrf_token %}
+                    <div class="ui form row">
                         {{ form.username }}
-                    </div>
-                    <div class="uk-form-row">
+                    </div><p></p>
+                    <div class="ui form row">
                         {{ form.password }}
                     </div>
-                    <div class="uk-form-row">
-                        <button class="btn btn-success">Login</button>
-                    </div>
-
+                    <p></p>
+                    <center><div class="ui form row ">
+                        <button class="ui button ">Login</button>
+                    </div></center>
                 </form>
-
-            </div>
-        </div>
+ </div>
+</div>
