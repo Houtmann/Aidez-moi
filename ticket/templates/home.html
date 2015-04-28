@@ -45,7 +45,7 @@
 
     </div>
     <div class="content"><i class="add icon"></i>
-        <a href="{% url "ticket.views.tickets.view_ticket" feed.id %}">{{ feed.title }}</a>
+        <a href="{% url "ticket.views.tickets.view_ticket" feed.id %}">#{{feed.id}} {{ feed.title }}</a>
       <div class="summary">
         <div class="user">
           {{ feed.create_by }}

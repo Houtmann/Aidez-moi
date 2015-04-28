@@ -26,7 +26,6 @@
 
     {% endif %}
 
-
 <table class="ui table">
       <thead>
         <tr>
@@ -37,7 +36,7 @@
       </thead>
       <tbody>
         <tr>
-          <td><span class="uk-badge">Ticket id : {{ tickets.id }}</span></td>
+          <td><span class="uk-badge">Ticket id :#{{ tickets.id }}</span></td>
           <td> {% trans "Catégorie" %}:
                     {% if tickets.category == None %} {% trans "Pas de catégories" %}
                         {% else %}{{ tickets.category }}
@@ -61,15 +60,14 @@
         <tr>
           <td>{% trans "Crée le" %} : {{ tickets.created }}</td>
           <td>{% if tickets.assign_to == None %}
-                    >{% trans "Assigné à" %} : <span class="uk-text-warning">{% trans "Pas encore assigné" %}</span>
+              {% trans "Assigné à" %} : <span class="uk-text-warning">{% trans "Pas encore assigné" %}</span>
                 {% else %}
-                    {% trans "Assigné à" %} : {{ tickets.assign_to }}
+              {% trans "Assigné à" %} : {{ tickets.assign_to }}
                 {% endif %}</td>
         <tr>
         <td>{% trans "Derniere edition le" %} : {{ tickets.last_edited }}</td>
             <td></td>
             </tr>
-
 
         </tr>
       </tbody>
@@ -81,19 +79,16 @@
       </div>
       <p>{{ tickets.content }}</p>
     </div>
-
-
 </div>
 
         <div class="ui  column centered grid">
 <div class="column">
-
-<div class="ui comments">
 {% for item in follow_up %}
             {% if item.follow == None %}
+<div class="ui comments">
 
+                <div class="comment">
 
-                  <div class="comment">
     <div class="content">
       <a class="author">{{ item.follow_by }}</a>
       <div class="metadata">
@@ -117,9 +112,8 @@
         {{ item.follow }}
       </div>
     </div><h3 class="ui dividing header"></h3>
-{% endif %}
+    {% endif %}
 {% endfor %}
-
             <form class="ui form" action=""   name="post_response" method="post">{% csrf_token %}
                 {{ form.follow }}
                 <button class="ui submit button">{% trans "Soumettre" %}</button>
