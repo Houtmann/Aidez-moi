@@ -129,8 +129,8 @@
     {% endif %}
 {% endfor %}
             <form class="ui form" action=""   name="post_response" method="post">{% csrf_token %}
-                {{ form.follow }}
-                <button class="ui submit button">{% trans "Soumettre" %}</button>
+                {{ form.follow }}<p></p>
+                <center><button class="ui submit button">{% trans "Soumettre" %}</button></center>
             </form></div></div>
 
     </body>

@@ -21,7 +21,7 @@ create_by = ['1']
 
 assign_to = ['1']
 types = ['1', '2']
-incomplete = ['0', '1']
+complete = ['0', '1']
 
 
 
@@ -36,7 +36,7 @@ while i < 500:
                                                create_by_id, types,
                                                last_edited, created,
                                                category_id,
-                                               incomplete) VALUES
+                                               complete) VALUES
                ('%s', '%s', '%s', '%s', '%s', '%s', '%s' , '%s' , '%s', '%s', '%s')""" %(sentence,
                                                                             sentence,
                                                                             random.choice(status),
@@ -47,7 +47,7 @@ while i < 500:
                                                                             datetime.datetime.now(),
                                                                             datetime.datetime.now(),
                                                                             random.choice(category),
-                                                                            random.choice(incomplete)))
+                                                                            random.choice(complete)))
     conn.commit()
     i += 1
 
