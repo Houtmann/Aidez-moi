@@ -91,10 +91,6 @@
 <div class="ui comments">
             {% if item.follow == None %}
 
-
-
-
-
             {% else %}
 
                   <div class="comment">
@@ -121,10 +117,11 @@
         {{ item.follow }}
       </div>
     </div>
-
+{% endif %}
+{% endfor %}
 <h3 class="ui dividing header"></h3>
-            {% endif %}
-        {% endfor %}
+
+
 
             <form class="ui form" action=""   name="post_response" method="post">{% csrf_token %}
                 {{ form.follow }}
