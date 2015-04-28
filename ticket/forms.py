@@ -74,7 +74,7 @@ class TicketForm(forms.ModelForm):
         if Tickets.objects.filter(id=ticket_id).exists():
             if self.has_changed():
                 ticket = Tickets.objects.filter(pk=ticket_id)
-
+                print('coucou')
                 for field in self.changed_data:
                     oldvalue = ticket.values(field)
                     # column = Tickets._meta.get_field(field).verbose_name

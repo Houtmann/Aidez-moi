@@ -87,11 +87,11 @@
 
         <div class="ui  column centered grid">
 <div class="column">
-        {% for item in follow_up %}
+
 <div class="ui comments">
+{% for item in follow_up %}
             {% if item.follow == None %}
 
-            {% else %}
 
                   <div class="comment">
     <div class="content">
@@ -105,8 +105,8 @@
     </div>
   </div>
 <h3 class="ui dividing header"></h3>
+{% else %}
 
-                <div class="ui comments">
   <div class="comment">
     <div class="content">
       <a class="author">{{ item.follow_by }}</a>
@@ -116,12 +116,9 @@
       <div class="text">
         {{ item.follow }}
       </div>
-    </div>
+    </div><h3 class="ui dividing header"></h3>
 {% endif %}
 {% endfor %}
-<h3 class="ui dividing header"></h3>
-
-
 
             <form class="ui form" action=""   name="post_response" method="post">{% csrf_token %}
                 {{ form.follow }}

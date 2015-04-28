@@ -1,17 +1,14 @@
 __author__ = 'had'
 
 from datetime import datetime
-
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django_tables2 import RequestConfig
-
 from ticket.forms import TicketForm, ResponseForm
 from ticket.models import Tickets, UserProfile, Follow
 from ticket.views.auth import home
 from ticket.tables import TicketsTables
-from django.core.mail import send_mail
 
 @login_required(login_url='login/')
 def add_ticket(request):
@@ -167,7 +164,7 @@ def ticket_edit(request, id):
         form = TicketForm(request.POST, user=request.user, instance=ticket)
 
         if form.is_valid():
-            #form.edit(commit=False, ticket_id=id, user=request.user)
+
             form.edit(ticket_id=id, user=request.user)
             #messages.add_message(request, messages.INFO, 'Ticket mis à jour OK')
             return redirect(view_ticket, id)

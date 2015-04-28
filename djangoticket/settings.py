@@ -134,13 +134,6 @@ CACHES = {
 }
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-# Host for sending e-mail.
-EMAIL_HOST = 'localhost'
 
-# Port for sending e-mail.
-EMAIL_PORT = '587'
-
-# Optional SMTP authentication information for EMAIL_HOST.
 
