@@ -269,6 +269,9 @@ def ticket_list_incomplet(request):
 
 
 def close_ticket(request, id):
+    """
+    Verifie si le ticket dépendant est clos pour clore le ticket
+    """
     ticket = Tickets.objects.get(pk=id)
     if ticket.depends_on == '':
         ticket.status = 'CLOSED'
