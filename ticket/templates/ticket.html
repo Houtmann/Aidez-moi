@@ -7,11 +7,12 @@
 <fieldset>
 
 {% if messages %}
-<ul class="messages">
+<div class="ui negative message">
+    <i class="close icon"></i>
     {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    <div{% if message.tags %} class="header {{ message.tags }}"{% endif %}>{{ message }}</div>
     {% endfor %}
-</ul>
+</div>
 {% endif %}
 
 

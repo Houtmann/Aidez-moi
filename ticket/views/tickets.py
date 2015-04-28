@@ -275,8 +275,14 @@ def close_ticket(request, id):
         ticket.save()
         return redirect('/ticket/id=%s' % (id))
     else:
-        messages.warning(request, _('Vous devez clore le ticket {0}').format(ticket.depends_on))
-        return redirect('/ticket/id=%s' % (id))
+        ticket_depend = Tickets.objects.get(pk=ticket.depends_on)
+        if ticket_depend.status == 'CLOSED':
+            ticket.status = 'CLOSED'
+            ticket.save()
+            return redirect('/ticket/id=%s' % (id))
+        else:
+            messages.warning(request, _('Vous devez clore le ticket {0}').format(ticket.depends_on))
+            return redirect('/ticket/id=%s' % (id))
 
 
 
