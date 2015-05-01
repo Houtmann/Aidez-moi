@@ -252,13 +252,11 @@ def ticket_list_incomplet(request):
         list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
                     .prefetch_related('create_by', 'assign_to', 'category') \
                     .filter(complete=0).order_by('-created')
-
         ticket_list = TicketsTables(list)
     else:
         list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
                     .prefetch_related('create_by', 'category') \
                     .filter(create_by=request.user, complete=0).order_by('-created')
-
         ticket_list = TicketsTables(list)
 
     RequestConfig(

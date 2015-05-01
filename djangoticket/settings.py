@@ -42,12 +42,8 @@ INSTALLED_APPS = (
     'django_tables2',
 
 
-
-
-
-
-
 )
+
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -58,31 +54,23 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 
-
-
-
-
-
-
 )
+
 
 ROOT_URLCONF = 'djangoticket.urls'
 
 WSGI_APPLICATION = 'djangoticket.wsgi.application'
 
 
-# remove this for production
-
-
-# Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': 'C:\Program Files\MariaDB 10.0\data\my.ini',
+        },
     }
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
