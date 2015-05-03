@@ -2,6 +2,7 @@ __author__ = 'had'
 from django import forms
 from ticket.models import User, Tickets, UserProfile, Follow
 from django.utils.translation import ugettext as _
+from django.contrib.admin.util import display_for_field
 
 
 class ConnexionForm(forms.Form):
@@ -13,6 +14,7 @@ class ConnexionForm(forms.Form):
                                widget=forms.TextInput(attrs={
                                    'type': "text",
                                    'placeholder': "Username"}))
+
     password = forms.CharField(label=_("Mot de passe"),
                                widget=forms.PasswordInput(attrs={
                                    'type': "password",
@@ -42,6 +44,7 @@ class TicketForm(forms.ModelForm):
         label=(_('Urgence')),
         help_text=(_('Veuillez selectionner une priorité.')),
     )
+
     # Pour choisir que les membres du staff
     assign_to = forms.ModelChoiceField(
         queryset=User.objects.all().filter(is_staff=1),
@@ -63,6 +66,8 @@ class TicketForm(forms.ModelForm):
             del self.fields['status']
             del self.fields['depends_on']
 
+
+
     def edit(self, ticket_id, user, *args, **kwargs):
         """
         :param ticket_id: Clé du ticket
@@ -77,15 +82,21 @@ class TicketForm(forms.ModelForm):
 
                 for field in self.changed_data:
                     oldvalue = ticket.values(field)
+                    new = self[field].value()
                     # column = Tickets._meta.get_field(field).verbose_name
                     Follow.objects.create(
-                                ticket_id=ticket_id,
-                                field=Tickets._meta.get_field_by_name(
-                                                field)[0].verbose_name,
-                            # Pour avoir le nom verbeux dans la table de suivi
-                                old_value=oldvalue[0].get(field),
-                                new_value=self[field].value(),
-                                follow_by=user)
+                            ticket_id=ticket_id,
+                            field=Tickets._meta.get_field_by_name( # Pour avoir le nom verbeux dans la table de suivi
+                                            field)[0].verbose_name,
+
+                            #old_value=oldvalue[0].get(field),
+                            #new_value=self[field].value(),
+                            old_value=dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)
+                                                                            .get(oldvalue[0].get(field)),
+                            new_value=dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[(new)],
+
+                            follow_by=user)
+
         else:
             pass
         super(TicketForm, self).save(*args, **kwargs)
@@ -100,9 +111,9 @@ class ResponseForm(forms.ModelForm):
         model = Follow
         fields = ['follow']
         exclude = (
-            'date_follow',
-            'ticket_id',
-            'field',
-            'new_value',
-            'old_value',
-            'follower')
+                'date_follow',
+                'ticket_id',
+                'field',
+                'new_value',
+                'old_value',
+                'follower')

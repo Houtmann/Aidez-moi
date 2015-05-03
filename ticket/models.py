@@ -21,11 +21,12 @@ class Tickets(models.Model):
 
 
     TYPES_CHOICES = (
-        (1, _('Incident')),
-        (2, _('Demande')),)
+        ('INCIDENT', _('Incident')),
+        ('ASK', _('Demande')),)
 
-    types = models.IntegerField(
-        ('Types'),
+    types = models.CharField(
+        max_length=15,
+        verbose_name=_('Types'),
         choices=TYPES_CHOICES)
 
     OPEN_STATUS = 'OPEN'
@@ -78,7 +79,7 @@ class TicketCategory(models.Model):
     """
     Nom de catégorie pour mieux cibler les tickets
     """
-    category = models.TextField(verbose_name=_('Catégorie'), db_index=True, max_length=500)
+    category = models.TextField(verbose_name=_('Catégorie'), max_length=500)
 
     def __str__(self):
         """
