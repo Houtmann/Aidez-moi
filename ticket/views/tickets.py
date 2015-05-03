@@ -11,6 +11,7 @@ from ticket.views.auth import home
 from ticket.tables import TicketsTables
 from django.contrib import messages
 from django.utils.translation import ugettext as _
+from ticket.tasks import send_new_ticket_all_staff
 
 
 @login_required(login_url='login/')
@@ -34,7 +35,10 @@ def add_ticket(request):
                 pass
 
             ticket.save()
+            send_new_ticket_all_staff.delay(ticket)
             return redirect(home)
+
+
         else:
             return render(request, 'add_ticket.html', locals())
     else:

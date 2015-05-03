@@ -127,7 +127,12 @@ CACHES = {
     }
 }
 
+EMAIL_HOST = 'smtp.googlemail.com'
+EMAIL_HOST_USER = 'hhoutmann@gmail.com'
+EMAIL_HOST_PASSWORD = 'jlmtyxabofbrhsnu'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
-
+BROKER_URL = 'redis://localhost:6379/0'
 
 
