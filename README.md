@@ -14,5 +14,5 @@ Pass : demo
 Recherche contributeurs
 
 
-![alt tag](https://github.com/hadmagic/Aidez-moi/blob/master/1.jpg)
-![alt tag](https://github.com/hadmagic/Aidez-moi/blob/master/2.jpg)
+![alt tag](https://github.com/hadmagic/Aidez-moi/blob/master/pict1.jpg)
+![alt tag](https://github.com/hadmagic/Aidez-moi/blob/master/pict2.jpg)
