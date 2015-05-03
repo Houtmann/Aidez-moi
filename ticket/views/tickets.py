@@ -12,6 +12,7 @@ from ticket.tables import TicketsTables
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 
+
 @login_required(login_url='login/')
 def add_ticket(request):
 
@@ -155,7 +156,7 @@ def ticket_all(request):
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
-#@cache_page(60*15)
+
 @login_required(login_url='login/')
 def ticket_edit(request, id):
     """
@@ -229,6 +230,7 @@ def set_incomplete(request, id):
     ticket = Tickets.objects.get(pk=id)
     ticket.complete = 0
     ticket.save()
+
     return redirect('/ticket/id=%s' % (id))
 
 
@@ -266,7 +268,7 @@ def ticket_list_incomplet(request):
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
-
+@login_required(login_url='login/')
 def close_ticket(request, id):
     """
     Verifie si le ticket dépendant est clos pour clore le ticket
