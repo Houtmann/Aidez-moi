@@ -89,8 +89,6 @@ class TicketForm(forms.ModelForm):
                             field=Tickets._meta.get_field_by_name( # Pour avoir le nom verbeux dans la table de suivi
                                             field)[0].verbose_name,
 
-                            #old_value=oldvalue[0].get(field),
-                            #new_value=self[field].value(),
                             old_value=dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)
                                                                             .get(oldvalue[0].get(field)),
                             new_value=dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[(new)],
