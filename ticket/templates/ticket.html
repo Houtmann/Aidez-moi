@@ -125,13 +125,13 @@
       <div class="text">
         {{ item.follow }}
       </div>
-    </div><h3 class="ui dividing header"></h3>
+    </div></div><h3 class="ui dividing header"></h3>
     {% endif %}
 {% endfor %}
             <form class="ui form" action=""   name="post_response" method="post">{% csrf_token %}
                 {{ form.follow }}<p></p>
                 <center><button class="ui submit button">{% trans "Soumettre" %}</button></center>
-            </form></div></div>
+            </form>
 
     </body>
 {% endblock %}
