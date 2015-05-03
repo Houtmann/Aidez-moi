@@ -3,6 +3,8 @@
 Systeme de ticket pour entreprise 
 Ecrit avec Django 1.8 et python 3.4, django-tables2
 
+Utilisation de Redis et celery pour la partie asynchrone ( envoie de mail etc... )
+
 Concu pour être une application de ticket performante, lisible et compléte et en français (on vera pour la traduction plustard)
 
 Demo en ligne : [Demo](http://hadmagic.pythonanywhere.com)
