@@ -129,10 +129,10 @@ CACHES = {
 }
 
 
-EMAIL_HOST = 'smtp.live.com '
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
 EMAIL_HOST_USER = USER
 EMAIL_HOST_PASSWORD = PASSWORD
-EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 
 BROKER_URL = 'redis://localhost:6379/0'

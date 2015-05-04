@@ -16,4 +16,10 @@ def send_new_ticket_all_staff(object):
 
         send_mail('Nouveau ticket :'+ object.title,
                    object.content,
-                  'hhoutmann@live.fr',  [recp], fail_silently=False)
+                  'hhoutmann@gmail.com',  [recp], fail_silently=False)
+
+@shared_task
+def follow_on_ticket(object):
+    pass
+
+
