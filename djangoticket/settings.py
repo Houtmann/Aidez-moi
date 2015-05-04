@@ -128,8 +128,8 @@ CACHES = {
 }
 
 EMAIL_HOST = 'smtp.googlemail.com'
-EMAIL_HOST_USER = 'hhoutmann@gmail.com'
-EMAIL_HOST_PASSWORD = 'jlmtyxabofbrhsnu'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
