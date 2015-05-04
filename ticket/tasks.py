@@ -13,6 +13,7 @@ def send_new_ticket_all_staff(object):
     staff = User.objects.filter(is_staff=True)
     for email in staff.values('email'):
         recp = email.get('email')
-        send_mail('Nouveau ticket '+ object.title,
+
+        send_mail('Nouveau ticket :'+ object.title,
                    object.content,
-                  'hhoutmann@gmail.com',  [recp], fail_silently=False)
+                  'hhoutmann@live.fr',  [recp], fail_silently=False)

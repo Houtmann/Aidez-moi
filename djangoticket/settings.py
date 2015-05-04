@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from djangoticket.email_config import  USER, PASSWORD # REMOVE THIS FOR PROD
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -127,10 +128,11 @@ CACHES = {
     }
 }
 
-EMAIL_HOST = 'smtp.googlemail.com'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = 587
+
+EMAIL_HOST = 'smtp.live.com '
+EMAIL_HOST_USER = USER
+EMAIL_HOST_PASSWORD = PASSWORD
+EMAIL_PORT = 25
 EMAIL_USE_TLS = True
 
 BROKER_URL = 'redis://localhost:6379/0'
