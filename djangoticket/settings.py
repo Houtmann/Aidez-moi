@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 from djangoticket.email_config import  USER, PASSWORD # REMOVE THIS FOR PROD
 
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 

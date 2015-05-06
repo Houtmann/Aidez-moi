@@ -1,6 +1,5 @@
 __author__ = 'had'
 
-
 import os
 
 from celery import Celery

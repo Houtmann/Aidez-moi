@@ -1,6 +1,6 @@
 __author__ = 'had'
 from django.core.mail import send_mail
-from ticket.models import Tickets, User, Follow
+from ticket.models import Tickets, User
 from celery import shared_task
 
 
@@ -20,6 +20,9 @@ def send_new_ticket_all_staff(object):
 
 @shared_task
 def follow_on_ticket(object):
+    """
+    Envoi un email à chaque reponse , ou chaque éditions du tickets.
+    """
     pass
 
 
