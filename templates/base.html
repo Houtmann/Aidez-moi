@@ -28,6 +28,27 @@
         <i class=""></i>
       </a>
 
+    <a class="item" href="{% url "ticket.views.tickets.ticket_list_work" %}">{% trans "En cours" %}
+                    <div class="ui orange label">{{ request.user|ticket_open }}</div>
+        <i class=""></i>
+      </a>
+
+    <a class="item" href="{% url "ticket.views.tickets.ticket_list_resolved" %}">{% trans "Résolus" %}
+                    <div class="ui green label">{{ request.user|ticket_resolved }}</div>
+        <i class=""></i>
+      </a>
+
+    <a class="item" href="{% url "ticket.views.tickets.ticket_list_clos" %}">{% trans "Clos" %}
+        <div class="ui black label">{{ request.user|ticket_clos }}</div>
+
+        <i class=""></i>
+      </a>
+
+    <a class="item" href="{% url "ticket.views.tickets.ticket_list_new" %}">{% trans "Nouveaux" %}
+                        <div class="ui blue label">{{ request.user|ticket_new }}</div>
+        <i class=""></i>
+      </a>
+
     {% if request.user.is_staff %}
     <a class="item" href="{% url "ticket.views.tickets.ticket_all" %}">{% trans "Staff" %}
         <i class=""></i>
@@ -50,47 +71,9 @@
     </div>
 <!-- Menu-->
     {% endblock %}
-
-
-<div class="ui grid grid  basic segment">
-    <div class="three wide column">
-
-<div class="ui vertical menu">
-  <div class="item">
-    <div class="ui input"><input placeholder="Search..." type="text"></div>
-  </div>
- <a class="item" href="{% url "ticket.views.tickets.ticket_list_new" %}">{% trans "Nouveaux" %}
-     <div class="ui blue label">{{ request.user|ticket_new }}</div>
-        <i class=""></i>
- </a>
-
-    <a class="item" href="{% url "ticket.views.tickets.ticket_list_work" %}">{% trans "En cours" %}
-                    <div class="ui orange label">{{ request.user|ticket_open }}</div>
-        <i class=""></i>
-      </a>
-
-    <a class="item" href="{% url "ticket.views.tickets.ticket_list_resolved" %}">{% trans "Résolus" %}
-                    <div class="ui green label">{{ request.user|ticket_resolved }}</div>
-        <i class=""></i>
-      </a>
-
-    <a class="item" href="{% url "ticket.views.tickets.ticket_list_clos" %}">{% trans "Clos" %}
-        <div class="ui black label">{{ request.user|ticket_clos }}</div>
-        <i class=""></i>
-      </a>
-
-
-
-</div></div>
-
-
-
-
-
-
-
-    <div class="thirteen wide column">
+<div class=" ui centered grid grid basic segment">
+    <div class="column">
 {% block content %}{% endblock %}
 
  </div>
-
+</div>
