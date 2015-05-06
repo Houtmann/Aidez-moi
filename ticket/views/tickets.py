@@ -35,7 +35,7 @@ def add_ticket(request):
                 pass
 
             ticket.save()
-            send_new_ticket_all_staff.delay(ticket)
+            send_new_ticket_all_staff.delay(ticket, request.user.email)
             return redirect(home)
 
 
