@@ -132,7 +132,7 @@
 
 <div class="comment"></div>
             <form class="ui form" action=""   name="post_response" method="post">{% csrf_token %}
-                {{ ticket.status }}
+                {{ ticket.status }}<p></p>
                 {{ form.follow }}<p></p>
                 <center><button class="ui submit button">{% trans "Soumettre" %}</button></center>
             </form>

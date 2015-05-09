@@ -160,7 +160,7 @@ class StatusForm(forms.ModelForm):
 
         else:
             pass
-        super(TicketForm, self).save(*args, **kwargs)
+        super(StatusForm, self).save(*args, **kwargs)
 
 
 

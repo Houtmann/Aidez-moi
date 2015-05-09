@@ -199,18 +199,21 @@ def view_ticket(request, id):
         if form.is_valid():
             if request.POST.get('status') == 'CLOSED':
                 tick = ticket.save(commit=False)
-                ticket.status='CLOSED'
+                ticket.edit(ticket_id=id, user=request.user)
+                tick.status='CLOSED'
                 ticket.save()
 
             elif request.POST.get('status') == 'RESOLVED':
                 tick = ticket.save(commit=False)
-                ticket.status='RESOLVED'
-                ticket.save()
+                ticket.edit(ticket_id=id, user=request.user)
+                tick.status='RESOLVED'
+                tick.save()
 
             elif request.POST.get('status') == 'OPEN':
                 tick = ticket.save(commit=False)
-                ticket.status='OPEN'
-                ticket.save()
+                ticket.edit(ticket_id=id, user=request.user)
+                tick.status='OPEN'
+                tick.save()
 
         if request.POST.get('follow') == '':
             pass
