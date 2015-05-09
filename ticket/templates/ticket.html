@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block ticket %}
+{% block content %}
 
-
+    <div class="ui two column centered grid">
+    <div class="column">
 <fieldset>
 
 {% if messages %}
@@ -22,8 +23,7 @@
         <div class="ui  button"><a href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}">
             {% trans "Supprimez le ticket" %}</a></div>
 
-        <div class="ui  button"><a href="{% url "ticket.views.tickets.close_ticket" tickets.id %}">
-            {% trans "Clore le ticket" %}</a></div>
+
 
         {% if tickets.complete == 0 %}
             <div class="ui  button"><a href="{% url "ticket.views.tickets.set_complete" tickets.id %}">
@@ -42,7 +42,7 @@
 <table class="ui table">
       <thead>
         <tr>
-          <th>{% trans "Titre" %} : {{ tickets.title }}</th>
+          <th><p style="width: 20em; word-wrap: break-word;">{% trans "Titre" %} : {{ tickets.title }}</p></th>
           <th></th>
 
         </tr>
@@ -87,15 +87,16 @@
     </table>
 
 <div class="ui message">
-      <div class="header">
+      <div class="header" >
         {% trans "Ticket" %} :
       </div>
-      <p>{{ tickets.content }}</p>
+      <p style="width: 40em; word-wrap: break-word;">{{ tickets.content }}</p>
     </div>
 </div>
 
         <div class="ui  column centered grid">
 <div class="column">
+
 {% for item in follow_up %}
             {% if item.follow == None %}
 <div class="ui comments">
@@ -127,7 +128,11 @@
     </div></div><h3 class="ui dividing header"></h3>
     {% endif %}
 {% endfor %}
+
+
+<div class="comment"></div>
             <form class="ui form" action=""   name="post_response" method="post">{% csrf_token %}
+                {{ status }}
                 {{ form.follow }}<p></p>
                 <center><button class="ui submit button">{% trans "Soumettre" %}</button></center>
             </form>
