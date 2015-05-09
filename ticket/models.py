@@ -101,9 +101,9 @@ class Follow(models.Model):
     ticket = models.ForeignKey(Tickets, related_name='ticket_id')
     date_follow = models.DateTimeField(auto_now=True, )
 
-    field = models.CharField(max_length=100, null=True)
-    old_value = models.TextField(null=True)
-    new_value = models.TextField(null=True)
+    field = models.CharField(max_length=100, blank=True, null=True)
+    old_value = models.TextField(blank=True, null=True)
+    new_value = models.TextField(blank=True, null=True)
 
 
 class Entity(models.Model):

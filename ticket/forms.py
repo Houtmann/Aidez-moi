@@ -129,7 +129,7 @@ class StatusForm(forms.ModelForm):
 
 class ResponseForm(forms.ModelForm):
 
-    follow = forms.CharField(label='Ticket', widget=forms.Textarea(
+    follow = forms.CharField(label='Ticket', required=False, widget=forms.Textarea(
         attrs={'placeholder': _('Réponse au ticket'), 'rows': '4', 'class': 'uk-width-1-1'}))
 
     class Meta:

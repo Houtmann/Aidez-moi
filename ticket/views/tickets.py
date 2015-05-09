@@ -193,20 +193,33 @@ def view_ticket(request, id):
 
     if request.method == 'POST':
         form = ResponseForm(data=request.POST)
-        status = StatusForm(instance=tickets)
-
-        status.save()
-
+        ticket = StatusForm(request.POST,instance=tickets)
 
         if form.is_valid():
-
+            if request.POST.get('status') == 'CLOSED':
+                tick = ticket.save(commit=False)
+                ticket.status='CLOSED'
+                ticket.save()
+            elif request.POST.get('status') == 'RESOLVED':
+                tick = ticket.save(commit=False)
+                ticket.status='RESOLVED'
+                ticket.save()
+            elif request.POST.get('status') == 'OPEN':
+                tick = ticket.save(commit=False)
+                ticket.status='OPEN'
+                ticket.save()
+        if request.POST.get('follow') == '':
+            pass
+        else:
             follow = form.save(commit=False)
             follow.ticket_id = id
             follow.follow_by = request.user
             follow.save()
+
     else:
         form = ResponseForm()
-        status = StatusForm(instance=tickets)
+        ticket = StatusForm(instance=tickets)
+
     return render(request, 'ticket.html', locals())
 
 
