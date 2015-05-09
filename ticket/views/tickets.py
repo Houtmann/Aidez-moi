@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django_tables2 import RequestConfig
-from ticket.forms import TicketForm, ResponseForm
+from ticket.forms import TicketForm, ResponseForm, StatusForm
 from ticket.models import Tickets, UserProfile, Follow
 from ticket.views.auth import home
 from ticket.tables import TicketsTables
@@ -172,7 +172,6 @@ def ticket_edit(request, id):
         form = TicketForm(request.POST, user=request.user, instance=ticket)
 
         if form.is_valid():
-
             form.edit(ticket_id=id, user=request.user)
             #messages.add_message(request, messages.INFO, 'Ticket mis à jour OK')
             return redirect(view_ticket, id)
@@ -186,20 +185,28 @@ def ticket_edit(request, id):
 
 @login_required(login_url='login/')
 def view_ticket(request, id):
-    tickets = Tickets.objects.select_related('create_by').get(id=id)
+
     follow_up = Follow.objects.select_related(
-                            'follow_by',
-                            'ticket').filter(ticket=id)
+                                        'follow_by',
+                                        'ticket').filter(ticket=id)
+    tickets = get_object_or_404(Tickets, id=id)
 
     if request.method == 'POST':
         form = ResponseForm(data=request.POST)
-        # if form.is_valid():
-        follow = form.save(commit=False)
-        follow.ticket_id = id
-        follow.follow_by = request.user
-        follow.save()
+        status = StatusForm(instance=tickets)
+
+        status.save()
+
+
+        if form.is_valid():
+
+            follow = form.save(commit=False)
+            follow.ticket_id = id
+            follow.follow_by = request.user
+            follow.save()
     else:
         form = ResponseForm()
+        status = StatusForm(instance=tickets)
     return render(request, 'ticket.html', locals())
 
 

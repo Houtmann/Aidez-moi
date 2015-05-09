@@ -12,13 +12,15 @@ def send_new_ticket_all_staff(object, user):
     Envoi un mail à tous les membres du staff
     Prend un paramètre un objet pour le corps du mail
     """
+
     staff = User.objects.filter(is_staff=True)
     for email in staff.values('email'):
         recp = email.get('email')
 
         send_mail(user +_(' a post" un Nouveau ticket : ')+ object.title,
-                    object.content,
+                    object.created +' '+ object.content,
                     USER,  [recp], fail_silently=False)
+
 
 @shared_task
 def follow_on_ticket(object):

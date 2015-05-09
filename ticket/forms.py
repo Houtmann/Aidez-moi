@@ -21,6 +21,10 @@ class ConnexionForm(forms.Form):
                                    'placeholder': "Password"}))
 
 
+
+
+
+
 class TicketForm(forms.ModelForm):
 
     """
@@ -83,6 +87,7 @@ class TicketForm(forms.ModelForm):
                 for field in self.changed_data:
                     oldvalue = ticket.values(field)
                     new = self[field].value()
+                    print(self.changed_data)
                     # column = Tickets._meta.get_field(field).verbose_name
                     Follow.objects.create(
                             ticket_id=ticket_id,
@@ -98,6 +103,28 @@ class TicketForm(forms.ModelForm):
         else:
             pass
         super(TicketForm, self).save(*args, **kwargs)
+
+
+class StatusForm(forms.ModelForm):
+    """
+    Pour modifier le statut du ticket
+    """
+
+    status = forms.CharField(required=False,
+                widget=forms.Select(choices=Tickets.STATUS_CHOICES))
+    class Meta:
+        model = Tickets
+        fields = ['status']
+        exclude = ('title',
+                   'content',
+                   'created',
+                   'last_edited',
+                   'complete',
+                   'depends_on',
+                   'types',
+                   'assign_to',
+                   'category',
+                   'create_by',)
 
 
 class ResponseForm(forms.ModelForm):
