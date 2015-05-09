@@ -17,7 +17,7 @@ def send_new_ticket_all_staff(object, user):
     for email in staff.values('email'):
         recp = email.get('email')
 
-        send_mail(user +_(' a post" un Nouveau ticket : ')+ object.title,
+        send_mail(user +_(' a posté" un Nouveau ticket : ')+ object.title,
                     object.content,
                     USER,  [recp], fail_silently=False)
 

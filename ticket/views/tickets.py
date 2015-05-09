@@ -183,12 +183,13 @@ def ticket_edit(request, id):
     return render(request, 'add_ticket.html', locals())
 
 
+
 @login_required(login_url='login/')
 def view_ticket(request, id):
 
     follow_up = Follow.objects.select_related(
-                                        'follow_by',
-                                        'ticket').filter(ticket=id)
+                                            'follow_by',
+                                            'ticket').filter(ticket=id)
     tickets = get_object_or_404(Tickets, id=id)
 
     if request.method == 'POST':
@@ -200,16 +201,20 @@ def view_ticket(request, id):
                 tick = ticket.save(commit=False)
                 ticket.status='CLOSED'
                 ticket.save()
+
             elif request.POST.get('status') == 'RESOLVED':
                 tick = ticket.save(commit=False)
                 ticket.status='RESOLVED'
                 ticket.save()
+
             elif request.POST.get('status') == 'OPEN':
                 tick = ticket.save(commit=False)
                 ticket.status='OPEN'
                 ticket.save()
+
         if request.POST.get('follow') == '':
             pass
+
         else:
             follow = form.save(commit=False)
             follow.ticket_id = id
@@ -221,6 +226,7 @@ def view_ticket(request, id):
         ticket = StatusForm(instance=tickets)
 
     return render(request, 'ticket.html', locals())
+
 
 
 @login_required(login_url='login/')

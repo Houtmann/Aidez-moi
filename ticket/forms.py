@@ -105,7 +105,10 @@ class TicketForm(forms.ModelForm):
         super(TicketForm, self).save(*args, **kwargs)
 
 
+
+
 class StatusForm(forms.ModelForm):
+
     """
     Pour modifier le statut du ticket
     """
@@ -125,6 +128,41 @@ class StatusForm(forms.ModelForm):
                    'assign_to',
                    'category',
                    'create_by',)
+
+
+    def edit(self, ticket_id, user, *args, **kwargs):
+        """
+        :param ticket_id: Clé du ticket
+        :param user: id de la session user
+        La fonction edit est pour l'édition d'un ticket et elle permet de sauvegarder les
+        élements changant dans la table Follow afin d'avoir un suivi du ticket
+
+        """
+        if Tickets.objects.filter(id=ticket_id).exists():
+            if self.has_changed():
+                ticket = Tickets.objects.filter(pk=ticket_id)
+
+                for field in self.changed_data:
+                    oldvalue = ticket.values(field)
+                    new = self[field].value()
+                    print(self.changed_data)
+                    # column = Tickets._meta.get_field(field).verbose_name
+                    Follow.objects.create(
+                            ticket_id=ticket_id,
+                            field=Tickets._meta.get_field_by_name( # Pour avoir le nom verbeux dans la table de suivi
+                                            field)[0].verbose_name,
+
+                            old_value=dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)
+                                                                            .get(oldvalue[0].get(field)),
+                            new_value=dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[(new)],
+
+                            follow_by=user)
+
+        else:
+            pass
+        super(TicketForm, self).save(*args, **kwargs)
+
+
 
 
 class ResponseForm(forms.ModelForm):
