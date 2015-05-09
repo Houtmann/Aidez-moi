@@ -39,10 +39,18 @@
 
     {% endif %}
 
+
+<div class="ui message">
+      <div class="header" >
+        {% trans "Titre" %} :
+      </div>
+      <p style="width: 40em; word-wrap: break-word;">{{ tickets.title }}</p>
+    </div>
+
 <table class="ui table">
       <thead>
         <tr>
-          <th><p style="width: 20em; word-wrap: break-word;">{% trans "Titre" %} : <p></p>{{ tickets.title }}</p></th>
+          <th></th>
           <th></th>
 
         </tr>

@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractBaseUser
 
 class Tickets(models.Model):
 
-    title = models.TextField(verbose_name=_('Titre'),)
+    title = models.TextField(verbose_name=_('Titre'), max_length=150)
     content = models.TextField(verbose_name=_('Contenu'),)
     create_by = models.ForeignKey(User, verbose_name=_('Crée par'),)
     created = models.DateTimeField(verbose_name=_('Crée le'),)

@@ -184,6 +184,7 @@ def ticket_edit(request, id):
 
 
 
+
 @login_required(login_url='login/')
 def view_ticket(request, id):
 
@@ -229,6 +230,7 @@ def view_ticket(request, id):
         ticket = StatusForm(instance=tickets)
 
     return render(request, 'ticket.html', locals())
+
 
 
 
