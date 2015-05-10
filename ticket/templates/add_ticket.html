@@ -2,34 +2,52 @@
 {% load i18n %}
 {% block content %}
 
-
     <div class="ui two column centered grid">
     <div class="column">
 
 <fieldset>
-
     <form class="ui form" action='' method="POST">{% csrf_token %}
 
 
- {% for field in form %}
 
 <div class="uk-form">
 
-    <label class="" for="form-h-it">{{ field.label_tag }}</label>
+    <table class="ui table">
+
     <div class="">
-       {{ field }}
+       {{ form.title }}
         <div class="ui divider"></div>
-    </div>{% endfor %}
+    </div>
+
+        <div class="">
+       {{ form.content }}
+        <div class="ui divider"></div>
+    </div>
+      <tbody>
+        <tr>
+          <td>{{ form.assign_to.label }}<p></p>{{ form.assign_to }}</td>
+          <td>{{ form.priority.label }}<p></p>{{ form.priority }}</td>
+        </tr>
+
+        <tr>
+          <td>{{ form.category.label }}<p></p>{{ form.category }}</td>
+          <td>{{ form.types.label }}<p></p>{{ form.types }}</td>
+        </tr>
+
+        <tr>
+          <td>{{ form.depends_on.label }}<p></p>{{ form.depends_on }}</td>
+          <td>{{ form.status.label }}<p></p>{{ form.status }}</td>
+        </tr>
+
+    </table>
 
 
     <center>
     <button class="ui submit button">{% trans "Soumettre" %}</button> </center></div>
         </form>
 
-
 </div>
 </body>
-
 {% endblock %}
 
 
