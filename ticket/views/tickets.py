@@ -5,13 +5,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django_tables2 import RequestConfig
-from ticket.forms import TicketForm, ResponseForm, StatusForm, UploadFileForm
+from ticket.forms import TicketForm, ResponseForm, StatusForm
 from ticket.models import Tickets, UserProfile, Follow
 from ticket.views.auth import home
 from ticket.tables import TicketsTables
 from django.contrib import messages
 from django.utils.translation import ugettext as _
-from ticket.tasks import send_new_ticket_all_staff
+from ticket.tasks import send_new_ticket_all_staff, handle_uploaded_file
 from djangoticket.settings import USE_MAIL
 
 
@@ -19,35 +19,39 @@ from djangoticket.settings import USE_MAIL
 def add_ticket(request):
 
     if request.method == 'POST':
-        form = TicketForm(data=request.POST, user=request.user)
-        upload = UploadFileForm(data=request.POST)
+        form = TicketForm(request.POST, request.FILES, user=request.user)
+
         # return redirect('/')
 
         if form.is_valid():
 
+
+
             ticket = form.save(commit=False)
+            print(request.POST)
+
             ticket.create_by = request.user
             ticket.created = datetime.now()
             try:
                 entity = UserProfile.objects.get(user=request.user)
                 ticket.title = '[' + str(
-                    entity.entity) + ']' + '' + ticket.title
+                    entity.entity) + ']' + ' ' + ticket.title
                 # Pour ajouter au titre l'entité à laquelle appartient
-                # l'utilisateur
+                # l'utilisateur pour une meilleur visibilité
             except:
                 pass
 
             ticket.save()
+
             if USE_MAIL: # Dans le fichier de configuration settings.py
                 send_new_ticket_all_staff.delay(ticket, request.user.email)
             return redirect(home)
-
 
         else:
             return render(request, 'add_ticket.html', locals())
     else:
         form = TicketForm(user=request.user)
-        upload = UploadFileForm()
+
     return render(request, 'add_ticket.html', locals())
 
 

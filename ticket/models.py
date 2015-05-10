@@ -5,6 +5,18 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import AbstractBaseUser
 
 
+
+"""class File(models.Model):
+     Fichier attaché au ticket
+
+
+    attached_file = models.FileField(default='',
+                                verbose_name=_('Fichier attaché'), max_length=300)
+
+    def __str__(self):
+
+        return str(self.ticket )"""
+
 class Tickets(models.Model):
 
     title = models.TextField(verbose_name=_('Titre'), max_length=150)
@@ -22,8 +34,9 @@ class Tickets(models.Model):
     depends_on = models.CharField(null=True, blank=True,
                                 verbose_name=_('Dépend'), max_length=100)
 
-    attached_file = models.FileField(null=True, blank=True,
-                                verbose_name=_('Fichier attaché'), max_length=250)
+    file = models.FileField(null=True, blank=True)
+
+
 
 
     TYPES_CHOICES = (
@@ -82,6 +95,7 @@ class Tickets(models.Model):
     def close(self):
         """ Fonction pour clore un ticket"""
         pass
+
 
 
 class TicketCategory(models.Model):

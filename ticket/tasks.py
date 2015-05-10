@@ -4,7 +4,8 @@ from ticket.models import Tickets, User
 from django.utils.translation import ugettext as _
 from celery import shared_task, task
 from djangoticket.email_config import  USER, PASSWORD
-
+from djangoticket.settings import MEDIA_ROOT
+import hashlib
 
 @task
 def send_new_ticket_all_staff(object, user):
@@ -29,10 +30,12 @@ def follow_on_ticket(object):
     """
     pass
 
+
 def handle_uploaded_file(f):
     """ Fonction qui écrit le fichier envoyé avec le ticket"""
 
-    with open('some/file/name.txt', 'wb+') as destination:
+
+    with open(MEDIA_ROOT + f.name, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
 

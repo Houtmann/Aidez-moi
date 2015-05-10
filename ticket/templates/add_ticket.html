@@ -6,7 +6,7 @@
     <div class="column">
 
 <fieldset>
-    <form class="ui form" action='' method="POST">{% csrf_token %}
+    <form enctype="multipart/form-data" class="ui form"  method="POST">{% csrf_token %}
 
 
 
@@ -40,11 +40,12 @@
         </tr>
 
     </table>
-    {{ upload}}<p></p>
+
+    {{ form.file}}<p></p></form>
 
     <center>
     <button class="ui submit button">{% trans "Soumettre" %}</button> </center></div>
-        </form>
+
 
 </div>
 </body>

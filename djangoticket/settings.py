@@ -13,6 +13,7 @@ import os
 from djangoticket.email_config import  USER, PASSWORD # REMOVE THIS FOR PROD
 
 
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -22,10 +23,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '6nt=#@dh3x3jt8*p)!m**1e+=%d4!w30$_w_1&dd9tce@506^5'
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 TEMPLATE_DEBUG = True
+
 
 ALLOWED_HOSTS = []
 
@@ -43,8 +47,8 @@ INSTALLED_APPS = (
     'ticket',
     'django_tables2',
 
-
 )
+
 
 
 MIDDLEWARE_CLASSES = (
@@ -97,21 +101,29 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
+#Pour les fichiers uploader par l'utilisateur
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+
+
 STATIC_URL = '/static/'
-
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))  # it means settings.py is in PROJECT_ROOT?
-
 STATICFILES_DIRS = (
     PROJECT_ROOT + '/static/',  # <= don't forget a comma here#
 )
 
+
+
 INTERNAL_IPS = ('127.0.0.1',)  # debug toolbar
+
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
     os.path.join(BASE_DIR, 'ticket/templates'),
 
 )
+
+
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',
 
@@ -119,8 +131,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
-
 )
+
 
 CACHES = {
     'default': {
@@ -129,7 +141,9 @@ CACHES = {
     }
 }
 
+
 USE_MAIL = False # Si false, pas de worker celery et d'envoi de mail
+
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = USER

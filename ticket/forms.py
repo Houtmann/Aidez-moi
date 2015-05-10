@@ -22,8 +22,8 @@ class ConnexionForm(forms.Form):
 
 
 
-class UploadFileForm(forms.Form):
-    file = forms.FileField(label=_('Fichier'))
+
+
 
 
 class TicketForm(forms.ModelForm):
@@ -54,6 +54,7 @@ class TicketForm(forms.ModelForm):
     assign_to = forms.ModelChoiceField(
         queryset=User.objects.all().filter(is_staff=1),
         label=_('Assigné à'))
+    file = forms.FileField()
 
     class Meta:
         model = Tickets

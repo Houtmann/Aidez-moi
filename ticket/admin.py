@@ -11,6 +11,9 @@ def close(modeladmin, request, queryset):
     close.short_description = " Clore les tickets selectionnés"
 
 
+
+
+
 class TicketAdmin(admin.ModelAdmin):
     list_display = ('title', 'types', 'created', 'status', 'priority')
     actions = [close]
