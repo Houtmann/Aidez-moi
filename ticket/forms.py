@@ -22,7 +22,8 @@ class ConnexionForm(forms.Form):
 
 
 
-
+class UploadFileForm(forms.Form):
+    file = forms.FileField(label=_('Fichier'))
 
 
 class TicketForm(forms.ModelForm):

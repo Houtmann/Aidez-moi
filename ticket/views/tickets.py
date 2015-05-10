@@ -5,13 +5,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django_tables2 import RequestConfig
-from ticket.forms import TicketForm, ResponseForm, StatusForm
+from ticket.forms import TicketForm, ResponseForm, StatusForm, UploadFileForm
 from ticket.models import Tickets, UserProfile, Follow
 from ticket.views.auth import home
 from ticket.tables import TicketsTables
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 from ticket.tasks import send_new_ticket_all_staff
+from djangoticket.settings import USE_MAIL
 
 
 @login_required(login_url='login/')
@@ -35,7 +36,8 @@ def add_ticket(request):
                 pass
 
             ticket.save()
-            send_new_ticket_all_staff.delay(ticket, request.user.email)
+            if USE_MAIL:
+                send_new_ticket_all_staff.delay(ticket, request.user.email)
             return redirect(home)
 
 
@@ -43,6 +45,7 @@ def add_ticket(request):
             return render(request, 'add_ticket.html', locals())
     else:
         form = TicketForm(user=request.user)
+        upload = UploadFileForm()
     return render(request, 'add_ticket.html', locals())
 
 
@@ -228,6 +231,7 @@ def view_ticket(request, id):
     else:
         form = ResponseForm()
         ticket = StatusForm(instance=tickets)
+
 
     return render(request, 'ticket.html', locals())
 
