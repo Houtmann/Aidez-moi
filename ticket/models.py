@@ -12,12 +12,18 @@ class Tickets(models.Model):
     create_by = models.ForeignKey(User, verbose_name=_('Crée par'),)
     created = models.DateTimeField(verbose_name=_('Crée le'),)
     last_edited = models.DateTimeField(verbose_name=_('Edité le'),auto_now=True)
-    category = models.ForeignKey('TicketCategory',verbose_name=_('Catégorie'),
-                                    null=True,
-                                    blank=True)
+
+    category = models.ForeignKey('TicketCategory',
+                                verbose_name=_('Catégorie'),null=True,blank=True)
+
     # Marque le ticket comme incomplete et attente d'informations
     complete = models.BooleanField(default=1, verbose_name=_('Complet'))
-    depends_on = models.CharField(null=True, blank=True, verbose_name=_('Dépend'), max_length=100)
+
+    depends_on = models.CharField(null=True, blank=True,
+                                verbose_name=_('Dépend'), max_length=100)
+
+    attached_file = models.FileField(null=True, blank=True,
+                                verbose_name=_('Fichier attaché'), max_length=250)
 
 
     TYPES_CHOICES = (

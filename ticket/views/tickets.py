@@ -20,9 +20,11 @@ def add_ticket(request):
 
     if request.method == 'POST':
         form = TicketForm(data=request.POST, user=request.user)
+        upload = UploadFileForm(data=request.POST)
         # return redirect('/')
 
         if form.is_valid():
+
             ticket = form.save(commit=False)
             ticket.create_by = request.user
             ticket.created = datetime.now()
@@ -36,7 +38,7 @@ def add_ticket(request):
                 pass
 
             ticket.save()
-            if USE_MAIL:
+            if USE_MAIL: # Dans le fichier de configuration settings.py
                 send_new_ticket_all_staff.delay(ticket, request.user.email)
             return redirect(home)
 
@@ -47,6 +49,7 @@ def add_ticket(request):
         form = TicketForm(user=request.user)
         upload = UploadFileForm()
     return render(request, 'add_ticket.html', locals())
+
 
 
 @login_required(login_url='login/')
@@ -69,6 +72,7 @@ def ticket_list_new(request):
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
+
 
 
 @login_required(login_url='login/')
@@ -95,6 +99,7 @@ def ticket_list_work(request):
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
+
 @login_required(login_url='login/')
 def ticket_list_resolved(request):
     """
@@ -117,6 +122,7 @@ def ticket_list_resolved(request):
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
+
 
 
 @login_required(login_url='login/')
@@ -143,6 +149,7 @@ def ticket_list_clos(request):
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
+
 
 
 @login_required(login_url='login/')
@@ -232,7 +239,6 @@ def view_ticket(request, id):
         form = ResponseForm()
         ticket = StatusForm(instance=tickets)
 
-
     return render(request, 'ticket.html', locals())
 
 
@@ -254,11 +260,13 @@ def my_ticket_assign(request):
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
+
 @login_required(login_url='login/')
 def delete_ticket(request, id):
     Follow.objects.filter(ticket_id=id).delete()
     Tickets.objects.filter(id=id).delete()
     return redirect('/')
+
 
 
 @login_required(login_url='login/')
@@ -271,6 +279,7 @@ def set_incomplete(request, id):
     ticket.save()
 
     return redirect('/ticket/id=%s' % (id))
+
 
 
 @login_required(login_url='login/')
@@ -306,6 +315,8 @@ def ticket_list_incomplet(request):
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
+
+
 
 @login_required(login_url='login/')
 def close_ticket(request, id):
