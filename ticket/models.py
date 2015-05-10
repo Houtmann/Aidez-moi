@@ -6,16 +6,6 @@ from django.contrib.auth.models import AbstractBaseUser
 
 
 
-"""class File(models.Model):
-     Fichier attaché au ticket
-
-
-    attached_file = models.FileField(default='',
-                                verbose_name=_('Fichier attaché'), max_length=300)
-
-    def __str__(self):
-
-        return str(self.ticket )"""
 
 class Tickets(models.Model):
 
