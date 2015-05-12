@@ -293,9 +293,10 @@ def ticket_list_incomplet(request):
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
-
-
-
-
+@login_required(login_url='login/')
+def delete_ticket(request, id):
+    Follow.objects.filter(ticket_id=id).delete()
+    Tickets.objects.filter(id=id).delete()
+    return redirect('/')
 
 
