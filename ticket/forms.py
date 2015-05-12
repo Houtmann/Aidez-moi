@@ -104,6 +104,7 @@ class TicketForm(forms.ModelForm):
 
                             follow_by=user)
 
+
                     if USE_MAIL: #Pour envoyer un mail de suivi des changements sur le ticket
 
                         changed['field'] = Tickets._meta.get_field_by_name( # Pour avoir le nom verbeux
@@ -113,8 +114,6 @@ class TicketForm(forms.ModelForm):
                         changed['newvalue'] = dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[(new)]
                         changed['follow_by'] = user.email
                         follow_on_ticket(ticket_id, changed)
-
-
 
         else:
             pass
