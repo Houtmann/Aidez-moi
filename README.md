@@ -1,7 +1,7 @@
 # Aidez-moi
 
 Systeme de ticket pour entreprise 
-Ecrit avec Django 1.8 et python 3.4, django-tables2
+Ecrit avec Django 1.8.1 et python 3.4, django-tables2
 
 Utilisation de Redis et celery pour la partie asynchrone ( envoie de mail etc... )
 
