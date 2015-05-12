@@ -23,6 +23,7 @@ def send_new_ticket_all_staff(object, user):
                     USER,  [recp], fail_silently=False)
 
 
+
 @task
 def follow_on_ticket(object_id, values):
     """
@@ -33,14 +34,13 @@ def follow_on_ticket(object_id, values):
     ticket = Tickets.objects.get(pk=object_id)
     recp = ticket.create_by.email
     content = values.get('follow_by')+ _(' à changé ') + values.get('field')[0] + \
-              _(' de ')+ values.get('oldvalue') + _(' à ') + values.get('newvalue')
+                _(' de ')+ values.get('oldvalue') + _(' à ') + values.get('newvalue')
 
-    print(content)
 
     send_mail(values.get('follow_by') +_(' a modifier votre ticket : ')+ ticket.title,
                     content,
                     USER,  [recp], fail_silently=False)
-    print(ticket.create_by)
+
 
 
 
