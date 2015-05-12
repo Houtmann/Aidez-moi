@@ -93,13 +93,6 @@ class TicketForm(forms.ModelForm):
                     oldvalue = ticket.values(field)
                     new = self[field].value()
 
-                    changed['field'] = Tickets._meta.get_field_by_name( # Pour avoir le nom verbeux
-                                            field)[0].verbose_name,
-                    changed['oldvalue'] = dict(Tickets._meta.get_field_by_name
-                                             (field)[0].flatchoices).get(oldvalue[0].get(field))
-                    changed['newvalue'] = dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[(new)]
-                    changed['follow_by'] = user.email
-
                     Follow.objects.create(
                             ticket_id=ticket_id,
                             field=Tickets._meta.get_field_by_name( # Pour avoir le nom verbeux dans la table de suivi
@@ -110,7 +103,15 @@ class TicketForm(forms.ModelForm):
                             new_value=dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[(new)],
 
                             follow_by=user)
-                    if USE_MAIL:
+
+                    if USE_MAIL: #Pour envoyer un mail de suivi des changements sur le ticket
+
+                        changed['field'] = Tickets._meta.get_field_by_name( # Pour avoir le nom verbeux
+                                            field)[0].verbose_name,
+                        changed['oldvalue'] = dict(Tickets._meta.get_field_by_name
+                                             (field)[0].flatchoices).get(oldvalue[0].get(field))
+                        changed['newvalue'] = dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[(new)]
+                        changed['follow_by'] = user.email
                         follow_on_ticket(ticket_id, changed)
 
 
