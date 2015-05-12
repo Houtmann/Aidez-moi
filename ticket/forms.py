@@ -127,6 +127,7 @@ class TicketForm(forms.ModelForm):
 
 
 
+
 class StatusForm(TicketForm, forms.ModelForm ):
 
     """
@@ -150,13 +151,25 @@ class StatusForm(TicketForm, forms.ModelForm ):
                    'category',
                    'create_by',)
 
+    def __init__(self, *args, **kwargs):
+        """
+        Pour exclure certains champs de la classe TicketForm
+        afin d'afficher assign_to et status pour un membre du staff
+        """
+        super(StatusForm, self).__init__(*args, **kwargs)
+        del self.fields['priority']
+        del self.fields['title']
+        del self.fields['content']
+        del self.fields['assign_to']
+
 
     def close(self, ticket_id, user):
         """ Fonction pour clore un ticket"""
+
         ticket = Tickets.objects.get(pk=ticket_id)
         if ticket.depends_on == '':
+
             self.edit(ticket_id, user)
-            return self.status == 'CLOSED'
 
         else:
             raise Exception ('vous devez clore le ticket %s' %ticket.depends_on)

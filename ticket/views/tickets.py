@@ -205,14 +205,15 @@ def view_ticket(request, id):
     if request.method == 'POST':
         form = ResponseForm(data=request.POST)
         ticket_form = StatusForm(request.POST, user=request.user, instance=tickets )
-
-        if form.is_valid() :
-
+        print(ticket_form.errors)
+        if form.is_valid() and ticket_form.is_valid() :
+            print('coucou')
             if request.POST.get('status') == 'CLOSED':
-                try:
-                    ticket_form.close(ticket_id=id, user=request.user)
-                except Exception:
-                    messages.info(request, 'Vous devez clore le ticket %s' % tickets.depends_on)
+                #try:
+                ticket_form.close(ticket_id=id, user=request.user)
+
+                #except Exception:
+                    #messages.info(request, 'Vous devez clore le ticket %s' % tickets.depends_on)
 
 
             elif request.POST.get('status') == 'RESOLVED':
