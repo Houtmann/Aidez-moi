@@ -7,7 +7,6 @@ from djangoticket.settings import MEDIA_ROOT
 
 
 
-
 class Tickets(models.Model):
 
     title = models.TextField(verbose_name=_('Titre'), max_length=150)

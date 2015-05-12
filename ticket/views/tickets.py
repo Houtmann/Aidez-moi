@@ -21,7 +21,7 @@ def add_ticket(request):
     if request.method == 'POST':
         form = TicketForm(request.POST, request.FILES, user=request.user)
         # return redirect('/')
-
+        print(form.errors)
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.create_by = request.user

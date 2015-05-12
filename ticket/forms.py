@@ -56,7 +56,7 @@ class TicketForm(forms.ModelForm):
     assign_to = forms.ModelChoiceField(
         queryset=User.objects.all().filter(is_staff=1),
         label=_('Assigné à'))
-    file = forms.FileField()
+    file = forms.FileField(required=False)
 
     class Meta:
         model = Tickets
@@ -113,7 +113,7 @@ class TicketForm(forms.ModelForm):
                                              (field)[0].flatchoices).get(oldvalue[0].get(field))
                         changed['newvalue'] = dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[(new)]
                         changed['follow_by'] = user.email
-                        follow_on_ticket(ticket_id, changed)
+                        follow_on_ticket.delay(ticket_id, changed)
 
         else:
             pass
