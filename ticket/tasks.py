@@ -23,17 +23,30 @@ def send_new_ticket_all_staff(object, user):
                     USER,  [recp], fail_silently=False)
 
 
-@shared_task
-def follow_on_ticket(object):
+@task
+def follow_on_ticket(object_id, values):
     """
+    object_id  est l'id du ticket et values les valeurs qui ont changé sur le ticket
     Envoi un email à chaque reponse , ou chaque éditions du tickets.
     """
-    pass
+
+    ticket = Tickets.objects.get(pk=object_id)
+    recp = ticket.create_by.email
+    content = values.get('follow_by')+ _(' à changé ') + values.get('field')[0] + \
+              _(' de ')+ values.get('oldvalue') + _(' à ') + values.get('newvalue')
+
+    print(content)
+
+    send_mail(values.get('follow_by') +_(' a modifier votre ticket : ')+ ticket.title,
+                    content,
+                    USER,  [recp], fail_silently=False)
+    print(ticket.create_by)
+
+
 
 
 def handle_uploaded_file(f):
     """ Fonction qui écrit le fichier envoyé avec le ticket"""
-
 
     with open(MEDIA_ROOT + f.name, 'wb+') as destination:
         for chunk in f.chunks():

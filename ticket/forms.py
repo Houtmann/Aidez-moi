@@ -3,6 +3,8 @@ from django import forms
 from ticket.models import User, Tickets, UserProfile, Follow
 from django.utils.translation import ugettext as _
 from django.contrib.admin.util import display_for_field
+from djangoticket.settings import USE_MAIL
+from ticket.tasks import follow_on_ticket
 
 
 class ConnexionForm(forms.Form):
@@ -82,6 +84,7 @@ class TicketForm(forms.ModelForm):
         élements changant dans la table Follow afin d'avoir un suivi du ticket
 
         """
+        changed = {}
         if Tickets.objects.filter(id=ticket_id).exists():
             if self.has_changed():
                 ticket = Tickets.objects.filter(pk=ticket_id)
@@ -89,8 +92,14 @@ class TicketForm(forms.ModelForm):
                 for field in self.changed_data:
                     oldvalue = ticket.values(field)
                     new = self[field].value()
-                    print(self.changed_data)
-                    # column = Tickets._meta.get_field(field).verbose_name
+
+                    changed['field'] = Tickets._meta.get_field_by_name( # Pour avoir le nom verbeux
+                                            field)[0].verbose_name,
+                    changed['oldvalue'] = dict(Tickets._meta.get_field_by_name
+                                             (field)[0].flatchoices).get(oldvalue[0].get(field))
+                    changed['newvalue'] = dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[(new)]
+                    changed['follow_by'] = user.email
+
                     Follow.objects.create(
                             ticket_id=ticket_id,
                             field=Tickets._meta.get_field_by_name( # Pour avoir le nom verbeux dans la table de suivi
@@ -101,6 +110,10 @@ class TicketForm(forms.ModelForm):
                             new_value=dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[(new)],
 
                             follow_by=user)
+                    if USE_MAIL:
+                        follow_on_ticket(ticket_id, changed)
+
+
 
         else:
             pass

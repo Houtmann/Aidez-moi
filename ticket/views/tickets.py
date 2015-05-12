@@ -21,13 +21,12 @@ def add_ticket(request):
     if request.method == 'POST':
         form = TicketForm(request.POST, request.FILES, user=request.user)
         # return redirect('/')
-        print(request.FILES)
+
         if form.is_valid():
             ticket = form.save(commit=False)
-            print(request.POST)
-
             ticket.create_by = request.user
             ticket.created = datetime.now()
+
             try:
                 entity = UserProfile.objects.get(user=request.user)
                 ticket.title = '[' + str(

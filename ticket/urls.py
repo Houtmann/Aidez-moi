@@ -26,7 +26,7 @@ urlpatterns = patterns('ticket.views',
         url(r'^set_complete/id=(?P<id>\d+)$','tickets.set_complete'),
         url(r'^stat/$', 'stats.statistic'),
         url(r'^logout/$', 'auth.logout_view'),
-        url(r'^ticket/file=(?P<file>\d+)$','tickets.ticket_edit'),
+
 
 
                        )  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

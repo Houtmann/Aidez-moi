@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import AbstractBaseUser
+from djangoticket.settings import MEDIA_ROOT
 
 
 
@@ -24,7 +25,7 @@ class Tickets(models.Model):
     depends_on = models.CharField(null=True, blank=True,
                                 verbose_name=_('Dépend'), max_length=100)
 
-    file = models.FileField(null=True, blank=True)
+    file = models.FileField(null=True, blank=True, upload_to=MEDIA_ROOT)
 
 
 
