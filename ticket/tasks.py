@@ -3,9 +3,10 @@ from django.core.mail import send_mail
 from ticket.models import Tickets, User
 from django.utils.translation import ugettext as _
 from celery import shared_task, task
-from djangoticket.email_config import  USER, PASSWORD
+from djangoticket.email_config import USER, PASSWORD
 from djangoticket.settings import MEDIA_ROOT
 import hashlib
+
 
 @task
 def send_new_ticket_all_staff(object, user):
@@ -18,10 +19,9 @@ def send_new_ticket_all_staff(object, user):
     for email in staff.values('email'):
         recp = email.get('email')
 
-        send_mail(user +_(' a posté" un Nouveau ticket : ')+ object.title,
-                    object.content,
-                    USER,  [recp], fail_silently=False)
-
+        send_mail(user + _(' a posté un Nouveau ticket : ') + object.title,
+                  object.content,
+                  USER, [recp], fail_silently=False)
 
 
 @task
@@ -33,16 +33,13 @@ def follow_on_ticket(object_id, values):
 
     ticket = Tickets.objects.get(pk=object_id)
     recp = ticket.create_by.email
-    content = values.get('follow_by')+ _(' à changé ') + values.get('field')[0] + \
-                _(' de ')+ values.get('oldvalue') + _(' à ') + values.get('newvalue')
 
+    content = values.get('follow_by') + _(' à changé ') + values.get('field')[0] + \
+              _(' de ') + values.get('oldvalue') + _(' à ') + values.get('newvalue')
 
-    send_mail(values.get('follow_by') +_(' a modifier votre ticket : ')+ ticket.title,
-                    content,
-                    USER,  [recp], fail_silently=False)
-
-
-
+    send_mail(values.get('follow_by') + _(' a modifier votre ticket : ') + ticket.title,
+              content,
+              USER, [recp], fail_silently=False)
 
 
 def handle_uploaded_file(f):

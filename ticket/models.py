@@ -6,32 +6,26 @@ from django.contrib.auth.models import AbstractBaseUser
 from djangoticket.settings import MEDIA_ROOT
 
 
-
 class Tickets(models.Model):
-
     title = models.TextField(verbose_name=_('Titre'), max_length=150)
-    content = models.TextField(verbose_name=_('Contenu'),)
-    create_by = models.ForeignKey(User, verbose_name=_('Crée par'),)
-    created = models.DateTimeField(verbose_name=_('Crée le'),)
-    last_edited = models.DateTimeField(verbose_name=_('Edité le'),auto_now=True)
+    content = models.TextField(verbose_name=_('Contenu'), )
+    create_by = models.ForeignKey(User, verbose_name=_('Crée par'), )
+    created = models.DateTimeField(verbose_name=_('Crée le'), )
+    last_edited = models.DateTimeField(verbose_name=_('Edité le'), auto_now=True)
 
     category = models.ForeignKey('TicketCategory',
-                                verbose_name=_('Catégorie'),null=True,blank=True)
+                                 verbose_name=_('Catégorie'), null=True, blank=True)
 
     # Marque le ticket comme incomplete et attente d'informations
     complete = models.BooleanField(default=1, verbose_name=_('Complet'))
 
     depends_on = models.CharField(null=True, blank=True,
-                                verbose_name=_('Dépend'), max_length=100)
+                                  verbose_name=_('Dépend'), max_length=100)
 
-    file = models.FileField(null=True, blank=True, upload_to=MEDIA_ROOT)
+    file = models.FileField(null=True, blank=True)
     date_closed = models.DateTimeField(verbose_name=_('Date de cloture le'), blank=True, null=True)
     date_assigned = models.DateTimeField(verbose_name=_('Assigné le'), blank=True, null=True)
-    date_resolved = models.DateTimeField(verbose_name=_('Résilution le'), blank=True, null=True)
-
-
-
-
+    date_resolved = models.DateTimeField(verbose_name=_('Résolution le'), blank=True, null=True)
 
     TYPES_CHOICES = (
         ('INCIDENT', _('Incident')),
@@ -58,17 +52,17 @@ class Tickets(models.Model):
         ('VERYLOW', _('Très basse')),)
 
     assign_to = models.ForeignKey(
-                    settings.AUTH_USER_MODEL,
-                    related_name='assigned_to',
-                    blank=True,
-                    null=True,
-                    verbose_name=(_('Assigné à')),
-                    )
+        settings.AUTH_USER_MODEL,
+        related_name='assigned_to',
+        blank=True,
+        null=True,
+        verbose_name=(_('Assigné à')),
+    )
 
     status = models.CharField(max_length=15,
                               choices=STATUS_CHOICES,
                               default=OPEN_STATUS,
-                              verbose_name=_('Statut'),)
+                              verbose_name=_('Statut'), )
 
     priority = models.CharField(max_length=15,
                                 choices=PRIORITY_CHOICES,
@@ -76,7 +70,7 @@ class Tickets(models.Model):
                                 blank='NORMAL',
                                 help_text=_(
                                     ('1 = Highest Priority, 5 = Low Priority')),
-                                verbose_name=_('Priorité'),)
+                                verbose_name=_('Priorité'), )
 
     def __str__(self):
         """
@@ -87,11 +81,7 @@ class Tickets(models.Model):
         return self.title
 
 
-
-
-
 class TicketCategory(models.Model):
-
     """
     Nom de catégorie pour mieux cibler les tickets
     """
@@ -107,7 +97,6 @@ class TicketCategory(models.Model):
 
 
 class Follow(models.Model):
-
     """
     Pour suivre les changements et les reponse d'un ticket
     """
@@ -123,24 +112,23 @@ class Follow(models.Model):
 
 
 class Entity(models.Model):
-
     """
     Modele pour créer des entités, exemple service comptabilité
     """
     name = models.TextField(verbose_name=_('Nom'))
     description = models.TextField(
-                            verbose_name=_('Description'),
-                            null=True,
-                            blank=True)
+        verbose_name=_('Description'),
+        null=True,
+        blank=True)
     telephone = models.TextField(
-                            verbose_name=_('Téléphone'),
-                            null=True,
-                            blank=True)
+        verbose_name=_('Téléphone'),
+        null=True,
+        blank=True)
     adress = models.TextField(verbose_name=_('Adresse'), null=True, blank=True)
     postal = models.TextField(
-                            verbose_name=_('Code postal'),
-                            null=True,
-                            blank=True)
+        verbose_name=_('Code postal'),
+        null=True,
+        blank=True)
 
     def __unicode__(self):
         return self.name

@@ -6,29 +6,24 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django_tables2 import RequestConfig
-from django.contrib import messages
 from ticket.forms import ConnexionForm
 from ticket.models import Tickets
-from ticket.tables import TicketsTables
 
 
 @login_required(login_url='login/')
 def home(request):
-
     if request.user.is_staff:
         ticket_list = Tickets.objects.select_related('create_by', 'assign_to', 'category'
-                                              ).filter().order_by('-created')[:10:1]
+                                                     ).filter().order_by('-created')[:10:1]
 
         ticket_incomplete = Tickets.objects.filter(complete=0).count()
     else:
         ticket_list = Tickets.objects.filter(
-                                create_by=request.user).order_by('-created')[:10:1]
+            create_by=request.user).order_by('-created')[:10:1]
 
         ticket_incomplete = Tickets.objects.filter(
-                                create_by=request.user,
-                                complete=0).count()
-
+            create_by=request.user,
+            complete=0).count()
 
     return render(request, 'home.html', {'ticket_list': ticket_list})
 

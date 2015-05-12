@@ -7,7 +7,6 @@ from django.utils.translation import ugettext as _
 
 
 class PriorityColumn(tables.Column):
-
     """
     Class qui sert à colorer les cellules en fonction de leurs
     priorité
@@ -29,7 +28,6 @@ class PriorityColumn(tables.Column):
 
 
 class StatusColumn(tables.Column):
-
     """
     Class met un badge en fonction du status
     """
@@ -54,4 +52,6 @@ class TicketsTables(tables.Table):
     class Meta:
         model = Tickets
         attrs = {"class": "paleblue"}
-        exclude = ('content', 'depends_on')
+        exclude = ('content', 'depends_on',
+                   'file', 'date_resolved',
+                   'date_closed', 'date_assigned')

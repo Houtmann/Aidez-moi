@@ -9,7 +9,6 @@ from ticket.views.auth import home
 from django.http import HttpResponse
 
 
-
 @login_required(login_url='login/')
 def telecharger_fichier(request, id):
     # Faire un truc ici qui génère le fichier

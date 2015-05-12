@@ -42,7 +42,8 @@ class UserProfileInline(admin.TabularInline):
 
 class MyUserAdmin(UserAdmin):
 
-    def entity(self, obj):
+    @staticmethod
+    def entity(obj):
         """
         Retourne l'entité à laquelle appartient l'utilisateur
         """

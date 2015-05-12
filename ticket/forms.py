@@ -2,14 +2,13 @@ __author__ = 'had'
 from django import forms
 from ticket.models import User, Tickets, UserProfile, Follow
 from django.utils.translation import ugettext as _
-from django.contrib.admin.util import display_for_field
+
 from djangoticket.settings import USE_MAIL
 from ticket.tasks import follow_on_ticket
 from django.contrib import messages
 
 
 class ConnexionForm(forms.Form):
-
     """
     Pour la page de login
     """
@@ -24,13 +23,7 @@ class ConnexionForm(forms.Form):
                                    'placeholder': "Password"}))
 
 
-
-
-
-
-
 class TicketForm(forms.ModelForm):
-
     """
     Pour ajouter un ticket
     """
@@ -77,7 +70,6 @@ class TicketForm(forms.ModelForm):
             del self.fields['depends_on']
 
 
-
     def edit(self, ticket_id, user, *args, **kwargs):
         """
         :param ticket_id: Clé du ticket
@@ -92,31 +84,28 @@ class TicketForm(forms.ModelForm):
                 ticket = Tickets.objects.filter(pk=ticket_id)
 
                 for field in self.changed_data:
-                    print(self.changed_data)
+
                     oldvalue = ticket.values(field)
-                    print(oldvalue)
                     new = self[field].value()
-                    print(new)
 
                     Follow.objects.create(
-                            ticket_id=ticket_id,
-                            field=Tickets._meta.get_field_by_name( # Pour avoir le nom verbeux dans la table de suivi
-                                            field)[0].verbose_name,
+                        ticket_id=ticket_id,
+                        field=Tickets._meta.get_field_by_name(  # Pour avoir le nom verbeux dans la table de suivi
+                                                                field)[0].verbose_name,
 
-                            old_value=dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)
-                                                                            .get(oldvalue[0].get(field)),
-                            new_value=dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[(new)],
+                        old_value=dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)
+                            .get(oldvalue[0].get(field)),
+                        new_value=dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[new],
 
-                            follow_by=user)
+                        follow_by=user)
 
+                    if USE_MAIL:  # Pour envoyer un mail de suivi des changements sur le ticket
 
-                    if USE_MAIL: #Pour envoyer un mail de suivi des changements sur le ticket
-
-                        changed['field'] = Tickets._meta.get_field_by_name( # Pour avoir le nom verbeux
-                                            field)[0].verbose_name,
+                        changed['field'] = Tickets._meta.get_field_by_name(  # Pour avoir le nom verbeux
+                                                                             field)[0].verbose_name,
                         changed['oldvalue'] = dict(Tickets._meta.get_field_by_name
-                                             (field)[0].flatchoices).get(oldvalue[0].get(field))
-                        changed['newvalue'] = dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[(new)]
+                                                   (field)[0].flatchoices).get(oldvalue[0].get(field))
+                        changed['newvalue'] = dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[new]
                         changed['follow_by'] = user.email
                         follow_on_ticket.delay(ticket_id, changed)
 
@@ -125,17 +114,14 @@ class TicketForm(forms.ModelForm):
         super(TicketForm, self).save(*args, **kwargs)
 
 
-
-
-
-class StatusForm(TicketForm, forms.ModelForm ):
-
+class StatusForm(TicketForm, forms.ModelForm):
     """
     Pour modifier le statut du ticket
     """
 
     status = forms.CharField(required=False,
-                widget=forms.Select(choices=Tickets.STATUS_CHOICES))
+                             widget=forms.Select(choices=Tickets.STATUS_CHOICES))
+
     class Meta:
         model = Tickets
         fields = ['status']
@@ -172,14 +158,10 @@ class StatusForm(TicketForm, forms.ModelForm ):
             self.edit(ticket_id, user)
 
         else:
-            raise Exception ('vous devez clore le ticket %s' %ticket.depends_on)
-
-
-
+            raise Exception('vous devez clore le ticket %s' % ticket.depends_on)
 
 
 class ResponseForm(forms.ModelForm):
-
     follow = forms.CharField(label='Ticket', required=False, widget=forms.Textarea(
         attrs={'placeholder': _('Réponse au ticket'), 'rows': '4', 'class': 'uk-width-1-1'}))
 
@@ -187,9 +169,9 @@ class ResponseForm(forms.ModelForm):
         model = Follow
         fields = ['follow']
         exclude = (
-                'date_follow',
-                'ticket_id',
-                'field',
-                'new_value',
-                'old_value',
-                'follower')
+            'date_follow',
+            'ticket_id',
+            'field',
+            'new_value',
+            'old_value',
+            'follower')

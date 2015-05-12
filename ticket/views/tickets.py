@@ -11,13 +11,12 @@ from ticket.views.auth import home
 from ticket.tables import TicketsTables
 from django.contrib import messages
 from django.utils.translation import ugettext as _
-from ticket.tasks import send_new_ticket_all_staff, handle_uploaded_file
+from ticket.tasks import send_new_ticket_all_staff
 from djangoticket.settings import USE_MAIL
 
 
 @login_required(login_url='login/')
 def add_ticket(request):
-
     if request.method == 'POST':
         form = TicketForm(request.POST, request.FILES, user=request.user)
         # return redirect('/')
@@ -38,7 +37,7 @@ def add_ticket(request):
 
             ticket.save()
 
-            if USE_MAIL: # Dans le fichier de configuration settings.py
+            if USE_MAIL:  # Dans le fichier de configuration settings.py
                 send_new_ticket_all_staff.delay(ticket, request.user.email)
             return redirect(home)
 
@@ -48,7 +47,6 @@ def add_ticket(request):
         form = TicketForm(user=request.user)
 
     return render(request, 'add_ticket.html', locals())
-
 
 
 @login_required(login_url='login/')
@@ -71,7 +69,6 @@ def ticket_list_new(request):
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
-
 
 
 @login_required(login_url='login/')
@@ -98,7 +95,6 @@ def ticket_list_work(request):
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
-
 @login_required(login_url='login/')
 def ticket_list_resolved(request):
     """
@@ -121,7 +117,6 @@ def ticket_list_resolved(request):
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
-
 
 
 @login_required(login_url='login/')
@@ -150,7 +145,6 @@ def ticket_list_clos(request):
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
-
 @login_required(login_url='login/')
 def ticket_all(request):
     """
@@ -169,7 +163,6 @@ def ticket_all(request):
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
-
 @login_required(login_url='login/')
 def ticket_edit(request, id):
     """
@@ -182,7 +175,7 @@ def ticket_edit(request, id):
 
         if form.is_valid():
             form.edit(ticket_id=id, user=request.user)
-            #messages.add_message(request, messages.INFO, 'Ticket mis à jour OK')
+            # messages.add_message(request, messages.INFO, 'Ticket mis à jour OK')
             return redirect(view_ticket, id)
             # If the save was successful, redirect to another page
     else:
@@ -192,41 +185,34 @@ def ticket_edit(request, id):
     return render(request, 'add_ticket.html', locals())
 
 
-
-
 @login_required(login_url='login/')
 def view_ticket(request, id):
-
-    follow_up = Follow.objects.select_related(
-                                            'follow_by',
-                                            'ticket').filter(ticket=id)
+    follow_up = Follow.objects.select_related('follow_by', 'ticket').filter(ticket=id)
     tickets = get_object_or_404(Tickets, id=id)
 
     if request.method == 'POST':
         form = ResponseForm(data=request.POST)
-        ticket_form = StatusForm(request.POST, user=request.user, instance=tickets )
-        print(ticket_form.errors)
-        if form.is_valid() and ticket_form.is_valid() :
-            print('coucou')
+        ticket_form = StatusForm(request.POST, user=request.user, instance=tickets)
+
+        if form.is_valid() and ticket_form.is_valid():
             if request.POST.get('status') == 'CLOSED':
-                #try:
+                # try:
                 ticket_form.close(ticket_id=id, user=request.user)
 
-                #except Exception:
-                    #messages.info(request, 'Vous devez clore le ticket %s' % tickets.depends_on)
+                # except Exception:
+                # messages.info(request, 'Vous devez clore le ticket %s' % tickets.depends_on)
 
 
             elif request.POST.get('status') == 'RESOLVED':
                 tick = ticket_form.save(commit=False)
                 ticket_form.edit(ticket_id=id, user=request.user)
-                tick.status='RESOLVED'
+                tick.status = 'RESOLVED'
 
 
             elif request.POST.get('status') == 'OPEN':
                 tick = ticket_form.save(commit=False)
                 ticket_form.edit(ticket_id=id, user=request.user)
-                tick.status='OPEN'
-
+                tick.status = 'OPEN'
 
         if request.POST.get('follow') == '':
             pass
@@ -242,8 +228,6 @@ def view_ticket(request, id):
         ticket_form = StatusForm(instance=tickets, user=request.user)
 
     return render(request, 'ticket.html', locals())
-
-
 
 
 @login_required(login_url='login/')
@@ -262,15 +246,6 @@ def my_ticket_assign(request):
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
-
-@login_required(login_url='login/')
-def delete_ticket(request, id):
-    Follow.objects.filter(ticket_id=id).delete()
-    Tickets.objects.filter(id=id).delete()
-    return redirect('/')
-
-
-
 @login_required(login_url='login/')
 def set_incomplete(request, id):
     """
@@ -280,8 +255,7 @@ def set_incomplete(request, id):
     ticket.complete = 0
     ticket.save()
 
-    return redirect('/ticket/id=%s' % (id))
-
+    return redirect('/ticket/id=%s' % id)
 
 
 @login_required(login_url='login/')
@@ -292,7 +266,7 @@ def set_complete(request, id):
     ticket = Tickets.objects.get(pk=id)
     ticket.complete = 1
     ticket.save()
-    return redirect('/ticket/id=%s' % (id))
+    return redirect('/ticket/id=%s' % id)
 
 
 @login_required(login_url='login/')
@@ -303,13 +277,13 @@ def ticket_list_incomplet(request):
     """
     if request.user.is_staff:
         list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
-                    .prefetch_related('create_by', 'assign_to', 'category') \
-                    .filter(complete=0).order_by('-created')
+            .prefetch_related('create_by', 'assign_to', 'category') \
+            .filter(complete=0).order_by('-created')
         ticket_list = TicketsTables(list)
     else:
         list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
-                    .prefetch_related('create_by', 'category') \
-                    .filter(create_by=request.user, complete=0).order_by('-created')
+            .prefetch_related('create_by', 'category') \
+            .filter(create_by=request.user, complete=0).order_by('-created')
         ticket_list = TicketsTables(list)
 
     RequestConfig(
