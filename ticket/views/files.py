@@ -1,28 +1,27 @@
 __author__ = 'had'
-from datetime import datetime
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
-from django_tables2 import RequestConfig
-from ticket.forms import TicketForm, ResponseForm, StatusForm
+
 from ticket.models import Tickets, UserProfile, Follow
 from ticket.views.auth import home
-from ticket.tables import TicketsTables
-from django.contrib import messages
-from django.utils.translation import ugettext as _
-from ticket.tasks import send_new_ticket_all_staff, handle_uploaded_file
-from djangoticket.settings import USE_MAIL
 
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
 
-from ticket.models import Tickets
-from zipfile impor tar
 
-def downloadLogs(req, dir):
-    response = HttpResponse(mimetype='application/x-gzip')
-    response['Content-Disposition'] = 'attachment; filename=download.tar.gz'
-    tarred = tarfile.open(fileobj=response, mode='w:gz')
-    tarred.add(dir)
-    tarred.close()
 
-    return response)
+@login_required(login_url='login/')
+def telecharger_fichier(request, id):
+    # Faire un truc ici qui génère le fichier
+    # ou qui récupère un fichier existant.
+    # l'important est d'avoir le chemin ABSOLU du fichier
+    chemin_vers_fichier = Tickets.objects.get(id).filter('file')
+
+    # On crée la réponse à la main
+    response = HttpResponse()
+
+    # On laisse nginx s'occuper de détecter le mimetype
+    del response['content-type']
+    # On met un header que nginx va comprendre comme "sert le fichier à ma place"
+    response['X-Accel-Redirect'] = chemin_vers_fichier
+    return response

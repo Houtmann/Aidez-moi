@@ -15,10 +15,13 @@ def close(modeladmin, request, queryset):
 
 
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ('title', 'types', 'created', 'status', 'priority')
+    list_display = ('title', 'types', 'created', 'status', 'priority','file')
     actions = [close]
 
 admin.site.register(Tickets, TicketAdmin)
+
+
+
 
 
 class TicketCategoryAdmin(admin.ModelAdmin):
