@@ -86,9 +86,7 @@ class Tickets(models.Model):
         """
         return self.title
 
-    def close(self):
-        """ Fonction pour clore un ticket"""
-        pass
+
 
 
 

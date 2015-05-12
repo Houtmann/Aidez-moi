@@ -21,7 +21,7 @@ def add_ticket(request):
     if request.method == 'POST':
         form = TicketForm(request.POST, request.FILES, user=request.user)
         # return redirect('/')
-        print(form.errors)
+
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.create_by = request.user
@@ -204,26 +204,28 @@ def view_ticket(request, id):
 
     if request.method == 'POST':
         form = ResponseForm(data=request.POST)
-        ticket = StatusForm(request.POST,instance=tickets)
+        ticket_form = StatusForm(request.POST, user=request.user, instance=tickets )
 
-        if form.is_valid():
+        if form.is_valid() :
+
             if request.POST.get('status') == 'CLOSED':
-                tick = ticket.save(commit=False)
-                ticket.edit(ticket_id=id, user=request.user)
-                tick.status='CLOSED'
-                ticket.save()
+                try:
+                    ticket_form.close(ticket_id=id, user=request.user)
+                except Exception:
+                    messages.info(request, 'Vous devez clore le ticket %s' % tickets.depends_on)
+
 
             elif request.POST.get('status') == 'RESOLVED':
-                tick = ticket.save(commit=False)
-                ticket.edit(ticket_id=id, user=request.user)
+                tick = ticket_form.save(commit=False)
+                ticket_form.edit(ticket_id=id, user=request.user)
                 tick.status='RESOLVED'
-                tick.save()
+
 
             elif request.POST.get('status') == 'OPEN':
-                tick = ticket.save(commit=False)
-                ticket.edit(ticket_id=id, user=request.user)
+                tick = ticket_form.save(commit=False)
+                ticket_form.edit(ticket_id=id, user=request.user)
                 tick.status='OPEN'
-                tick.save()
+
 
         if request.POST.get('follow') == '':
             pass
@@ -236,7 +238,7 @@ def view_ticket(request, id):
 
     else:
         form = ResponseForm()
-        ticket = StatusForm(instance=tickets)
+        ticket_form = StatusForm(instance=tickets, user=request.user)
 
     return render(request, 'ticket.html', locals())
 
@@ -317,25 +319,7 @@ def ticket_list_incomplet(request):
 
 
 
-@login_required(login_url='login/')
-def close_ticket(request, id):
-    """
-    Verifie si le ticket dépendant est clos pour clore le ticket
-    """
-    ticket = Tickets.objects.get(pk=id)
-    if ticket.depends_on == '':
-        ticket.status = 'CLOSED'
-        ticket.save()
-        return redirect('/ticket/id=%s' % (id))
-    else:
-        ticket_depend = Tickets.objects.get(pk=ticket.depends_on)
-        if ticket_depend.status == 'CLOSED':
-            ticket.status = 'CLOSED'
-            ticket.save()
-            return redirect('/ticket/id=%s' % (id))
-        else:
-            messages.warning(request, _('Vous devez clore le ticket {0}').format(ticket.depends_on))
-            return redirect('/ticket/id=%s' % (id))
+
 
 
 

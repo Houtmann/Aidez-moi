@@ -5,6 +5,7 @@ from django.utils.translation import ugettext as _
 from django.contrib.admin.util import display_for_field
 from djangoticket.settings import USE_MAIL
 from ticket.tasks import follow_on_ticket
+from django.contrib import messages
 
 
 class ConnexionForm(forms.Form):
@@ -62,6 +63,7 @@ class TicketForm(forms.ModelForm):
         model = Tickets
         exclude = ('created', 'create_by', 'complete')
 
+
     def __init__(self, *args, **kwargs):
         """
         Pour exclure certains champs de la classe TicketForm
@@ -90,8 +92,11 @@ class TicketForm(forms.ModelForm):
                 ticket = Tickets.objects.filter(pk=ticket_id)
 
                 for field in self.changed_data:
+                    print(self.changed_data)
                     oldvalue = ticket.values(field)
+                    print(oldvalue)
                     new = self[field].value()
+                    print(new)
 
                     Follow.objects.create(
                             ticket_id=ticket_id,
@@ -122,7 +127,7 @@ class TicketForm(forms.ModelForm):
 
 
 
-class StatusForm(forms.ModelForm):
+class StatusForm(TicketForm, forms.ModelForm ):
 
     """
     Pour modifier le statut du ticket
@@ -136,6 +141,7 @@ class StatusForm(forms.ModelForm):
         exclude = ('title',
                    'content',
                    'created',
+                   'priority',
                    'last_edited',
                    'complete',
                    'depends_on',
@@ -145,37 +151,16 @@ class StatusForm(forms.ModelForm):
                    'create_by',)
 
 
-    def edit(self, ticket_id, user, *args, **kwargs):
-        """
-        :param ticket_id: Clé du ticket
-        :param user: id de la session user
-        La fonction edit est pour l'édition d'un ticket et elle permet de sauvegarder les
-        élements changant dans la table Follow afin d'avoir un suivi du ticket
-
-        """
-        if Tickets.objects.filter(id=ticket_id).exists():
-            if self.has_changed():
-                ticket = Tickets.objects.filter(pk=ticket_id)
-
-                for field in self.changed_data:
-                    oldvalue = ticket.values(field)
-                    new = self[field].value()
-                    print(self.changed_data)
-                    # column = Tickets._meta.get_field(field).verbose_name
-                    Follow.objects.create(
-                            ticket_id=ticket_id,
-                            field=Tickets._meta.get_field_by_name( # Pour avoir le nom verbeux dans la table de suivi
-                                            field)[0].verbose_name,
-
-                            old_value=dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)
-                                                                            .get(oldvalue[0].get(field)),
-                            new_value=dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[(new)],
-
-                            follow_by=user)
+    def close(self, ticket_id, user):
+        """ Fonction pour clore un ticket"""
+        ticket = Tickets.objects.get(pk=ticket_id)
+        if ticket.depends_on == '':
+            self.edit(ticket_id, user)
+            return self.status == 'CLOSED'
 
         else:
-            pass
-        super(StatusForm, self).save(*args, **kwargs)
+            raise Exception ('vous devez clore le ticket %s' %ticket.depends_on)
+
 
 
 
