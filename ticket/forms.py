@@ -93,16 +93,20 @@ class TicketForm(forms.ModelForm):
                         field=Tickets._meta.get_field_by_name(  # Pour avoir le nom verbeux dans la table de suivi
                                                                 field)[0].verbose_name,
 
-                        old_value=dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)
-                            .get(oldvalue[0].get(field)),
-                        new_value=dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[new],
+                        old_value=dict(Tickets
+                                       ._meta.get_field_by_name(field)[0]
+                                       .flatchoices)
+                                       .get(oldvalue[0].get(field)),
+                        new_value=dict(Tickets
+                                       ._meta.get_field_by_name(field)[0]
+                                       .flatchoices)[new],
 
                         follow_by=user)
 
                     if USE_MAIL:  # Pour envoyer un mail de suivi des changements sur le ticket
 
                         changed['field'] = Tickets._meta.get_field_by_name(  # Pour avoir le nom verbeux
-                                                                             field)[0].verbose_name,
+                                                    field)[0].verbose_name,
                         changed['oldvalue'] = dict(Tickets._meta.get_field_by_name
                                                    (field)[0].flatchoices).get(oldvalue[0].get(field))
                         changed['newvalue'] = dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[new]
@@ -120,7 +124,8 @@ class StatusForm(TicketForm, forms.ModelForm):
     """
 
     status = forms.CharField(required=False,
-                             widget=forms.Select(choices=Tickets.STATUS_CHOICES))
+                             widget=forms.Select(
+                             choices=Tickets.STATUS_CHOICES))
 
     class Meta:
         model = Tickets
@@ -163,7 +168,9 @@ class StatusForm(TicketForm, forms.ModelForm):
 
 class ResponseForm(forms.ModelForm):
     follow = forms.CharField(label='Ticket', required=False, widget=forms.Textarea(
-        attrs={'placeholder': _('Réponse au ticket'), 'rows': '4', 'class': 'uk-width-1-1'}))
+        attrs={'placeholder': _('Réponse au ticket'),
+               'rows': '4',
+               'class': 'uk-width-1-1'}))
 
     class Meta:
         model = Follow
