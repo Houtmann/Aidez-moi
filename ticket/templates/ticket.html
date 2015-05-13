@@ -15,7 +15,7 @@
 </div>
 {% endif %}
 
-
+<center>
     <div class="ui  button"><a href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">
         {% trans "Editer le ticket" %}</a></div>
 
@@ -37,7 +37,7 @@
        onclick="return confirm('Etes vous sure de vouloir supprimez ce ticket ?');">
         {% trans "Demande de suppression" %}</a>
 
-    {% endif %}
+    {% endif %}</center>
 
 
 <div class="ui message">
@@ -87,7 +87,7 @@
                 {% endif %}</td>
         <tr>
         <td>{% trans "Derniere edition le" %} : {{ tickets.last_edited }}</td>
-            <td></td>
+            <td>{% if tickets.depends_on  %}{% trans "Depend" %}: {{ tickets.depends_on }}</td> {% endif %}
             </tr>
 
         </tr>

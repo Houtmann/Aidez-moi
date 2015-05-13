@@ -3,14 +3,18 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import AbstractBaseUser
-from djangoticket.settings import MEDIA_ROOT
 
 
 class Tickets(models.Model):
+
     title = models.TextField(verbose_name=_('Titre'), max_length=150)
+
     content = models.TextField(verbose_name=_('Contenu'), )
+
     create_by = models.ForeignKey(User, verbose_name=_('Crée par'), )
+
     created = models.DateTimeField(verbose_name=_('Crée le'), )
+
     last_edited = models.DateTimeField(verbose_name=_('Edité le'),
                                        auto_now=True)
 
@@ -28,12 +32,15 @@ class Tickets(models.Model):
                                   max_length=100)
 
     file = models.FileField(null=True, blank=True)
+
     date_closed = models.DateTimeField(verbose_name=_('Date de cloture le'),
                                        blank=True,
                                        null=True)
+
     date_assigned = models.DateTimeField(verbose_name=_('Assigné le'),
                                          blank=True,
                                          null=True)
+
     date_resolved = models.DateTimeField(verbose_name=_('Résolution le'),
                                          blank=True,
                                          null=True)
@@ -80,7 +87,7 @@ class Tickets(models.Model):
                                 default='NORMAL',
                                 blank='NORMAL',
                                 help_text=_(
-                                ('1 = Highest Priority, 5 = Low Priority')),
+                                    '1 = Highest Priority, 5 = Low Priority'),
                                 verbose_name=_('Priorité'), )
 
     def __str__(self):
