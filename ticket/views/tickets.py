@@ -1,3 +1,4 @@
+# coding=utf-8
 __author__ = 'had'
 
 from datetime import datetime
@@ -17,6 +18,11 @@ from djangoticket.settings import USE_MAIL
 
 @login_required(login_url='login/')
 def add_ticket(request):
+    """
+
+    :param request:
+    :return:
+    """
     if request.method == 'POST':
         form = TicketForm(request.POST, request.FILES, user=request.user)
         # return redirect('/')
@@ -54,6 +60,7 @@ def ticket_list_new(request):
     """
     Retourne la page des tickets ouvert non assigné. Si le membre fait partie du staff
     tous les tickets sont affichés, sinon pour l'utilisateur seulement ses tickets seront affiché
+    :param request:
     """
     if request.user.is_staff:
         list = Tickets.objects.filter(assign_to=None).order_by('-created')
@@ -76,21 +83,22 @@ def ticket_list_work(request):
     """
     Retourne la page des tickets ouvert. Si le membre fait partie du staff tous les tickets sont affichés,
     sinon pour l'utilisateur seulement ses tickets seront affiché
+    :param request:
     """
     if request.user.is_staff:
-        list = Tickets\
-                .objects.select_related('create_by', 'assign_to', 'category')\
-                .prefetch_related('create_by','category') \
-                .filter(status='OPEN')\
-                .exclude(assign_to=None)\
+        list = Tickets \
+                .objects.select_related('create_by', 'assign_to', 'category') \
+                .prefetch_related('create_by', 'category') \
+                .filter(status='OPEN') \
+                .exclude(assign_to=None) \
                 .order_by('-created')
         ticket_list = TicketsTables(list)
     else:
-        list = Tickets\
-                .objects.select_related('create_by', 'assign_to', 'category')\
-                .prefetch_related('create_by','category') \
-                .filter(create_by=request.user, status='OPEN')\
-                .exclude(assign_to=None)\
+        list = Tickets \
+                .objects.select_related('create_by', 'assign_to', 'category') \
+                .prefetch_related('create_by', 'category') \
+                .filter(create_by=request.user, status='OPEN') \
+                .exclude(assign_to=None) \
                 .order_by('-created')
         ticket_list = TicketsTables(list)
 
@@ -106,20 +114,21 @@ def ticket_list_resolved(request):
     """
     Retourne la page des tickets résolus. Si le membre fait partie du staff tous les tickets sont affichés,
     sinon pour l'utilisateur seulement ses tickets seront affiché
+    :param request:
     """
 
     if request.user.is_staff:
-        list = Tickets.objects\
-                .select_related('create_by', 'assign_to', 'category') \
-                .filter(status='RESOLVED').exclude(assign_to=None)\
-                .order_by('-created')
+        list = Tickets.objects \
+            .select_related('create_by', 'assign_to', 'category') \
+            .filter(status='RESOLVED').exclude(assign_to=None) \
+            .order_by('-created')
         ticket_list = TicketsTables(list)
     else:
-        list = Tickets.objects\
-                .select_related('create_by', 'assign_to', 'category') \
-                .prefetch_related('create_by', 'category') \
-                .filter(create_by=request.user, status='RESOLVED')\
-                .order_by('-created')
+        list = Tickets.objects \
+            .select_related('create_by', 'assign_to', 'category') \
+            .prefetch_related('create_by', 'category') \
+            .filter(create_by=request.user, status='RESOLVED') \
+            .order_by('-created')
         ticket_list = TicketsTables(list)
 
     RequestConfig(
@@ -134,6 +143,7 @@ def ticket_list_clos(request):
     """
     Retourne la page des tickets clos. Si le membre fait partie du staff tous les tickets sont affichés,
     sinon pour l'utilisateur seulement ses tickets seront affiché
+    :param request:
     """
     if request.user.is_staff:
         list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
@@ -159,6 +169,7 @@ def ticket_list_clos(request):
 def ticket_all(request):
     """
     Retourne la page de tous les tickets pour le staff.
+    :param request:
     """
     list = Tickets.objects.select_related(
         'create_by',
@@ -176,6 +187,8 @@ def ticket_all(request):
 @login_required(login_url='login/')
 def ticket_edit(request, id):
     """
+
+    :param request:
     :param id: ticket id
     Pour editer un ticket
     """
@@ -184,7 +197,6 @@ def ticket_edit(request, id):
         form = TicketForm(request.POST, user=request.user, instance=ticket)
         print(form.errors)
         if form.is_valid():
-
             form.edit(ticket_id=id, user=request.user)
             # messages.add_message(request, messages.INFO, 'Ticket mis à jour OK')
             return redirect(view_ticket, id)
@@ -198,9 +210,15 @@ def ticket_edit(request, id):
 
 @login_required(login_url='login/')
 def view_ticket(request, id):
-    follow_up = Follow.objects\
-                    .select_related('follow_by', 'ticket')\
-                    .filter(ticket=id)
+    """
+
+    :param request:
+    :param id:
+    :return:
+    """
+    follow_up = Follow.objects \
+        .select_related('follow_by', 'ticket') \
+        .filter(ticket=id)
     tickets = get_object_or_404(Tickets, id=id)
 
     if request.method == 'POST':
@@ -251,10 +269,11 @@ def view_ticket(request, id):
 def my_ticket_assign(request):
     """
     Retourne la page de tous vos tickets assigné à vous.
+    :param request:
     """
-    list = Tickets.objects.filter(assign_to=request.user)\
-                        .select_related('create_by', 'assign_to', 'category')\
-                        .order_by('-created')
+    list = Tickets.objects.filter(assign_to=request.user) \
+        .select_related('create_by', 'assign_to', 'category') \
+        .order_by('-created')
     ticket_list = TicketsTables(list)
 
     RequestConfig(
@@ -268,12 +287,14 @@ def my_ticket_assign(request):
 def set_incomplete(request, id):
     """
     Marque un ticket comme incomplet et attente d'informations complémentaire
+    :param request:
+    :param id:
     """
     ticket = Tickets.objects.get(pk=id)
     ticket.complete = 0
     ticket.save()
     if USE_MAIL:
-        incomplete_ticket.delay(ticket.id) # Envoi un mail pour signaler que le ticket est incomplet
+        incomplete_ticket.delay(ticket.id)  # Envoi un mail pour signaler que le ticket est incomplet
 
     return redirect('/ticket/id=%s' % id)
 
@@ -282,6 +303,8 @@ def set_incomplete(request, id):
 def set_complete(request, id):
     """
     Marque un ticket comme complet
+    :param request:
+    :param id:
     """
     ticket = Tickets.objects.get(pk=id)
     ticket.complete = 1
@@ -294,18 +317,19 @@ def ticket_list_incomplet(request):
     """
     Retourne la page des tickets clos. Si le membre fait partie du staff tous les tickets sont affichés,
     sinon pour l'utilisateur seulement ses tickets seront affiché
+    :param request:
     """
     if request.user.is_staff:
-        list = Tickets.objects\
-                .select_related('create_by', 'assign_to', 'category') \
-                .prefetch_related('create_by', 'assign_to', 'category') \
-                .filter(complete=0).order_by('-created')
+        list = Tickets.objects \
+            .select_related('create_by', 'assign_to', 'category') \
+            .prefetch_related('create_by', 'assign_to', 'category') \
+            .filter(complete=0).order_by('-created')
         ticket_list = TicketsTables(list)
     else:
-        list = Tickets.objects\
-                .select_related('create_by', 'assign_to', 'category') \
-                .prefetch_related('create_by', 'category') \
-                .filter(create_by=request.user, complete=0).order_by('-created')
+        list = Tickets.objects \
+            .select_related('create_by', 'assign_to', 'category') \
+            .prefetch_related('create_by', 'category') \
+            .filter(create_by=request.user, complete=0).order_by('-created')
         ticket_list = TicketsTables(list)
 
     RequestConfig(
@@ -317,6 +341,12 @@ def ticket_list_incomplet(request):
 
 @login_required(login_url='login/')
 def delete_ticket(request, id):
+    """
+
+    :param request:
+    :param id:
+    :return:
+    """
     Follow.objects.filter(ticket_id=id).delete()
     Tickets.objects.filter(id=id).delete()
     return redirect('/')

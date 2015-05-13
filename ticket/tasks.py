@@ -1,3 +1,4 @@
+# coding=utf-8
 __author__ = 'had'
 from django.core.mail import send_mail
 from ticket.models import Tickets, User

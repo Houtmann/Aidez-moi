@@ -1,3 +1,4 @@
+# coding=utf-8
 __author__ = 'had'
 from django import forms
 from ticket.models import User, Tickets, UserProfile, Follow

@@ -1,3 +1,4 @@
+# coding=utf-8
 __author__ = 'had'
 from ticket.models import Tickets
 import django_tables2 as tables

@@ -1,3 +1,4 @@
+# coding=utf-8
 __author__ = 'had'
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
