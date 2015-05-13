@@ -78,14 +78,20 @@ def ticket_list_work(request):
     sinon pour l'utilisateur seulement ses tickets seront affiché
     """
     if request.user.is_staff:
-        list = Tickets.objects.select_related('create_by', 'assign_to', 'category').prefetch_related('create_by',
-                                                                                                     'category') \
-            .filter(status='OPEN').exclude(assign_to=None).order_by('-created')
+        list = Tickets\
+                .objects.select_related('create_by', 'assign_to', 'category')\
+                .prefetch_related('create_by','category') \
+                .filter(status='OPEN')\
+                .exclude(assign_to=None)\
+                .order_by('-created')
         ticket_list = TicketsTables(list)
     else:
-        list = Tickets.objects.select_related('create_by', 'assign_to', 'category').prefetch_related('create_by',
-                                                                                                     'category') \
-            .filter(create_by=request.user, status='OPEN').exclude(assign_to=None).order_by('-created')
+        list = Tickets\
+                .objects.select_related('create_by', 'assign_to', 'category')\
+                .prefetch_related('create_by','category') \
+                .filter(create_by=request.user, status='OPEN')\
+                .exclude(assign_to=None)\
+                .order_by('-created')
         ticket_list = TicketsTables(list)
 
     RequestConfig(
@@ -103,13 +109,17 @@ def ticket_list_resolved(request):
     """
 
     if request.user.is_staff:
-        list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
-            .filter(status='RESOLVED').exclude(assign_to=None).order_by('-created')
+        list = Tickets.objects\
+                .select_related('create_by', 'assign_to', 'category') \
+                .filter(status='RESOLVED').exclude(assign_to=None)\
+                .order_by('-created')
         ticket_list = TicketsTables(list)
     else:
-        list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
-            .prefetch_related('create_by', 'category') \
-            .filter(create_by=request.user, status='RESOLVED').order_by('-created')
+        list = Tickets.objects\
+                .select_related('create_by', 'assign_to', 'category') \
+                .prefetch_related('create_by', 'category') \
+                .filter(create_by=request.user, status='RESOLVED')\
+                .order_by('-created')
         ticket_list = TicketsTables(list)
 
     RequestConfig(
@@ -187,20 +197,26 @@ def ticket_edit(request, id):
 
 @login_required(login_url='login/')
 def view_ticket(request, id):
-    follow_up = Follow.objects.select_related('follow_by', 'ticket').filter(ticket=id)
+    follow_up = Follow.objects\
+                    .select_related('follow_by', 'ticket')\
+                    .filter(ticket=id)
     tickets = get_object_or_404(Tickets, id=id)
 
     if request.method == 'POST':
         form = ResponseForm(data=request.POST)
-        ticket_form = StatusForm(request.POST, user=request.user, instance=tickets)
+        ticket_form = StatusForm(request.POST,
+                                 user=request.user,
+                                 instance=tickets)
 
         if form.is_valid() and ticket_form.is_valid():
             if request.POST.get('status') == 'CLOSED':
-                # try:
-                ticket_form.close(ticket_id=id, user=request.user)
+                try:
+                    ticket_form.close(ticket_id=id, user=request.user)
 
-                # except Exception:
-                # messages.info(request, 'Vous devez clore le ticket %s' % tickets.depends_on)
+                except Exception:
+                    messages.info(
+                        request,
+                        'Vous devez clore le ticket %s' % tickets.depends_on)
 
 
             elif request.POST.get('status') == 'RESOLVED':
@@ -235,8 +251,9 @@ def my_ticket_assign(request):
     """
     Retourne la page de tous vos tickets assigné à vous.
     """
-    list = Tickets.objects.filter(assign_to=request.user).select_related('create_by', 'assign_to', 'category'
-                                                                         ).order_by('-created')
+    list = Tickets.objects.filter(assign_to=request.user)\
+                        .select_related('create_by', 'assign_to', 'category')\
+                        .order_by('-created')
     ticket_list = TicketsTables(list)
 
     RequestConfig(
@@ -276,14 +293,16 @@ def ticket_list_incomplet(request):
     sinon pour l'utilisateur seulement ses tickets seront affiché
     """
     if request.user.is_staff:
-        list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
-            .prefetch_related('create_by', 'assign_to', 'category') \
-            .filter(complete=0).order_by('-created')
+        list = Tickets.objects\
+                .select_related('create_by', 'assign_to', 'category') \
+                .prefetch_related('create_by', 'assign_to', 'category') \
+                .filter(complete=0).order_by('-created')
         ticket_list = TicketsTables(list)
     else:
-        list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
-            .prefetch_related('create_by', 'category') \
-            .filter(create_by=request.user, complete=0).order_by('-created')
+        list = Tickets.objects\
+                .select_related('create_by', 'assign_to', 'category') \
+                .prefetch_related('create_by', 'category') \
+                .filter(create_by=request.user, complete=0).order_by('-created')
         ticket_list = TicketsTables(list)
 
     RequestConfig(
