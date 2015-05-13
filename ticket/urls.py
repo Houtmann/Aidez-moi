@@ -1,7 +1,6 @@
 __author__ = 'had'
 
 from django.conf.urls import patterns, url
-from ticket.views import tickets, auth
 from django.conf import settings
 from django.conf.urls.static import static
 

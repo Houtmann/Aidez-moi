@@ -11,7 +11,7 @@ from ticket.views.auth import home
 from ticket.tables import TicketsTables
 from django.contrib import messages
 from django.utils.translation import ugettext as _
-from ticket.tasks import send_new_ticket_all_staff
+from ticket.tasks import send_new_ticket_all_staff, incomplete_ticket
 from djangoticket.settings import USE_MAIL
 
 
@@ -182,8 +182,9 @@ def ticket_edit(request, id):
     ticket = get_object_or_404(Tickets, id=id)
     if request.method == 'POST':
         form = TicketForm(request.POST, user=request.user, instance=ticket)
-
+        print(form.errors)
         if form.is_valid():
+
             form.edit(ticket_id=id, user=request.user)
             # messages.add_message(request, messages.INFO, 'Ticket mis à jour OK')
             return redirect(view_ticket, id)
@@ -271,6 +272,8 @@ def set_incomplete(request, id):
     ticket = Tickets.objects.get(pk=id)
     ticket.complete = 0
     ticket.save()
+    if USE_MAIL:
+        incomplete_ticket.delay(ticket.id) # Envoi un mail pour signaler que le ticket est incomplet
 
     return redirect('/ticket/id=%s' % id)
 

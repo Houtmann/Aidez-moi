@@ -48,8 +48,9 @@ class TicketForm(forms.ModelForm):
 
     # Pour choisir que les membres du staff
     assign_to = forms.ModelChoiceField(
-        queryset=User.objects.all().filter(is_staff=1),
-        label=_('Assigné à'))
+                    queryset=User.objects.all().filter(is_staff=1),
+                    label=_('Assigné à'),
+                    required=False)
     file = forms.FileField(required=False)
 
     class Meta:
@@ -67,7 +68,7 @@ class TicketForm(forms.ModelForm):
         if user.is_staff is False:
             del self.fields['assign_to']
             del self.fields['status']
-            del self.fields['depends_on']
+
 
 
     def edit(self, ticket_id, user, *args, **kwargs):
@@ -91,7 +92,7 @@ class TicketForm(forms.ModelForm):
                     Follow.objects.create(
                         ticket_id=ticket_id,
                         field=Tickets._meta.get_field_by_name(  # Pour avoir le nom verbeux dans la table de suivi
-                                                                field)[0].verbose_name,
+                                            field)[0].verbose_name,
 
                         old_value=dict(Tickets
                                        ._meta.get_field_by_name(field)[0]
@@ -107,9 +108,14 @@ class TicketForm(forms.ModelForm):
 
                         changed['field'] = Tickets._meta.get_field_by_name(  # Pour avoir le nom verbeux
                                                     field)[0].verbose_name,
+
                         changed['oldvalue'] = dict(Tickets._meta.get_field_by_name
-                                                   (field)[0].flatchoices).get(oldvalue[0].get(field))
-                        changed['newvalue'] = dict(Tickets._meta.get_field_by_name(field)[0].flatchoices)[new]
+                                                   (field)[0].flatchoices)\
+                                                    .get(oldvalue[0].get(field))
+
+                        changed['newvalue'] = dict(Tickets._meta.get_field_by_name(field)[0]
+                                                   .flatchoices)[new]
+
                         changed['follow_by'] = user.email
                         follow_on_ticket.delay(ticket_id, changed)
 
@@ -151,7 +157,7 @@ class StatusForm(TicketForm, forms.ModelForm):
         del self.fields['priority']
         del self.fields['title']
         del self.fields['content']
-        del self.fields['assign_to']
+
 
 
     def close(self, ticket_id, user):

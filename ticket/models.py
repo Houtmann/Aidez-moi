@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import AbstractBaseUser
+from djangoticket.settings import MEDIA_ROOT
 
 
 class Tickets(models.Model):
@@ -31,7 +32,7 @@ class Tickets(models.Model):
                                   verbose_name=_('Dépend'),
                                   max_length=100)
 
-    file = models.FileField(null=True, blank=True)
+    file = models.FileField(null=True, blank=True, upload_to=MEDIA_ROOT)
 
     date_closed = models.DateTimeField(verbose_name=_('Date de cloture le'),
                                        blank=True,

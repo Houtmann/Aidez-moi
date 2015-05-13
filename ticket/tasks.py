@@ -3,9 +3,9 @@ from django.core.mail import send_mail
 from ticket.models import Tickets, User
 from django.utils.translation import ugettext as _
 from celery import shared_task, task
-from djangoticket.email_config import USER, PASSWORD
+from djangoticket.email_config import USER
 from djangoticket.settings import MEDIA_ROOT
-import hashlib
+
 
 
 @task
@@ -21,7 +21,9 @@ def send_new_ticket_all_staff(object, user):
 
         send_mail(user + _(' a posté un Nouveau ticket : ') + object.title,
                   object.content,
-                  USER, [recp], fail_silently=False)
+                  USER,
+                  [recp],
+                  fail_silently=False)
 
 
 @task
@@ -39,7 +41,28 @@ def follow_on_ticket(object_id, values):
 
     send_mail(values.get('follow_by') + _(' a modifier votre ticket : ') + ticket.title,
               content,
-              USER, [recp], fail_silently=False)
+              USER,
+              [recp],
+              fail_silently=False)
+
+
+@task
+def incomplete_ticket(ticket_id):
+    """
+    Envoi un email lorsque le staff marque un ticket comme incomplet
+    """
+    ticket = Tickets.objects.get(pk=ticket_id)
+
+    recp = ticket.create_by.email
+    content = "Votre ticket est incomplet nous" \
+              " sommes dans l'attente d'informations complémentaires"
+
+    send_mail(_(' Votre ticket ') + ticket.title + _('est incomplet'),
+              content,
+              USER,
+              [recp],
+              fail_silently=False)
+
 
 
 def handle_uploaded_file(f):
