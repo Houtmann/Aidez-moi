@@ -80,7 +80,7 @@ class TicketForm(forms.ModelForm):
         élements changant dans la table Follow afin d'avoir un suivi du ticket
 
         """
-        changed = {}
+        changed = {} # Dictionnaire pour envoyer les valeurs changées dans le worker celery
         if Tickets.objects.filter(id=ticket_id).exists():
             if self.has_changed():
                 ticket = Tickets.objects.filter(pk=ticket_id)
@@ -106,7 +106,6 @@ class TicketForm(forms.ModelForm):
                         follow_by=user)
 
                     if USE_MAIL:  # Pour envoyer un mail de suivi des changements sur le ticket
-
                         changed['field'] = Tickets._meta.get_field_by_name(  # Pour avoir le nom verbeux
                                                     field)[0].verbose_name,
 

@@ -33,7 +33,9 @@ class Tickets(models.Model):
                                   verbose_name=_('Dépend'),
                                   max_length=100)
 
-    file = models.FileField(null=True, blank=True, upload_to=MEDIA_ROOT)
+    file = models.FileField(null=True,
+                            blank=True,
+                            upload_to='media')
 
     date_closed = models.DateTimeField(verbose_name=_('Date de cloture le'),
                                        blank=True,
