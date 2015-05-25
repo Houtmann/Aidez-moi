@@ -16,6 +16,11 @@ from ticket.tasks import send_new_ticket_all_staff, incomplete_ticket
 from djangoticket.settings import USE_MAIL
 
 
+import json
+
+
+
+
 @login_required(login_url='login/')
 def add_ticket(request):
     """
@@ -147,14 +152,14 @@ def ticket_list_clos(request):
     """
     if request.user.is_staff:
         list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
-            .prefetch_related('create_by', 'assign_to', 'category') \
-            .filter(status='CLOSED').exclude(assign_to=None).order_by('-created')
+                    .prefetch_related('create_by', 'assign_to', 'category') \
+                    .filter(status='CLOSED').exclude(assign_to=None).order_by('-created')
 
         ticket_list = TicketsTables(list)
     else:
         list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
-            .prefetch_related('create_by', 'category') \
-            .filter(create_by=request.user, status='CLOSED').order_by('-created')
+                    .prefetch_related('create_by', 'category') \
+                    .filter(create_by=request.user, status='CLOSED').order_by('-created')
 
         ticket_list = TicketsTables(list)
 
@@ -187,7 +192,6 @@ def ticket_all(request):
 @login_required(login_url='login/')
 def ticket_edit(request, id):
     """
-
     :param request:
     :param id: ticket id
     Pour editer un ticket
@@ -200,7 +204,7 @@ def ticket_edit(request, id):
             if request.POST.get('file-clear') == 'on': # Pour la suppression d'un fichier
                 form.save()
             else:
-                form.edit(ticket_id=id, user=request.user)
+                form.test(ticket_id=id, user=request.user)
             # messages.add_message(request, messages.INFO, 'Ticket mis à jour OK')
             return redirect(view_ticket, id)
             # If the save was successful, redirect to another page
@@ -211,6 +215,10 @@ def ticket_edit(request, id):
     return render(request, 'add_ticket.html', locals())
 
 
+
+
+
+
 @login_required(login_url='login/')
 def view_ticket(request, id):
     """
@@ -219,10 +227,27 @@ def view_ticket(request, id):
     :param id:
     :return:
     """
+
     follow_up = Follow.objects \
-        .select_related('follow_by', 'ticket') \
-        .filter(ticket=id)
+                    .select_related('follow_by', 'ticket') \
+                    .filter(ticket=id)
+
+
+
+
+
+
+    follow_test = []
+    for i in follow_up:
+        follow_test.append(compare(json.loads(i.old_value), json.loads(i.new_value)))
+
+
+
+    print(follow_test)
+
+
     tickets = get_object_or_404(Tickets, id=id)
+    test = json.loads(Follow.objects.get(pk=102).old_value)
 
     if request.method == 'POST':
         form = ResponseForm(data=request.POST)
@@ -324,15 +349,15 @@ def ticket_list_incomplet(request):
     """
     if request.user.is_staff:
         list = Tickets.objects \
-            .select_related('create_by', 'assign_to', 'category') \
-            .prefetch_related('create_by', 'assign_to', 'category') \
-            .filter(complete=0).order_by('-created')
+                .select_related('create_by', 'assign_to', 'category') \
+                .prefetch_related('create_by', 'assign_to', 'category') \
+                .filter(complete=0).order_by('-created')
         ticket_list = TicketsTables(list)
     else:
         list = Tickets.objects \
-            .select_related('create_by', 'assign_to', 'category') \
-            .prefetch_related('create_by', 'category') \
-            .filter(create_by=request.user, complete=0).order_by('-created')
+                .select_related('create_by', 'assign_to', 'category') \
+                .prefetch_related('create_by', 'category') \
+                .filter(create_by=request.user, complete=0).order_by('-created')
         ticket_list = TicketsTables(list)
 
     RequestConfig(
@@ -345,7 +370,6 @@ def ticket_list_incomplet(request):
 @login_required(login_url='login/')
 def delete_ticket(request, id):
     """
-
     :param request:
     :param id:
     :return:
@@ -353,5 +377,7 @@ def delete_ticket(request, id):
     Follow.objects.filter(ticket_id=id).delete()
     Tickets.objects.filter(id=id).delete()
     return redirect('/')
+
+
 
 

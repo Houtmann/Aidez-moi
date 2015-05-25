@@ -3,6 +3,8 @@ __author__ = 'had'
 
 from django import template
 from ticket.models import Tickets, User
+import json
+
 register = template.Library()
 
 
@@ -51,6 +53,14 @@ def ticket_incomplete(user):
         return Tickets.objects.filter(create_by=user, complete=0).count()
 
 
+
+def transform_to_dict(value):
+    return json.loads(value)
+
+
+
+
+register.filter('transform_to_dict', transform_to_dict)
 register.filter('ticket_resolved', ticket_resolved)
 register.filter('ticket_open', ticket_open)
 register.filter('ticket_new', ticket_new)

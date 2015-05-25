@@ -13,7 +13,10 @@ def close(modeladmin, request, queryset):
 
 
 
+class FollowAdmin(admin.ModelAdmin):
+    pass
 
+admin.site.register(Follow, FollowAdmin)
 
 class TicketAdmin(admin.ModelAdmin):
     list_display = ('title', 'types', 'created', 'status', 'priority','file')

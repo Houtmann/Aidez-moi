@@ -7,6 +7,7 @@ from django.utils.translation import ugettext as _
 from djangoticket.settings import USE_MAIL
 from ticket.tasks import follow_on_ticket
 from django.contrib import messages
+import json
 
 
 class ConnexionForm(forms.Form):
@@ -84,7 +85,7 @@ class TicketForm(forms.ModelForm):
         if Tickets.objects.filter(id=ticket_id).exists():
             if self.has_changed():
                 ticket = Tickets.objects.filter(pk=ticket_id)
-
+                print(self.changed_data)
                 for field in self.changed_data:
 
                     oldvalue = ticket.values(field)
@@ -122,6 +123,53 @@ class TicketForm(forms.ModelForm):
         else:
             pass
         super(TicketForm, self).save(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+
+    def test(self, ticket_id, user, *args, **kwargs):
+        """
+        :param ticket_id: Clé du ticket
+        :param user: id de la session user
+        La fonction edit est pour l'édition d'un ticket et elle permet de sauvegarder les
+        élements changant dans la table Follow afin d'avoir un suivi du ticket
+        """
+        old_value = {} # Dictionnaire pour envoyer les valeurs changées dans le worker celery
+        new_value = {}
+        if Tickets.objects.filter(id=ticket_id).exists():
+            if self.has_changed():
+                ticket = Tickets.objects.filter(pk=ticket_id)
+
+                for field in self.changed_data:
+                    new = self[field].value()
+                    old_value[field] = ticket.values(field)[0].get(field)
+                    new_value[field] = new
+
+                Follow.objects.create(
+                        ticket_id=ticket_id,
+                        field='',
+
+                        old_value=json.dumps(old_value),
+                        new_value=json.dumps(new_value),
+
+                        follow_by=user)
+
+        else:
+            pass
+        super(TicketForm, self).save(*args, **kwargs)
+
+
+
+
+
+
+
 
 
 class StatusForm(TicketForm, forms.ModelForm):
