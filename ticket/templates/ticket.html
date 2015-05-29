@@ -114,7 +114,7 @@
         <div class="ui  column centered grid">
 <div class="column">
 
-{% for item  in follow_up %}
+{% for item in follow_up %}
             {% if item.follow == None %}
 <div class="ui comments">
 
@@ -127,7 +127,8 @@
       </div>
 
       <div class="text">
-         {% compare item.old_value item.new_value %}<p></p>
+         {% compare item.old_value item.new_value as test %}
+          {% for i in test %}{{ i }}<p></p>{% endfor  %}<p></p>
       </div>
     </div>
   </div>

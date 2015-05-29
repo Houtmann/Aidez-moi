@@ -215,8 +215,6 @@ def ticket_edit(request, id):
 
 
 
-
-
 @login_required(login_url='login/')
 def view_ticket(request, id):
     """
