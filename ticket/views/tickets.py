@@ -14,8 +14,6 @@ from django.contrib import messages
 from django.utils.translation import ugettext as _
 from ticket.tasks import send_new_ticket_all_staff, incomplete_ticket
 from djangoticket.settings import USE_MAIL
-
-
 import json
 
 
@@ -232,22 +230,8 @@ def view_ticket(request, id):
                     .select_related('follow_by', 'ticket') \
                     .filter(ticket=id)
 
-
-
-
-
-
-    follow_test = []
-    for i in follow_up:
-        follow_test.append(compare(json.loads(i.old_value), json.loads(i.new_value)))
-
-
-
-    print(follow_test)
-
-
     tickets = get_object_or_404(Tickets, id=id)
-    test = json.loads(Follow.objects.get(pk=102).old_value)
+
 
     if request.method == 'POST':
         form = ResponseForm(data=request.POST)

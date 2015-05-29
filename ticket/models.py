@@ -6,7 +6,6 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import AbstractBaseUser
 from djangoticket.settings import MEDIA_ROOT
 
-
 class Tickets(models.Model):
 
     title = models.TextField(verbose_name=_('Titre'), max_length=150)

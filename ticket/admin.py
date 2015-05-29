@@ -6,36 +6,41 @@ from django.contrib.admin import AdminSite
 from .models import *
 
 
+
+
 def close(modeladmin, request, queryset):
     """Pour clore tous les tickets selectionnés"""
     queryset.update(status='4')
     close.short_description = " Clore les tickets selectionnés"
 
 
-
 class FollowAdmin(admin.ModelAdmin):
     pass
 
+
 admin.site.register(Follow, FollowAdmin)
 
+
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ('title', 'types', 'created', 'status', 'priority','file')
+    list_display = ('title', 'types', 'created', 'status', 'priority', 'file')
     actions = [close]
+
 
 admin.site.register(Tickets, TicketAdmin)
 
 
-
-
-
 class TicketCategoryAdmin(admin.ModelAdmin):
     pass
+
+
 admin.site.register(TicketCategory, TicketCategoryAdmin)
 
 
 class EntityAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'telephone', )
+    list_display = ('name', 'description', 'telephone',)
     pass
+
+
 admin.site.register(Entity, EntityAdmin)
 
 
@@ -45,7 +50,6 @@ class UserProfileInline(admin.TabularInline):
 
 
 class MyUserAdmin(UserAdmin):
-
     @staticmethod
     def entity(obj):
         """
@@ -53,14 +57,16 @@ class MyUserAdmin(UserAdmin):
         """
         entity = obj.userprofile.entity
         return entity
+
     entity.short_description = _('Entité')
 
     list_display = ('id', 'username', 'email', 'first_name',
-                    'last_name', 'date_joined', 'last_login', 'is_active', 'is_staff', 'entity', )
+                    'last_name', 'date_joined', 'last_login', 'is_active', 'is_staff', 'entity',)
 
     list_select_related = True
     inlines = [
         UserProfileInline, ]
+
 
 admin.site.unregister(User)
 admin.site.register(User, MyUserAdmin)

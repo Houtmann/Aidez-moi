@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'ticket',
     'django_tables2',
 
+
 )
 
 

@@ -125,9 +125,9 @@
       <div class="metadata">
         <span class="date">{{ item.date_follow }}</span>
       </div>
+
       <div class="text">
-         {% trans "changé de" %} {{ item.old_value }}
-          {% trans "à" %} {{ follow_test }}
+         {% compare item.old_value item.new_value %}<p></p>
       </div>
     </div>
   </div>
