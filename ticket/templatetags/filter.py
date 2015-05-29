@@ -85,7 +85,7 @@ def compare(dictOne, dictTwo):
 
 
 
-register.filter('transform', transform)
+
 register.filter('ticket_resolved', ticket_resolved)
 register.filter('ticket_open', ticket_open)
 register.filter('ticket_new', ticket_new)

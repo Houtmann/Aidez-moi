@@ -106,30 +106,10 @@ class TicketForm(forms.ModelForm):
 
                         follow_by=user)
 
-                    if USE_MAIL:  # Pour envoyer un mail de suivi des changements sur le ticket
-                        changed['field'] = Tickets._meta.get_field_by_name(  # Pour avoir le nom verbeux
-                                                    field)[0].verbose_name,
-
-                        changed['oldvalue'] = dict(Tickets._meta.get_field_by_name
-                                                   (field)[0].flatchoices)\
-                                                    .get(oldvalue[0].get(field))
-
-                        changed['newvalue'] = dict(Tickets._meta.get_field_by_name(field)[0]
-                                                   .flatchoices)[new]
-
-                        changed['follow_by'] = user.email
-                        follow_on_ticket.delay(ticket_id, changed)
 
         else:
             pass
         super(TicketForm, self).save(*args, **kwargs)
-
-
-
-
-
-
-
 
 
 
@@ -154,20 +134,13 @@ class TicketForm(forms.ModelForm):
                 Follow.objects.create(
                         ticket_id=ticket_id,
                         field='',
-
                         old_value=json.dumps(old_value),
                         new_value=json.dumps(new_value),
-
                         follow_by=user)
 
         else:
             pass
         super(TicketForm, self).save(*args, **kwargs)
-
-
-
-
-
 
 
 
