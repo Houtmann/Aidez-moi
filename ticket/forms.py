@@ -133,7 +133,7 @@ class TicketForm(forms.ModelForm):
 
 
 
-    def test(self, ticket_id, user, *args, **kwargs):
+    def save_one(self, ticket_id, user, *args, **kwargs):
         """
         :param ticket_id: Clé du ticket
         :param user: id de la session user

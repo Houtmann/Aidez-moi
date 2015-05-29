@@ -202,7 +202,7 @@ def ticket_edit(request, id):
             if request.POST.get('file-clear') == 'on': # Pour la suppression d'un fichier
                 form.save()
             else:
-                form.test(ticket_id=id, user=request.user)
+                form.save_one(ticket_id=id, user=request.user)
             # messages.add_message(request, messages.INFO, 'Ticket mis à jour OK')
             return redirect(view_ticket, id)
             # If the save was successful, redirect to another page
