@@ -190,7 +190,7 @@ class StatusForm(TicketForm, forms.ModelForm):
             self.edit(ticket_id, user)
 
         else:
-            raise Exception('vous devez clore le ticket %s' % ticket.depends_on)
+            raise Exception(_('vous devez clore le ticket %s') % ticket.depends_on)
 
 
 class ResponseForm(forms.ModelForm):

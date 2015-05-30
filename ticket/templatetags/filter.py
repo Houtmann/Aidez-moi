@@ -2,7 +2,7 @@
 __author__ = 'had'
 
 from django import template
-from ticket.models import Tickets, User
+from ticket.models import Tickets
 from django.utils.translation import ugettext as _
 import json
 
@@ -10,6 +10,10 @@ register = template.Library()
 
 
 def all_tick(user):
+    """
+    :param user:
+    :return: Le nombre de ticket crée par l'utilisateur
+    """
     try:
         return Tickets.objects.filter(create_by=user).count()
     except:
@@ -54,39 +58,34 @@ def ticket_incomplete(user):
         return Tickets.objects.filter(create_by=user, complete=0).count()
 
 
-
 def transform(value):
     for i in value:
         return i
 
 
 @register.assignment_tag
-def compare(dictOne, dictTwo):
+def compare(dict_one, dict_two):
     """
-    :param dict1: Un dictionnaire
-    :param dict2: Un autre dictionnaire
+    :param dict_one: Un dictionnaire
+    :param dict_two: Un autre dictionnaire
     :return:
+    Retourne les différences entre old_value et new_value dans la table de suivi Follow
+    pour l'afficher dans la timeline de suivi de la page d'un ticket
     Compare deux dictionnaires afin de crée un suivi du ticket
     """
 
-    dict1 = json.loads(dictOne)
-    dict2 = json.loads(dictTwo)
-    result = []
-    sharedKeys = set(dict1.keys()).intersection(dict2.keys())
+    dict1 = json.loads(dict_one)
+    dict2 = json.loads(dict_two)
+    sharedkeys = set(dict1.keys()).intersection(dict2.keys())
 
-    for key in sharedKeys:
-
-        t1=dict(Tickets._meta.get_field_by_name(key)[0].flatchoices).get(dict1[key])
-        t2=dict(Tickets._meta.get_field_by_name(key)[0].flatchoices).get(dict2[key])
-        yield Tickets._meta.get_field_by_name(key)[0].verbose_name\
-                                + _(' changé de ') \
-                                + t1 \
-                                + _(' à ') \
-                                + t2
-
-
-
-
+    for key in sharedkeys:
+        t1 = dict(Tickets._meta.get_field_by_name(key)[0].flatchoices).get(dict1[key])
+        t2 = dict(Tickets._meta.get_field_by_name(key)[0].flatchoices).get(dict2[key])
+        yield Tickets._meta.get_field_by_name(key)[0].verbose_name \
+              + _(' changé de ') \
+              + t1 \
+              + _(' à ') \
+              + t2
 
 
 register.filter('ticket_resolved', ticket_resolved)

@@ -356,10 +356,10 @@ def delete_ticket(request, id):
     :param id:
     :return:
     """
-    if request.user.is_staff:
+    if request.user.is_staff: # Verifie si l'utilisateur fait parti du staff
         Follow.objects.filter(ticket_id=id).delete()
         Tickets.objects.filter(id=id).delete()
-    else:
+    else: # Sinon marque ask_to_delete à 1 pour marquer le ticket pour la suppression
         ticket = Tickets.objects.get(pk=id)
         ticket.ask_to_delete = 1
         ticket.save()
