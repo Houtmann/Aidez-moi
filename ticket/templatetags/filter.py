@@ -3,6 +3,7 @@ __author__ = 'had'
 
 from django import template
 from ticket.models import Tickets, User
+from django.utils.translation import ugettext as _
 import json
 
 register = template.Library()
@@ -77,9 +78,11 @@ def compare(dictOne, dictTwo):
 
         t1=dict(Tickets._meta.get_field_by_name(key)[0].flatchoices).get(dict1[key])
         t2=dict(Tickets._meta.get_field_by_name(key)[0].flatchoices).get(dict2[key])
-        yield '{} changé de {} à {}'.format(
-                        Tickets._meta.get_field_by_name(key)[0].verbose_name,
-                        t1, t2)
+        yield Tickets._meta.get_field_by_name(key)[0].verbose_name\
+                                + _(' changé de ') \
+                                + t1 \
+                                + _(' à ') \
+                                + t2
 
 
 
