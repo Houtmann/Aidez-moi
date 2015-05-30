@@ -48,6 +48,8 @@ class Tickets(models.Model):
                                          blank=True,
                                          null=True)
 
+    ask_to_delete = models.BooleanField(default=0)
+
     TYPES_CHOICES = (
         ('INCIDENT', _('Incident')),
         ('ASK', _('Demande')),)

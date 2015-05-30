@@ -37,12 +37,12 @@ class StatusColumn(tables.Column):
 
         if value == _('Ouvert'):
             return mark_safe(
-                '<div class="ui orange label">Ouvert</div>')
+                '<div class="ui center orange label">Ouvert</div>')
         elif value == _('Clos'):
             return mark_safe(
-                '<div class="ui black label">Clos</div>')
+                '<div class="ui center black label">Clos</div>')
         elif value == _('Résolus'):
-            return mark_safe('<div class="ui green label">Résolus</div>')
+            return mark_safe('<div class="ui center green label">Résolus</div>')
 
 
 class TicketsTables(tables.Table):

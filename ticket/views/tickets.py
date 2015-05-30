@@ -356,8 +356,13 @@ def delete_ticket(request, id):
     :param id:
     :return:
     """
-    Follow.objects.filter(ticket_id=id).delete()
-    Tickets.objects.filter(id=id).delete()
+    if request.user.is_staff:
+        Follow.objects.filter(ticket_id=id).delete()
+        Tickets.objects.filter(id=id).delete()
+    else:
+        ticket = Tickets.objects.get(pk=id)
+        ticket.ask_to_delete = 1
+        ticket.save()
     return redirect('/')
 
 
