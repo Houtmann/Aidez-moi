@@ -69,7 +69,7 @@ class TicketForm(forms.ModelForm):
         super(TicketForm, self).__init__(*args, **kwargs)
         if user.is_staff is False:
             del self.fields['assign_to']
-            del self.fields['status']
+            #del self.fields['status']
 
 
 
