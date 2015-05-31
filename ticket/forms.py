@@ -104,7 +104,6 @@ class TicketForm(forms.ModelForm):
 
                 Follow.objects.create(
                         ticket_id=ticket_id,
-                        field='',
                         old_value=json.dumps(old_value),
                         new_value=json.dumps(new_value),
                         follow_by=user)
