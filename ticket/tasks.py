@@ -1,13 +1,14 @@
 # coding=utf-8
 __author__ = 'had'
 from django.core.mail import send_mail
-from ticket.models import Tickets, User
+from ticket.models import Tickets, User, Follow
 from django.utils.translation import ugettext as _
 from celery import shared_task, task
 from djangoticket.email_config import USER
 from djangoticket.settings import MEDIA_ROOT
 from django.template.loader import get_template
 from django.template import Context
+from ticket.templatetags.filter import compare
 
 
 
@@ -31,14 +32,19 @@ def send_new_ticket_all_staff(object, user):
 
 @task
 def follow_on_ticket(object_id, dict1, dict2):
+
     """
     object_id  est l'id du ticket et values les valeurs qui ont changé sur le ticket
     Envoi un email à chaque reponse , ou chaque éditions du tickets.
     """
-
     ticket = Tickets.objects.get(pk=object_id)
-    recp = ticket.create_by.email
-    print(dict1, dict2)
+    recp=ticket.create_by.email
+    send_mail(
+                _(' Ticket : ') + ticket.title,
+                compare(dict1, dict2),
+                USER,
+                [recp],
+                fail_silently=False)
 
 
 
