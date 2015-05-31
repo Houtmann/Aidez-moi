@@ -55,4 +55,4 @@ class TicketsTables(tables.Table):
         attrs = {"class": "paleblue"}
         exclude = ('content', 'depends_on',
                    'file', 'date_resolved',
-                   'date_closed', 'date_assigned')
+                   'date_closed', 'date_assigned', 'ask_to_delete')
