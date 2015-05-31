@@ -138,6 +138,10 @@ class TicketForm(forms.ModelForm):
                         new_value=json.dumps(new_value),
                         follow_by=user)
 
+
+                follow_on_ticket.delay(ticket_id, old_value, new_value)
+
+
         else:
             pass
         super(TicketForm, self).save(*args, **kwargs)
@@ -167,7 +171,8 @@ class StatusForm(TicketForm, forms.ModelForm):
                    'types',
                    'assign_to',
                    'category',
-                   'create_by',)
+                   'create_by',
+                   'ask_to_delete',)
 
     def __init__(self, *args, **kwargs):
         """

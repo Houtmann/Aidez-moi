@@ -6,6 +6,8 @@ from django.utils.translation import ugettext as _
 from celery import shared_task, task
 from djangoticket.email_config import USER
 from djangoticket.settings import MEDIA_ROOT
+from django.template.loader import get_template
+from django.template import Context
 
 
 
@@ -28,7 +30,7 @@ def send_new_ticket_all_staff(object, user):
 
 
 @task
-def follow_on_ticket(object_id, values):
+def follow_on_ticket(object_id, dict1, dict2):
     """
     object_id  est l'id du ticket et values les valeurs qui ont changé sur le ticket
     Envoi un email à chaque reponse , ou chaque éditions du tickets.
@@ -36,15 +38,10 @@ def follow_on_ticket(object_id, values):
 
     ticket = Tickets.objects.get(pk=object_id)
     recp = ticket.create_by.email
+    print(dict1, dict2)
 
-    content = values.get('follow_by') + _(' à changé ') + values.get('field')[0] + \
-              _(' de ') + values.get('oldvalue') + _(' à ') + values.get('newvalue')
 
-    send_mail(values.get('follow_by') + _(' a modifier votre ticket : ') + ticket.title,
-              content,
-              USER,
-              [recp],
-              fail_silently=False)
+
 
 
 @task
