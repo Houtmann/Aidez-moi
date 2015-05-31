@@ -78,7 +78,7 @@ class TicketForm(forms.ModelForm):
 
         ticket = Tickets.objects.get(pk=ticket_id)
         if ticket.depends_on == '':
-            self.edit(ticket_id, user)
+            self.save_one(ticket_id, user)
         else:
             raise Exception(_('vous devez clore le ticket %s') % ticket.depends_on)
 
@@ -162,7 +162,7 @@ class StatusForm(TicketForm, forms.ModelForm):
         ticket = Tickets.objects.get(pk=ticket_id)
         if ticket.depends_on == '':
 
-            self.edit(ticket_id, user)
+            self.save_one(ticket_id, user)
 
         else:
             raise Exception(_('vous devez clore le ticket %s') % ticket.depends_on)
