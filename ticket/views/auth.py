@@ -11,23 +11,6 @@ from ticket.forms import ConnexionForm
 from ticket.models import Tickets
 
 
-@login_required(login_url='login/')
-def home(request):
-    if request.user.is_staff:
-        ticket_list = Tickets.objects.select_related('create_by', 'assign_to', 'category'
-                                                     ).filter().order_by('-created')[:10:1]
-
-        ticket_incomplete = Tickets.objects.filter(complete=0).count()
-    else:
-        ticket_list = Tickets.objects.filter(
-            create_by=request.user).order_by('-created')[:10:1]
-
-        ticket_incomplete = Tickets.objects.filter(
-            create_by=request.user,
-            complete=0).count()
-
-    return render(request, 'home.html', {'ticket_list': ticket_list})
-
 
 def user_login(request):
     if request.method == 'POST':

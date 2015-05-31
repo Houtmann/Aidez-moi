@@ -17,8 +17,6 @@ from djangoticket.settings import USE_MAIL
 import json
 
 
-
-
 @login_required(login_url='login/')
 def add_ticket(request):
     """

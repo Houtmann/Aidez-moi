@@ -8,7 +8,7 @@ from django.conf.urls.static import static
 
 urlpatterns = patterns('ticket.views',
 
-                       url(r'^$', 'auth.home'),
+                       url(r'^$', 'home.home'),
                        url(r'^login/$', 'auth.user_login'),
                        url(r'^add_ticket/$', 'tickets.add_ticket'),
                        url(r'^ticket_list_new/$', 'tickets.ticket_list_new'),
