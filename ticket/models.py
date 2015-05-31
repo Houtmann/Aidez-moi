@@ -128,8 +128,6 @@ class Follow(models.Model):
     follow = models.TextField(blank=True, null=True)
     ticket = models.ForeignKey(Tickets, related_name='ticket_id')
     date_follow = models.DateTimeField(auto_now=True, )
-
-    field = models.CharField(max_length=100, blank=True, null=True)
     old_value = models.TextField(blank=True, null=True)
     new_value = models.TextField(blank=True, null=True)
 

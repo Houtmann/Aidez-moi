@@ -3,7 +3,6 @@ __author__ = 'had'
 from django import forms
 from ticket.models import User, Tickets, UserProfile, Follow
 from django.utils.translation import ugettext as _
-
 from djangoticket.settings import USE_MAIL
 from ticket.tasks import follow_on_ticket
 from django.contrib import messages
@@ -73,7 +72,6 @@ class TicketForm(forms.ModelForm):
 
 
 
-
     def close(self, ticket_id, user):
 
         """ Fonction pour clore un ticket"""
@@ -83,46 +81,6 @@ class TicketForm(forms.ModelForm):
             self.edit(ticket_id, user)
         else:
             raise Exception(_('vous devez clore le ticket %s') % ticket.depends_on)
-
-
-
-    def edit(self, ticket_id, user, *args, **kwargs):
-        """
-        :param ticket_id: Clé du ticket
-        :param user: id de la session user
-        La fonction edit est pour l'édition d'un ticket et elle permet de sauvegarder les
-        élements changant dans la table Follow afin d'avoir un suivi du ticket
-
-        """
-        changed = {} # Dictionnaire pour envoyer les valeurs changées dans le worker celery
-        if Tickets.objects.filter(id=ticket_id).exists():
-            if self.has_changed():
-                ticket = Tickets.objects.filter(pk=ticket_id)
-                print(self.changed_data)
-                for field in self.changed_data:
-
-                    oldvalue = ticket.values(field)
-                    new = self[field].value()
-
-                    Follow.objects.create(
-                        ticket_id=ticket_id,
-                        field=Tickets._meta.get_field_by_name(  # Pour avoir le nom verbeux dans la table de suivi
-                                            field)[0].verbose_name,
-
-                        old_value=dict(Tickets
-                                       ._meta.get_field_by_name(field)[0]
-                                       .flatchoices)
-                                       .get(oldvalue[0].get(field)),
-                        new_value=dict(Tickets
-                                       ._meta.get_field_by_name(field)[0]
-                                       .flatchoices)[new],
-
-                        follow_by=user)
-
-
-        else:
-            pass
-        super(TicketForm, self).save(*args, **kwargs)
 
 
 
@@ -151,8 +109,8 @@ class TicketForm(forms.ModelForm):
                         new_value=json.dumps(new_value),
                         follow_by=user)
 
-
-                follow_on_ticket.delay(ticket_id, old_value, new_value)
+                if USE_MAIL:
+                    follow_on_ticket.delay(ticket_id, old_value, new_value)
 
 
         else:
