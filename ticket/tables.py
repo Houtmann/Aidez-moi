@@ -1,6 +1,7 @@
 # coding=utf-8
 __author__ = 'had'
 from ticket.models import Tickets
+
 import django_tables2 as tables
 from django_tables2.utils import A
 from django.utils.safestring import mark_safe
@@ -14,15 +15,19 @@ class PriorityColumn(tables.Column):
     """
 
     def render(self, value):
-        if value == _('Critique'):
+        if value == dict(Tickets.PRIORITY_CHOICES).get('CRITICAL') :
             self.attrs = {"td": {"bgcolor": "FF3333"}}
-        elif value == _('Haute'):
+
+        elif value == dict(Tickets.PRIORITY_CHOICES).get('HIGH'):
             self.attrs = {"td": {"bgcolor": "FF8585"}}
-        elif value == _('Basse'):
+
+        elif value == dict(Tickets.PRIORITY_CHOICES).get('LOW'):
             self.attrs = {"td": {"bgcolor": "FFC299"}}
-        elif value == _('Très basse'):
+
+        elif value == dict(Tickets.PRIORITY_CHOICES).get('VERYLOW'):
             self.attrs = {"td": {"bgcolor": "FFE2CE"}}
-        elif value == _('Normal'):
+
+        elif value == dict(Tickets.PRIORITY_CHOICES).get('NORMAL'):
             self.attrs = {}
 
         return value
@@ -35,13 +40,15 @@ class StatusColumn(tables.Column):
 
     def render(self, value):
 
-        if value == _('Ouvert'):
+        if value == dict(Tickets.STATUS_CHOICES).get('OPEN'):
             return mark_safe(
                 '<div class="ui center orange label">Ouvert</div>')
-        elif value == _('Clos'):
+
+        elif value == dict(Tickets.STATUS_CHOICES).get('CLOSED'):
             return mark_safe(
                 '<div class="ui center black label">Clos</div>')
-        elif value == _('Résolus'):
+
+        elif value == dict(Tickets.STATUS_CHOICES).get('RESOLVED'):
             return mark_safe('<div class="ui center green label">Résolus</div>')
 
 
@@ -55,4 +62,5 @@ class TicketsTables(tables.Table):
         attrs = {"class": "paleblue"}
         exclude = ('content', 'depends_on',
                    'file', 'date_resolved',
-                   'date_closed', 'date_assigned', 'ask_to_delete')
+                   'date_closed', 'date_assigned',
+                   'ask_to_delete', 'complete')
