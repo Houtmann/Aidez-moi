@@ -73,6 +73,19 @@ class TicketForm(forms.ModelForm):
 
 
 
+
+    def close(self, ticket_id, user):
+
+        """ Fonction pour clore un ticket"""
+
+        ticket = Tickets.objects.get(pk=ticket_id)
+        if ticket.depends_on == '':
+            self.edit(ticket_id, user)
+        else:
+            raise Exception(_('vous devez clore le ticket %s') % ticket.depends_on)
+
+
+
     def edit(self, ticket_id, user, *args, **kwargs):
         """
         :param ticket_id: Clé du ticket

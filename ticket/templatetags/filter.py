@@ -81,7 +81,8 @@ def compare(dict_one, dict_two):
     for key in sharedkeys:
         t1 = dict(Tickets._meta.get_field_by_name(key)[0].flatchoices).get(dict1[key])
         t2 = dict(Tickets._meta.get_field_by_name(key)[0].flatchoices).get(dict2[key])
-        yield Tickets._meta.get_field_by_name(key)[0].verbose_name \
+        if t1 and t2 != None:
+            yield Tickets._meta.get_field_by_name(key)[0].verbose_name \
               + _(' changé de ') \
               + t1 \
               + _(' à ') \

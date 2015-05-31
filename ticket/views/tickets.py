@@ -199,10 +199,22 @@ def ticket_edit(request, id):
         form = TicketForm(request.POST, user=request.user, instance=ticket)
 
         if form.is_valid():
-            if request.POST.get('file-clear') == 'on': # Pour la suppression d'un fichier
-                form.save()
+            print(request.POST)
+            if request.POST.get('status') == 'CLOSED':
+                try:
+                    form.close(ticket_id=id, user=request.user)
+                except Exception:
+                    messages.info(
+                        request,
+                        'Vous devez clore le ticket %s' % ticket.depends_on)
             else:
                 form.save_one(ticket_id=id, user=request.user)
+
+
+
+            #if request.POST.get('file-clear') == 'on': # Pour la suppression d'un fichier
+                #form.save_one()
+
             # messages.add_message(request, messages.INFO, 'Ticket mis à jour OK')
             return redirect(view_ticket, id)
             # If the save was successful, redirect to another page
@@ -250,13 +262,13 @@ def view_ticket(request, id):
 
             elif request.POST.get('status') == 'RESOLVED':
                 tick = ticket_form.save(commit=False)
-                ticket_form.edit(ticket_id=id, user=request.user)
+                ticket_form.save_one(ticket_id=id, user=request.user)
                 tick.status = 'RESOLVED'
 
 
             elif request.POST.get('status') == 'OPEN':
                 tick = ticket_form.save(commit=False)
-                ticket_form.edit(ticket_id=id, user=request.user)
+                ticket_form.save_one(ticket_id=id, user=request.user)
                 tick.status = 'OPEN'
 
         if request.POST.get('follow') == '':
@@ -266,7 +278,7 @@ def view_ticket(request, id):
             follow = form.save(commit=False)
             follow.ticket_id = id
             follow.follow_by = request.user
-            follow.save()
+            follow.save_one()
 
     else:
         form = ResponseForm()
