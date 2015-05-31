@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 from django_tables2 import RequestConfig
 from ticket.forms import TicketForm, ResponseForm, StatusForm
 from ticket.models import Tickets, UserProfile, Follow
-from ticket.views.auth import home
+from ticket.views.home import home
 from ticket.tables import TicketsTables
 from django.contrib import messages
 from django.utils.translation import ugettext as _

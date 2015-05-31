@@ -127,8 +127,8 @@
       </div>
 
       <div class="text">
-         {% compare item.old_value item.new_value as test %}
-          {% for i in test %}{{ i }}<p></p>{% endfor  %}<p></p>
+         {% compare item.old_value item.new_value as follows %}
+          {% for follow in follows %}{{ follow }}<p></p>{% endfor  %}<p></p>
       </div>
     </div>
   </div>
