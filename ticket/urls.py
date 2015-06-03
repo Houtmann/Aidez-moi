@@ -4,7 +4,6 @@ __author__ = 'had'
 from django.conf.urls import patterns, url
 from django.conf import settings
 from django.conf.urls.static import static
-from ticket.views.rss import LatestEntriesFeed
 
 
 urlpatterns = patterns('ticket.views',
@@ -26,7 +25,7 @@ urlpatterns = patterns('ticket.views',
                        url(r'^set_complete/id=(?P<id>\d+)$', 'tickets.set_complete'),
                        url(r'^statistiques/$', 'stats.statistic'),
                        url(r'^logout/$', 'auth.logout_view'),
-                       url(r'^latest/feed/$', LatestEntriesFeed()),
+
 
 
                        ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

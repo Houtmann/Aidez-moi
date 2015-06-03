@@ -145,6 +145,7 @@ CACHES = {
 
 
 USE_MAIL = False # Si false, pas de worker celery et d'envoi de mail
+ACTIVATE_RSS = False
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
