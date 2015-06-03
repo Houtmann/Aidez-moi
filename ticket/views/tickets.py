@@ -197,7 +197,6 @@ def ticket_edit(request, id):
         form = TicketForm(request.POST, user=request.user, instance=ticket)
 
         if form.is_valid():
-            print(request.POST)
             if request.POST.get('status') == 'CLOSED':
                 try:
                     form.close(ticket_id=id, user=request.user)

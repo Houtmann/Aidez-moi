@@ -80,7 +80,11 @@ class TicketForm(forms.ModelForm):
         if ticket.depends_on == '':
             self.save_one(ticket_id, user)
         else:
-            raise Exception(_('vous devez clore le ticket %s') % ticket.depends_on)
+            ticket_t = Tickets.objects.get(pk=ticket.depends_on)
+            if ticket_t.status == 'CLOSED':
+                self.save_one(ticket_id,user)
+            else:
+                raise Exception(_('vous devez clore le ticket %s') % ticket.depends_on)
 
 
 
@@ -156,16 +160,7 @@ class StatusForm(TicketForm, forms.ModelForm):
 
 
 
-    def close(self, ticket_id, user):
-        """ Fonction pour clore un ticket"""
 
-        ticket = Tickets.objects.get(pk=ticket_id)
-        if ticket.depends_on == '':
-
-            self.save_one(ticket_id, user)
-
-        else:
-            raise Exception(_('vous devez clore le ticket %s') % ticket.depends_on)
 
 
 class ResponseForm(forms.ModelForm):
