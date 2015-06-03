@@ -42,14 +42,14 @@ class StatusColumn(tables.Column):
 
         if value == dict(Tickets.STATUS_CHOICES).get('OPEN'):
             return mark_safe(
-                '<div class="ui center orange label">Ouvert</div>')
+                '<div class="ui center orange label">'+ _('Ouvert')+ '</div>')
 
         elif value == dict(Tickets.STATUS_CHOICES).get('CLOSED'):
             return mark_safe(
-                '<div class="ui center black label">Clos</div>')
+                '<div class="ui center black label">' + _('Clos') + '</div>')
 
         elif value == dict(Tickets.STATUS_CHOICES).get('RESOLVED'):
-            return mark_safe('<div class="ui center green label">Résolus</div>')
+            return mark_safe('<div class="ui green label">' +_('Résolus') + '</div>')
 
 
 class TicketsTables(tables.Table):
