@@ -1,11 +1,13 @@
 # coding=utf-8
 __author__ = 'had'
 from ticket.models import Tickets
-
+from django.shortcuts import render, redirect
+from django.core.urlresolvers import reverse
 import django_tables2 as tables
 from django_tables2.utils import A
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext as _
+
 
 
 class PriorityColumn(tables.Column):
@@ -52,8 +54,20 @@ class StatusColumn(tables.Column):
             return mark_safe('<div class="ui green label">' +_('Résolus') + '</div>')
 
 
+class TitleColumn(tables.LinkColumn):
+    """
+    Classe qui surcharge la colonne titre afin de limiter le titre en caractère pour ne pas
+    déformer le tableau
+    L'astuce et de limiter la variable value: value[:126]
+    """
+    def render(self, value, record, bound_column):
+        return self.render_link(reverse('view', args=[record.id]), value[:70])
+
+
 class TicketsTables(tables.Table):
-    title = tables.LinkColumn('view', args=[A('id')])
+    title = TitleColumn('view', args=[A('id')])
+
+    #title = tables.LinkColumn('view', args=[A('id')])
     priority = PriorityColumn()
     status = StatusColumn()
 

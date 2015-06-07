@@ -3,6 +3,8 @@ table.paleblue {
     border-color: #CCC;
     border: 1px solid #DDD;
 	table-layout: fixed;
+
+
 }
 
 table.paleblue,
@@ -16,6 +18,7 @@ table.paleblue + ul.pagination > li > a {
     color: #5B80B2;
     text-decoration: none;
     font-weight: bold;
+    width:200px;
 }
 
 table.paleblue a:hover {
@@ -23,6 +26,10 @@ table.paleblue a:hover {
 }
 
 table.paleblue td,
+
+
+
+
 table.paleblue th {
     padding: 5px;
     line-height: 13px;
@@ -30,6 +37,11 @@ table.paleblue th {
     border-left: 1px solid #DDD;
     text-align: left;
 	width:200px;
+
+
+
+
+
 }
 
 table.paleblue thead th:first-child,
@@ -127,4 +139,5 @@ table.paleblue > tbody > tr > td > span.false {
 
 div.table-container {
     display: inline-block;
+
 }
