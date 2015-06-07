@@ -65,9 +65,8 @@ class TitleColumn(tables.LinkColumn):
 
 
 class TicketsTables(tables.Table):
-    title = TitleColumn('view', args=[A('id')])
 
-    #title = tables.LinkColumn('view', args=[A('id')])
+    title = TitleColumn('view', args=[A('id')])
     priority = PriorityColumn()
     status = StatusColumn()
 

@@ -24,6 +24,7 @@ urlpatterns = patterns('ticket.views',
                        url(r'^set_incomplete/id=(?P<id>\d+)$', 'tickets.set_incomplete'),
                        url(r'^set_complete/id=(?P<id>\d+)$', 'tickets.set_complete'),
                        url(r'^statistiques/$', 'stats.statistic'),
+                       url(r'^ticket_stats/id=(?P<id>\d+)$', 'stats.ticket_stats', name='view'),
                        url(r'^logout/$', 'auth.logout_view'),
 
 

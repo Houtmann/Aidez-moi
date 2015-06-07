@@ -20,6 +20,9 @@
     <div class="ui  button"><a href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">
         {% trans "Editer le ticket" %}</a></div>
 
+    <div class="ui  button"><a href="{% url "ticket.views.stats.ticket_stats" tickets.id %}">
+        {% trans "Statistiques" %}</a></div>
+
     {% if request.user.is_staff %}
         <div class="ui  button"><a href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}">
             {% trans "Supprimez le ticket" %}</a></div>
