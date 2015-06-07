@@ -88,7 +88,10 @@
                 {% endif %}</td>
         <tr>
         <td>{% trans "Derniere edition le" %} : {{ tickets.last_edited }}</td>
-            <td>{% if tickets.depends_on  %}{% trans "Depend" %}: {{ tickets.depends_on }}</td> {% endif %}
+            <td>{% if tickets.depends_on  %}
+                {% trans "Depend" %}:
+                <a href=" {% url "ticket.views.tickets.view_ticket" tickets.depends_on %}">
+                    {{ tickets.depends_on }}</a></td> {% endif %}
             </tr>
 
         </tr>

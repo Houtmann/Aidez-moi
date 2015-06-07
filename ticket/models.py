@@ -132,6 +132,8 @@ class Follow(models.Model):
     new_value = models.TextField(blank=True, null=True)
 
 
+
+
 class Entity(models.Model):
     """
     Modele pour créer des entités, exemple service comptabilité

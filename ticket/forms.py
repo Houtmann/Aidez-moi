@@ -9,6 +9,9 @@ from django.contrib import messages
 import json
 
 
+
+
+
 class ConnexionForm(forms.Form):
     """
     Pour la page de login
