@@ -4,173 +4,182 @@
     {% load filter %}
 
     <div class="ui two column centered grid">
-    <div class="column">
-<fieldset>
-
-{% if messages %}
-<div class="ui negative message">
-    <i class="close icon"></i>
-    {% for message in messages %}
-    <div{% if message.tags %} class="header {{ message.tags }}"{% endif %}>{{ message }}</div>
-    {% endfor %}
-</div>
-{% endif %}
-
-<center>
-    <div class="ui  button"><a href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">
-        {% trans "Editer le ticket" %}</a></div>
-
-    <div class="ui  button"><a href="{% url "ticket.views.stats.ticket_stats" tickets.id %}">
-        {% trans "Statistiques" %}</a></div>
-
-    {% if request.user.is_staff %}
-        <div class="ui  button"><a href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}">
-            {% trans "Supprimez le ticket" %}</a></div>
-
-
-
-        {% if tickets.complete == 0 %}
-            <div class="ui  button"><a href="{% url "ticket.views.tickets.set_complete" tickets.id %}">
-            {% trans "Marquer comme complet" %}</a></div>
-        {% else %}
-            <div class="ui  button"><a href="{% url "ticket.views.tickets.set_incomplete" tickets.id %}">
-                {% trans "Marquer comme incomplet" %}</a></div>
-        {% endif %}
-    {% else %}
-    <a class="uk-button" href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}"
-       onclick="return confirm('Etes vous sure de vouloir supprimez ce ticket ?');">
-        {% trans "Demande de suppression" %}</a>
-
-    {% endif %}</center>
-
-
-<div class="ui message">
-      <div class="header" >
-        {% trans "Titre" %} :
-      </div>
-      <p style="width: 40em; word-wrap: break-word;">{{ tickets.title }}</p>
-    </div>
-
-<table class="ui table">
-      <thead>
-        <tr>
-          <th></th>
-          <th></th>
-
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span class="uk-badge">Ticket id :#{{ tickets.id }}</span></td>
-          <td> {% trans "Catégorie" %}:
-                    {% if tickets.category == None %} {% trans "Pas de catégories" %}
-                        {% else %}{{ tickets.category }}
-                    {% endif %}</td>
-
-        </tr>
-        <tr class="error">
-          <td>{% if tickets.status == 1 %}
-                    <p>{% trans "Status" %}: <span class="uk-text-success">{{ tickets.get_status_display }}</span></p>
-                {% else %}
-                   {% trans "Status" %} : <span class="uk-text-warning">{{ tickets.get_status_display }}</span></p>
-                {% endif %}</td>
-          <td>{% trans "Urgence" %} : {{ tickets.get_priority_display }}</td>
-
-        </tr>
-        <tr>
-          <td>{% trans "Demandeur" %} : {{ tickets.create_by }}</td>
-          <td>{% trans "Type" %} : {{ tickets.get_types_display }}</td>
-
-        </tr>
-        <tr>
-          <td>{% trans "Crée le" %} : {{ tickets.created }}</td>
-          <td>{% if tickets.assign_to == None %}
-              {% trans "Assigné à" %} : <span class="uk-text-warning">{% trans "Pas encore assigné" %}</span>
-                {% else %}
-              {% trans "Assigné à" %} : {{ tickets.assign_to }}
-                {% endif %}</td>
-        <tr>
-        <td>{% trans "Derniere edition le" %} : {{ tickets.last_edited }}</td>
-            <td>{% if tickets.depends_on  %}
-                {% trans "Depend" %}:
-                <a href=" {% url "ticket.views.tickets.view_ticket" tickets.depends_on %}">
-                    {{ tickets.depends_on }}</a></td> {% endif %}
-            </tr>
-
-        </tr>
-      </tbody>
-    </table>
-
-<div class="ui message">
-      <div class="header" >
-
-        {% trans "Fichier :" %}
-      </div>
-      <p style=""><a href="/media/{{ tickets.file }}">{{ tickets.file }}</a></p>
-    </div>
-
-<div class="ui message">
-      <div class="header" >
-        {% trans "Ticket" %} :
-      </div>
-      <p style="width: 40em; word-wrap: break-word;">{{ tickets.content }}</p>
-    </div>
-</div>
-
-        <div class="ui  column centered grid">
-<div class="column">
-
-{% for item in follow_up %}
-            {% if item.follow == None %}
-<div class="ui comments">
-
-                <div class="comment">
-
-    <div class="content">
-      <a class="author">{{ item.follow_by }}</a>
-      <div class="metadata">
-        <span class="date">{{ item.date_follow }}</span>
-      </div>
-
-      <div class="text">
-         {% compare item.old_value item.new_value as follows %}
-          {% for follow in follows %}{{ follow }}<p></p>{% endfor  %}<p></p>
-      </div>
-    </div>
-  </div>
-<h3 class="ui dividing header"></h3>
-{% else %}
-
-  <div class="comment">
-    <div class="content">
-      <a class="author">{{ item.follow_by }}</a>
-      <div class="metadata">
-        <span class="date">{{ item.date_follow }}</span>
-      </div>
-      <div class="text">
-        {{ item.follow }}
-      </div>
-    </div></div><h3 class="ui dividing header"></h3>
-    {% endif %}
-{% endfor %}
-
-
-<div class="comment"></div>
-            <form class="ui form" action=""   name="post_response" method="post">{% csrf_token %}
+        <div class="column">
+            <fieldset>
 
                 {% if messages %}
-                    <ul class="ui warning message">
-                {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                    </ul>
+                    <div class="ui negative message">
+                        <i class="close icon"></i>
+                        {% for message in messages %}
+                            <div{% if message.tags %} class="header {{ message.tags }}"{% endif %}>{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <center>
+                    <div class="ui  button"><a href="{% url "ticket.views.tickets.ticket_edit" tickets.id %}">
+                        {% trans "Editer le ticket" %}</a></div>
+
+                    <div class="ui  button"><a href="{% url "ticket.views.stats.ticket_stats" tickets.id %}">
+                        {% trans "Statistiques" %}</a></div>
+
+                    {% if request.user.is_staff %}
+                        <div class="ui  button"><a href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}">
+                            {% trans "Supprimez le ticket" %}</a></div>
+
+
+
+                        {% if tickets.complete == 0 %}
+                            <div class="ui  button"><a href="{% url "ticket.views.tickets.set_complete" tickets.id %}">
+                                {% trans "Marquer comme complet" %}</a></div>
+                        {% else %}
+                            <div class="ui  button"><a
+                                    href="{% url "ticket.views.tickets.set_incomplete" tickets.id %}">
+                                {% trans "Marquer comme incomplet" %}</a></div>
+                        {% endif %}
+                    {% else %}
+                        <a class="uk-button" href="{% url "ticket.views.tickets.delete_ticket" tickets.id %}"
+                           onclick="return confirm('Etes vous sure de vouloir supprimez ce ticket ?');">
+                            {% trans "Demande de suppression" %}</a>
+
+                    {% endif %}</center>
+
+
+                <div class="ui message">
+                    <div class="header">
+                        {% trans "Titre" %} :
+                    </div>
+                    <p style="width: 40em; word-wrap: break-word;">{{ tickets.title }}</p>
+                </div>
+
+                <table class="ui table">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><span class="uk-badge">Ticket id :#{{ tickets.id }}</span></td>
+                        <td> {% trans "Catégorie" %}:
+                            {% if tickets.category == None %} {% trans "Pas de catégories" %}
+                                {% else %}{{ tickets.category }}
+                            {% endif %}</td>
+
+                    </tr>
+                    <tr class="error">
+                        <td>{% if tickets.status == 1 %}
+                            <p>{% trans "Status" %}: <span
+                                    class="uk-text-success">{{ tickets.get_status_display }}</span></p>
+                        {% else %}
+                            {% trans "Status" %} : <span class="uk-text-warning">{{ tickets.get_status_display }}</span>
+                            </p>
+                        {% endif %}</td>
+                        <td>{% trans "Urgence" %} : {{ tickets.get_priority_display }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>{% trans "Demandeur" %} : {{ tickets.create_by }}</td>
+                        <td>{% trans "Type" %} : {{ tickets.get_types_display }}</td>
+
+                    </tr>
+                    <tr>
+                        <td>{% trans "Crée le" %} : {{ tickets.created }}</td>
+                        <td>{% if tickets.assign_to == None %}
+                            {% trans "Assigné à" %} :
+                            <span class="uk-text-warning">{% trans "Pas encore assigné" %}</span>
+                        {% else %}
+                            {% trans "Assigné à" %} : {{ tickets.assign_to }}
+                        {% endif %}</td>
+                    <tr>
+                        <td>{% trans "Derniere edition le" %} : {{ tickets.last_edited }}</td>
+                        <td>{% if tickets.depends_on %}
+                            {% trans "Depend" %}:
+                            <a href=" {% url "ticket.views.tickets.view_ticket" tickets.depends_on %}">
+                                {{ tickets.depends_on }}</a></td> {% endif %}
+                    </tr>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="ui message">
+                    <div class="header">
+
+                        {% trans "Fichier :" %}
+                    </div>
+                    <p style=""><a href="/media/{{ tickets.file }}">{{ tickets.file }}</a></p>
+                </div>
+
+                <div class="ui message">
+                    <div class="header">
+                        {% trans "Ticket" %} :
+                    </div>
+                    <p style="width: 40em; word-wrap: break-word;">{{ tickets.content }}</p>
+                </div>
+        </div>
+
+        <div class="ui  column centered grid">
+            <div class="column">
+
+                {% for item in follow_up %}
+                    {% if item.follow == None %}
+                        <div class="ui comments">
+
+                        <div class="comment">
+
+                            <div class="content">
+                                <a class="author">{{ item.follow_by }}</a>
+
+                                <div class="metadata">
+                                    <span class="date">{{ item.date_follow }}</span>
+                                </div>
+
+                                <div class="text">
+                                    {% compare item.old_value item.new_value as follows %}
+                                    {% for follow in follows %}{{ follow }}<p></p>{% endfor %}<p></p>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 class="ui dividing header"></h3>
+                    {% else %}
+
+                        <div class="comment">
+                            <div class="content">
+                                <a class="author">{{ item.follow_by }}</a>
+
+                                <div class="metadata">
+                                    <span class="date">{{ item.date_follow }}</span>
+                                </div>
+                                <div class="text">
+                                    {{ item.follow }}
+                                </div>
+                            </div>
+                        </div><h3 class="ui dividing header"></h3>
+                    {% endif %}
+                {% endfor %}
+
+
+                <div class="comment"></div>
+                <form class="ui form" action="" name="post_response" method="post">{% csrf_token %}
+
+                    {% if messages %}
+                        <ul class="ui warning message">
+                            {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
                     {% endif %}
 
-                {{ ticket_form.status }}<p></p>
-                {{ form.follow }}<p></p>
+                    {{ ticket_form.status }}<p></p>
+                    {{ form.follow }}<p></p>
 
-                <center><button class="ui submit button">{% trans "Soumettre" %}</button></center>
-            </form>
+                    <center>
+                        <button class="ui submit button">{% trans "Soumettre" %}</button>
+                    </center>
+                </form>
 
-    </body>
+                </body>
 {% endblock %}

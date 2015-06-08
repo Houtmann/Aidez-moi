@@ -39,10 +39,14 @@
           <td>{{ form.depends_on.label }}<p></p>{{ form.depends_on }}</td>
           <td>{{ form.status.label }}<p></p>{{ form.status }}</td>
         </tr>
+        <tr>
+          <td>{{ form.entity.label }}<p></p>{{ form.entity }}</td>
+          <td>{% trans "Attacher un fichier" %}<p></p>{{ form.file}}</td>
+        </tr>
 
     </table>
 
-    {{ form.file}}<p></p></form>
+    <p></p></form>
 
     <center>
     <button class="ui submit button">{% trans "Soumettre" %}</button> </center></div>

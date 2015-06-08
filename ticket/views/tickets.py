@@ -34,20 +34,21 @@ from django.contrib import messages
 from django.utils.translation import ugettext as _
 from ticket.tasks import send_new_ticket_all_staff, incomplete_ticket
 from djangoticket.settings import USE_MAIL
-
 import json
 
 
 @login_required(login_url='login/')
 def add_ticket(request):
-    """
 
+    """
     :param request:
     :return:
     """
+
     if request.method == 'POST':
         form = TicketForm(request.POST, request.FILES, user=request.user)
         # return redirect('/')
+        print(form.errors)
 
         if form.is_valid():
             ticket = form.save(commit=False)
@@ -69,12 +70,14 @@ def add_ticket(request):
 
 @login_required(login_url='login/')
 def ticket_list_new(request):
+
     """
     Retourne la page des tickets ouvert non assigné. Si le membre fait partie du staff
     tous les tickets sont affichés, sinon pour l'utilisateur seulement ses tickets seront affiché
     :param request:
     """
-    entity = EntityForm()
+
+
     if request.user.is_staff:
         list = Tickets.objects.filter(assign_to=None).order_by('-created')
         ticket_list = TicketsTables(list)
@@ -88,17 +91,19 @@ def ticket_list_new(request):
         request,
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
-    return render(request, 'ticket_list.html', {'ticket_list': ticket_list, 'entity' : entity})
+    return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
 @login_required(login_url='login/')
 def ticket_list_work(request):
+
     """
     Retourne la page des tickets ouvert. Si le membre fait partie du staff tous les tickets sont affichés,
     sinon pour l'utilisateur seulement ses tickets seront affiché
     :param request:
     """
-    entity = EntityForm()
+
+
     if request.user.is_staff:
         list = Tickets \
                 .objects.select_related('create_by', 'assign_to', 'category') \
@@ -120,17 +125,19 @@ def ticket_list_work(request):
         request,
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
-    return render(request, 'ticket_list.html', {'ticket_list': ticket_list, 'entity' : entity})
+    return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
 @login_required(login_url='login/')
 def ticket_list_resolved(request):
+
     """
     Retourne la page des tickets résolus. Si le membre fait partie du staff tous les tickets sont affichés,
     sinon pour l'utilisateur seulement ses tickets seront affiché
     :param request:
     """
-    entity = EntityForm()
+
+
     if request.user.is_staff:
         list = Tickets.objects \
             .select_related('create_by', 'assign_to', 'category') \
@@ -149,17 +156,19 @@ def ticket_list_resolved(request):
         request,
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
-    return render(request, 'ticket_list.html', {'ticket_list': ticket_list, 'entity' : entity})
+    return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
 @login_required(login_url='login/')
 def ticket_list_clos(request):
+
     """
     Retourne la page des tickets clos. Si le membre fait partie du staff tous les tickets sont affichés,
     sinon pour l'utilisateur seulement ses tickets seront affiché
     :param request:
     """
-    entity = EntityForm()
+
+
     if request.user.is_staff:
         list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
                     .prefetch_related('create_by', 'assign_to', 'category') \
@@ -177,51 +186,41 @@ def ticket_list_clos(request):
         request,
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
-    return render(request, 'ticket_list.html', {'ticket_list': ticket_list, 'entity' : entity})
+    return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
 @login_required(login_url='login/')
 def ticket_all(request):
+
     """
     Retourne la page de tous les tickets pour le staff.
     :param request:
     """
-    entity = EntityForm()
+
     list = Tickets.objects.select_related(
                 'create_by',
                 'assign_to',
                 'category')\
                 .order_by('-created')
-    tri(list)
-    if request.method == 'POST':
-        filtering = request.POST['name']
-        list = Tickets.objects.select_related(
-                'create_by',
-                'assign_to',
-                'category')\
-                .filter(create_by__userprofile__entity__pk=filtering)\
-                .order_by('-created')
-    else:
-        list = Tickets.objects.select_related(
-                'create_by',
-                'assign_to',
-                'category').order_by('-created')
+
     ticket_list = TicketsTables(list)
 
     RequestConfig(
         request,
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
-    return render(request, 'ticket_list.html', {'ticket_list' : ticket_list, 'entity' : entity})
+    return render(request, 'ticket_list.html', {'ticket_list' : ticket_list})
 
 
 @login_required(login_url='login/')
 def ticket_edit(request, id):
+
     """
     :param request:
     :param id: ticket id
     Pour editer un ticket
     """
+
     ticket = get_object_or_404(Tickets, id=id)
     if request.method == 'POST':
         form = TicketForm(request.POST, user=request.user, instance=ticket)
@@ -256,8 +255,8 @@ def ticket_edit(request, id):
 
 @login_required(login_url='login/')
 def view_ticket(request, id):
-    """
 
+    """
     :param request:
     :param id:
     :return:
@@ -316,10 +315,12 @@ def view_ticket(request, id):
 
 @login_required(login_url='login/')
 def my_ticket_assign(request):
+
     """
     Retourne la page de tous vos tickets assigné à vous.
     :param request:
     """
+
     list = Tickets.objects.filter(assign_to=request.user) \
         .select_related('create_by', 'assign_to', 'category') \
         .order_by('-created')
@@ -334,11 +335,13 @@ def my_ticket_assign(request):
 
 @login_required(login_url='login/')
 def set_incomplete(request, id):
+
     """
     Marque un ticket comme incomplet et attente d'informations complémentaire
     :param request:
     :param id:
     """
+
     ticket = Tickets.objects.get(pk=id)
     ticket.complete = 0
     ticket.save()
@@ -350,11 +353,13 @@ def set_incomplete(request, id):
 
 @login_required(login_url='login/')
 def set_complete(request, id):
+
     """
     Marque un ticket comme complet
     :param request:
     :param id:
     """
+
     ticket = Tickets.objects.get(pk=id)
     ticket.complete = 1
     ticket.save()
@@ -363,11 +368,13 @@ def set_complete(request, id):
 
 @login_required(login_url='login/')
 def ticket_list_incomplet(request):
+
     """
     Retourne la page des tickets clos. Si le membre fait partie du staff tous les tickets sont affichés,
     sinon pour l'utilisateur seulement ses tickets seront affiché
     :param request:
     """
+
     if request.user.is_staff:
         list = Tickets.objects \
                 .select_related('create_by', 'assign_to', 'category') \
@@ -390,11 +397,13 @@ def ticket_list_incomplet(request):
 
 @login_required(login_url='login/')
 def delete_ticket(request, id):
+
     """
     :param request:
     :param id:
     :return:
     """
+
     if request.user.is_staff: # Verifie si l'utilisateur fait parti du staff
         Follow.objects.filter(ticket_id=id).delete()
         Tickets.objects.filter(id=id).delete()
