@@ -1,4 +1,5 @@
 # coding=utf-8
+__author__ = 'had'
 
 # The MIT License (MIT)
 # Copyright (c) [2015] [Houtmann Hadrien]
@@ -18,4 +19,25 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from django.test import TestCase
+
+from datetime import datetime
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+from django_tables2 import RequestConfig
+from ticket.forms import TicketForm, ResponseForm, StatusForm
+from ticket.models import Tickets, UserProfile, Follow, Entity
+from ticket.views.home import home
+from ticket.tables import TicketsTables
+from django.contrib import messages
+from django.utils.translation import ugettext as _
+from ticket.tasks import send_new_ticket_all_staff, incomplete_ticket
+from djangoticket.settings import USE_MAIL
+import json
+
+
+
+
+
+
+

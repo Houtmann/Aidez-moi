@@ -1,9 +1,12 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
 
     <div class="uk-container uk-container-center">
-
+    <form class="ui form"  method="POST">{% csrf_token %}
+{{ entity.name }}
+    <button class="ui submit button">{% trans "Soumettre" %}</button></form>
+         <p></p>
 
     </ul>
 </nav>

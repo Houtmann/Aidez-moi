@@ -26,7 +26,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django_tables2 import RequestConfig
-from ticket.forms import TicketForm, ResponseForm, StatusForm
+from ticket.forms import TicketForm, ResponseForm, StatusForm, EntityForm
 from ticket.models import Tickets, UserProfile, Follow
 from ticket.views.home import home
 from ticket.tables import TicketsTables
@@ -34,6 +34,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext as _
 from ticket.tasks import send_new_ticket_all_staff, incomplete_ticket
 from djangoticket.settings import USE_MAIL
+
 import json
 
 
@@ -52,16 +53,6 @@ def add_ticket(request):
             ticket = form.save(commit=False)
             ticket.create_by = request.user
             ticket.created = datetime.now()
-
-            try:
-                entity = UserProfile.objects.get(user=request.user)
-                ticket.title = '[' + str(
-                    entity.entity) + ']' + ' ' + ticket.title
-                # Pour ajouter au titre l'entité à laquelle appartient
-                # l'utilisateur pour une meilleur visibilité
-            except:
-                pass
-
             ticket.save()
 
             if USE_MAIL:  # Dans le fichier de configuration settings.py
@@ -192,17 +183,28 @@ def ticket_all(request):
     Retourne la page de tous les tickets pour le staff.
     :param request:
     """
-    list = Tickets.objects.select_related(
-        'create_by',
-        'assign_to',
-        'category').order_by('-created')
+    entity = EntityForm()
+
+    if request.method == 'POST':
+        filtering = request.POST['name']
+        list = Tickets.objects.select_related(
+                'create_by',
+                'assign_to',
+                'category')\
+                .filter(create_by__userprofile__entity__pk=filtering)\
+                .order_by('-created')
+    else:
+        list = Tickets.objects.select_related(
+                'create_by',
+                'assign_to',
+                'category').order_by('-created')
     ticket_list = TicketsTables(list)
 
     RequestConfig(
         request,
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
-    return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
+    return render(request, 'ticket_list.html', {'ticket_list' : ticket_list, 'entity' : entity})
 
 
 @login_required(login_url='login/')
@@ -393,6 +395,7 @@ def delete_ticket(request, id):
         ticket.ask_to_delete = 1
         ticket.save()
     return redirect('/')
+
 
 
 

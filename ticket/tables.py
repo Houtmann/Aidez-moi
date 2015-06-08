@@ -96,4 +96,4 @@ class TicketsTables(tables.Table):
         exclude = ('content', 'depends_on',
                    'file', 'date_resolved',
                    'date_closed', 'date_assigned',
-                   'ask_to_delete', 'complete')
+                   'ask_to_delete')

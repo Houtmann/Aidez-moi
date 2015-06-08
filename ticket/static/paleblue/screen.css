@@ -37,6 +37,7 @@ table.paleblue th {
     border-left: 1px solid #DDD;
     text-align: left;
 	width:200px;
+    white-space:nowrap;
 
 
 

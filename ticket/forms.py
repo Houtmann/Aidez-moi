@@ -20,7 +20,7 @@ __author__ = 'had'
 # SOFTWARE.
 
 from django import forms
-from ticket.models import User, Tickets, UserProfile, Follow
+from ticket.models import User, Tickets, UserProfile, Follow, Entity
 from django.utils.translation import ugettext as _
 from djangoticket.settings import USE_MAIL
 from ticket.tasks import follow_on_ticket
@@ -201,3 +201,11 @@ class ResponseForm(forms.ModelForm):
             'new_value',
             'old_value',
             'follower')
+
+
+class EntityForm(forms.ModelForm):
+    name = forms.ModelChoiceField(queryset=Entity.objects.all())
+    class Meta:
+        model = Entity
+        fields = ['name']
+
