@@ -74,6 +74,7 @@ def ticket_list_new(request):
     tous les tickets sont affichés, sinon pour l'utilisateur seulement ses tickets seront affiché
     :param request:
     """
+    entity = EntityForm()
     if request.user.is_staff:
         list = Tickets.objects.filter(assign_to=None).order_by('-created')
         ticket_list = TicketsTables(list)
@@ -87,7 +88,7 @@ def ticket_list_new(request):
         request,
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
-    return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
+    return render(request, 'ticket_list.html', {'ticket_list': ticket_list, 'entity' : entity})
 
 
 @login_required(login_url='login/')
@@ -97,6 +98,7 @@ def ticket_list_work(request):
     sinon pour l'utilisateur seulement ses tickets seront affiché
     :param request:
     """
+    entity = EntityForm()
     if request.user.is_staff:
         list = Tickets \
                 .objects.select_related('create_by', 'assign_to', 'category') \
@@ -118,7 +120,7 @@ def ticket_list_work(request):
         request,
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
-    return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
+    return render(request, 'ticket_list.html', {'ticket_list': ticket_list, 'entity' : entity})
 
 
 @login_required(login_url='login/')
@@ -128,7 +130,7 @@ def ticket_list_resolved(request):
     sinon pour l'utilisateur seulement ses tickets seront affiché
     :param request:
     """
-
+    entity = EntityForm()
     if request.user.is_staff:
         list = Tickets.objects \
             .select_related('create_by', 'assign_to', 'category') \
@@ -147,7 +149,7 @@ def ticket_list_resolved(request):
         request,
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
-    return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
+    return render(request, 'ticket_list.html', {'ticket_list': ticket_list, 'entity' : entity})
 
 
 @login_required(login_url='login/')
@@ -157,6 +159,7 @@ def ticket_list_clos(request):
     sinon pour l'utilisateur seulement ses tickets seront affiché
     :param request:
     """
+    entity = EntityForm()
     if request.user.is_staff:
         list = Tickets.objects.select_related('create_by', 'assign_to', 'category') \
                     .prefetch_related('create_by', 'assign_to', 'category') \
@@ -174,7 +177,7 @@ def ticket_list_clos(request):
         request,
         paginate={
             "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
-    return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
+    return render(request, 'ticket_list.html', {'ticket_list': ticket_list, 'entity' : entity})
 
 
 @login_required(login_url='login/')
@@ -184,7 +187,12 @@ def ticket_all(request):
     :param request:
     """
     entity = EntityForm()
-
+    list = Tickets.objects.select_related(
+                'create_by',
+                'assign_to',
+                'category')\
+                .order_by('-created')
+    tri(list)
     if request.method == 'POST':
         filtering = request.POST['name']
         list = Tickets.objects.select_related(
@@ -395,6 +403,7 @@ def delete_ticket(request, id):
         ticket.ask_to_delete = 1
         ticket.save()
     return redirect('/')
+
 
 
 
