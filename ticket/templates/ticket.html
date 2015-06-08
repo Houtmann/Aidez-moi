@@ -61,23 +61,47 @@
                     </tr>
                     </thead>
                     <tbody>
+
                     <tr>
-                        <td><span class="uk-badge">Ticket id :#{{ tickets.id }}</span></td>
+                        <td>
+                            <span class="uk-badge">Ticket id :# {{ tickets.id }}
+                            </span>
+                        </td>
                         <td> {% trans "Catégorie" %}:
                             {% if tickets.category == None %} {% trans "Pas de catégories" %}
                                 {% else %}{{ tickets.category }}
-                            {% endif %}</td>
-
+                            {% endif %}
+                        </td>
                     </tr>
-                    <tr class="error">
-                        <td>{% if tickets.status == 1 %}
-                            <p>{% trans "Status" %}: <span
-                                    class="uk-text-success">{{ tickets.get_status_display }}</span></p>
-                        {% else %}
-                            {% trans "Status" %} : <span class="uk-text-warning">{{ tickets.get_status_display }}</span>
-                            </p>
-                        {% endif %}</td>
-                        <td>{% trans "Urgence" %} : {{ tickets.get_priority_display }}</td>
+
+                    <tr>
+
+
+                    {% if tickets.priority  == 'CRITICAL' %}
+                            <td> {% trans "Priorité" %} : <font color="FF3333">{{ tickets.get_priority_display | upper }}</font>
+                        {% elif tickets.priority == 'HIGH' %}
+                            <td>{% trans "Priorité" %} : <font color="FF8585">{{ tickets.get_priority_display | upper }}</font>
+                        {% elif tickets.priority == 'NORMAL' %}
+                            <td>{% trans "Priorité" %} : <font>{{ tickets.get_priority_display | upper }}</font>
+                        {% elif tickets.priority == 'LOW' %}
+                            <td>{% trans "Priorité" %} : <font color="FFC299">{{ tickets.get_priority_display | upper }}</font>
+                        {% elif tickets.priority == 'VERYLOW' %}
+                            <td>{% trans "Priorité" %} : <font color="FFE2CE">{{ tickets.get_priority_display | upper }}</font>
+
+                            {% endif %}
+                    </td>
+
+                        <td>{% trans "Status" %} :
+
+                            {% if tickets.status  == 'OPEN' %}
+                            <div class="ui center orange label">{{ tickets.get_status_display }}</div>
+                            {% elif tickets.status  == 'RESOLVED' %}
+                            <div class="ui center green label">{{ tickets.get_status_display }}</div>
+                            {% elif tickets.status  == 'CLOSED' %}
+                            <div class="ui center black label">{{ tickets.get_status_display }}</div>
+                            {% endif %}
+
+                        </td>
 
                     </tr>
                     <tr>
@@ -94,20 +118,25 @@
                             {% trans "Assigné à" %} : {{ tickets.assign_to }}
                         {% endif %}</td>
                     <tr>
-                        <td>{% trans "Derniere edition le" %} : {{ tickets.last_edited }}</td>
-                        <td>{% if tickets.depends_on %}
+                        <td>
+                            {% trans "Derniere edition le" %} : {{ tickets.last_edited }}
+                        </td>
+                        <td>
+                            {% if tickets.depends_on %}
                             {% trans "Depend" %}:
                             <a href=" {% url "ticket.views.tickets.view_ticket" tickets.depends_on %}">
-                                {{ tickets.depends_on }}</a></td> {% endif %}
-                    </tr>
+                                {{ tickets.depends_on }}
+                            </a></td> {% endif %}
 
                     </tr>
+                    <tr><td>{% trans "Entité" %}: {{ tickets.entity }}</td></tr>
+
                     </tbody>
                 </table>
 
+
                 <div class="ui message">
                     <div class="header">
-
                         {% trans "Fichier :" %}
                     </div>
                     <p style=""><a href="/media/{{ tickets.file }}">{{ tickets.file }}</a></p>
