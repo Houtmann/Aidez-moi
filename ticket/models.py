@@ -25,6 +25,8 @@ from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import AbstractBaseUser
 from djangoticket.settings import MEDIA_ROOT
+import reversion
+
 
 
 class Entity(models.Model):
@@ -181,7 +183,7 @@ class Tickets(models.Model):
         nous traiterons plus tard et dans l'administration
         """
         return self.title
-
+reversion.register(Tickets)
 
 class TicketCategory(models.Model):
     """

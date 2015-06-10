@@ -34,7 +34,15 @@ class ConfigForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        exclude = ('created', 'create_by', 'complete')
+        fields =['ticket_per_page',
+                 'active_mail']
+
+    def __init__(self, *args, **kwargs):
+        super(ConfigForm, self).__init__(*args, **kwargs)
+
+
+
+
 
 
 

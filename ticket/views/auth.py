@@ -40,9 +40,9 @@ def user_login(request):
             if user:
                 login(request, user)
 
-                 """ Bloc pour prendre la config utilisateur, ou mettre par defaut
-                 la valeur perpage, qui represente le nombre de ticket
-                 afficher dans un tableau """
+                """ Bloc pour prendre la config utilisateur, ou mettre par defaut
+                la valeur perpage, qui represente le nombre de ticket
+                afficher dans un tableau """
                 try:
                     request.session['perpage'] = UserProfile.objects\
                                                 .get(pk=request.user.pk).ticket_per_page

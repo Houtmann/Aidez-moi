@@ -1,5 +1,4 @@
 # coding=utf-8
-__author__ = 'had'
 
 # The MIT License (MIT)
 # Copyright (c) [2015] [Houtmann Hadrien]
@@ -20,12 +19,22 @@ __author__ = 'had'
 # SOFTWARE.
 
 
-
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect, get_object_or_404
+from ticket.views.home import home
 from ticket.forms.configuration_forms import ConfigForm
+from ticket.models import User, UserProfile
 
 
 def view_configuration(request):
-    config_form = ConfigForm()
+    user = get_object_or_404(UserProfile, user=request.user)
+    config_form = ConfigForm(instance=user)
+
+    if request.method =='POST':
+        print(config_form.errors)
+        if config_form.is_valid():
+            config = config_form.save(commit=True)
+
+
+        #return redirect(home)
+
     return render(request, 'configuration.html', locals())

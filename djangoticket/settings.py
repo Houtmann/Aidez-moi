@@ -65,6 +65,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'ticket',
     'django_tables2',
+    'reversion',
 
 
 )
@@ -79,6 +80,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'reversion.middleware.RevisionMiddleware',
 
 )
 
