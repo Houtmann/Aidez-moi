@@ -25,7 +25,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django_tables2 import RequestConfig
-from ticket.forms import TicketForm, ResponseForm, StatusForm
+from ticket.forms.forms import TicketForm, ResponseForm, StatusForm
 from ticket.models import Tickets, UserProfile, Follow, Entity
 from ticket.views.home import home
 from ticket.tables import TicketsTables
