@@ -230,4 +230,11 @@ class Follow(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
+    ticket_per_page = models.IntegerField(
+                        default=25,
+                        verbose_name=_('Nombre de ticket par page'))
+    active_mail = models.BooleanField(
+                        default=0,
+                        verbose_name=_('Mail actif')
+                                      )
 
