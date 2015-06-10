@@ -27,12 +27,18 @@ from ticket.models import User, UserProfile
 
 def view_configuration(request):
     user = get_object_or_404(UserProfile, user=request.user)
-    config_form = ConfigForm(instance=user)
+
 
     if request.method =='POST':
-        print(config_form.errors)
+        config_form = ConfigForm(request.POST, instance=user)
         if config_form.is_valid():
-            config = config_form.save(commit=True)
+            config = config_form.save()
+
+            # met le cookies 'perpage' à jour avec la valeur ticket_per_page
+            request.session['perpage'] = config.ticket_per_page
+    else:
+        config_form = ConfigForm(instance=user)
+
 
 
         #return redirect(home)

@@ -87,10 +87,10 @@ def ticket_list_new(request):
             assign_to=None).order_by('-created')
         ticket_list = TicketsTables(list)
 
-    RequestConfig(
-        request,
-        paginate={
-            "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
+    RequestConfig(request,
+                  paginate={
+                      "per_page": request.session['perpage']}) \
+        .configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
@@ -153,10 +153,10 @@ def ticket_list_resolved(request):
             .order_by('-created')
         ticket_list = TicketsTables(list)
 
-    RequestConfig(
-        request,
-        paginate={
-            "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
+    RequestConfig(request,
+                  paginate={
+                      "per_page": request.session['perpage']}) \
+        .configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
@@ -183,10 +183,10 @@ def ticket_list_clos(request):
 
         ticket_list = TicketsTables(list)
 
-    RequestConfig(
-        request,
-        paginate={
-            "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
+    RequestConfig(request,
+                  paginate={
+                      "per_page": request.session['perpage']}) \
+        .configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
@@ -206,10 +206,10 @@ def ticket_all(request):
 
     ticket_list = TicketsTables(list)
 
-    RequestConfig(
-        request,
-        paginate={
-            "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
+    RequestConfig(request,
+                  paginate={
+                      "per_page": request.session['perpage']}) \
+        .configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list' : ticket_list})
 
 
@@ -327,10 +327,10 @@ def my_ticket_assign(request):
         .order_by('-created')
     ticket_list = TicketsTables(list)
 
-    RequestConfig(
-        request,
-        paginate={
-            "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
+    RequestConfig(request,
+                  paginate={
+                      "per_page": request.session['perpage']}) \
+        .configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
@@ -389,10 +389,10 @@ def ticket_list_incomplet(request):
                 .filter(create_by=request.user, complete=0).order_by('-created')
         ticket_list = TicketsTables(list)
 
-    RequestConfig(
-        request,
-        paginate={
-            "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
+    RequestConfig(request,
+                  paginate={
+                      "per_page": request.session['perpage']}) \
+        .configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
