@@ -304,7 +304,7 @@ def view_ticket(request, id):
             follow = form.save(commit=False)
             follow.ticket_id = id
             follow.follow_by = request.user
-            follow.save_one()
+            follow.save()
 
     else:
         form = ResponseForm()
