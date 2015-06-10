@@ -14,6 +14,17 @@
 {% block menu %}
     {% load filter %}
 
+
+
+
+
+
+
+
+
+
+
+
     <div class="ui pointing small menu">
       <a class="active green item" href="{% url "ticket.views.home.home" %}">{{ request.user }}
         <i class="home icon"></i>
@@ -26,6 +37,10 @@
     <a class="item" href="{% url "ticket.views.stats.statistic" %}">{% trans "Statistiques" %}
         <i class=""></i>
       </a>
+    <div class="ui simple dropdown item">
+      {% trans "Tickets :" %}
+      <i class="dropdown icon"></i>
+      <div class="menu">
 
     <a class="item" href="{% url "ticket.views.tickets.ticket_list_work" %}">{% trans "En cours" %}
                     <div class="ui orange label">{{ request.user|ticket_open }}</div>
@@ -46,7 +61,8 @@
     <a class="item" href="{% url "ticket.views.tickets.ticket_list_new" %}">{% trans "Nouveaux" %}
                         <div class="ui blue label">{{ request.user|ticket_new }}</div>
         <i class=""></i>
-      </a>
+      </a></div>
+    </div>
 
     {% if request.user.is_staff %}
     <a class="item" href="{% url "ticket.views.tickets.ticket_all" %}">{% trans "Staff" %}
