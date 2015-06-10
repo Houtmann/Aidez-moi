@@ -26,7 +26,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from ticket.forms.forms import ConnexionForm
-from ticket.models import Tickets
+from ticket.models import Tickets, UserProfile
 
 
 
@@ -39,11 +39,23 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user:
                 login(request, user)
+
+                 """ Bloc pour prendre la config utilisateur, ou mettre par defaut
+                 la valeur perpage, qui represente le nombre de ticket
+                 afficher dans un tableau """
+                try:
+                    request.session['perpage'] = UserProfile.objects\
+                                                .get(pk=request.user.pk).ticket_per_page
+                except:
+                    request.session['perpage'] = 25
                 return redirect('/')
+
         else:
             pass
+
     else:
         pass
+
     form = ConnexionForm()
     return render_to_response('login.html', locals(), RequestContext(request))
 

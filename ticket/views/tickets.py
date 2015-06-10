@@ -121,10 +121,11 @@ def ticket_list_work(request):
                 .order_by('-created')
         ticket_list = TicketsTables(list)
 
-    RequestConfig(
-        request,
-        paginate={
-            "per_page": 25}).configure(ticket_list)  # See django_tables2 Docs
+    RequestConfig(request,
+                  paginate={
+                  "per_page": request.session['perpage']})\
+                  .configure(ticket_list)  # See django_tables2 Docs
+
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
