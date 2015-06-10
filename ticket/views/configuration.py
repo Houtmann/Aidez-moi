@@ -21,20 +21,10 @@ __author__ = 'had'
 
 
 
-from datetime import datetime
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
-from django_tables2 import RequestConfig
-from ticket.configuration_forms import ConfigForm
-from ticket.models import Tickets, UserProfile, Follow
-from ticket.views.home import home
-from ticket.tables import TicketsTables
-from django.contrib import messages
-from django.utils.translation import ugettext as _
-from ticket.tasks import send_new_ticket_all_staff, incomplete_ticket
-from djangoticket.settings import USE_MAIL
-import json
+from django.shortcuts import render
+
+from ticket.forms.configuration_forms import ConfigForm
+
 
 def view_configuration(request):
     config_form = ConfigForm()
