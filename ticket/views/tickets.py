@@ -22,6 +22,7 @@ __author__ = 'had'
 
 
 from datetime import datetime
+import datetime
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
@@ -421,8 +422,25 @@ def ticket_last_24(request):
     Retourne la page des tickets crée les dernières 24 heures
     :param request:
     """
+    date_from = datetime.datetime.now() - datetime.timedelta(days=1)
 
-    pass
+    if request.user.is_staff:
+        list = Tickets.objects.select_related() \
+            .prefetch_related() \
+            .filter(created__gte=date_from).order_by('-created')
+
+        ticket_list = TicketsTables(list)
+    else:
+        list = Tickets.objects.select_related() \
+            .prefetch_related() \
+            .filter(create_by=request.user, created__gte=date_from).order_by('-created')
+
+        ticket_list = TicketsTables(list)
+
+    RequestConfig(request,
+                  paginate={"per_page": request.session['perpage']}) \
+        .configure(ticket_list)  # See django_tables2 Docs
+    return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
 
 @login_required(login_url='login/')
@@ -431,5 +449,22 @@ def ticket_last_month(request):
     Retourne la page des tickets crée le mois dernier
     :param request:
     """
+    date_from = datetime.datetime.now() - datetime.timedelta(days=30)
 
-    pass
+    if request.user.is_staff:
+        list = Tickets.objects.select_related() \
+            .prefetch_related() \
+            .filter(created__gte=date_from).order_by('-created')
+
+        ticket_list = TicketsTables(list)
+    else:
+        list = Tickets.objects.select_related() \
+            .prefetch_related() \
+            .filter(create_by=request.user, created__gte=date_from).order_by('-created')
+
+        ticket_list = TicketsTables(list)
+
+    RequestConfig(request,
+                  paginate={"per_page": request.session['perpage']}) \
+        .configure(ticket_list)  # See django_tables2 Docs
+    return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
