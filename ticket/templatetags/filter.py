@@ -24,6 +24,7 @@ from django import template
 from ticket.models import Tickets
 from django.utils.translation import ugettext as _
 import json
+import datetime
 
 register = template.Library()
 
@@ -108,9 +109,36 @@ def compare(dict_one, dict_two):
               + t2
 
 
+def ticket_last_24(user):
+    """
+    :param user:
+    :return: Les derniers tickets les dernières 24 heures
+    """
+    date_from = datetime.datetime.now() - datetime.timedelta(days=1)
+    created_tickets = Tickets.objects.filter(
+        create_by=user,
+        created__gte=date_from).count()
+    return created_tickets
+
+
+def ticket_last_month(user):
+    """
+    :param user:
+    :return: Les derniers tickets le derniers mois
+    """
+    date_from = datetime.datetime.now() - datetime.timedelta(days=30)
+    created_tickets = Tickets.objects.filter(
+        create_by=user,
+        created__gte=date_from).count()
+    return created_tickets
+
+
+
 register.filter('ticket_resolved', ticket_resolved)
 register.filter('ticket_open', ticket_open)
 register.filter('ticket_new', ticket_new)
 register.filter('ticket_clos', ticket_clos)
 register.filter('all_tick', all_tick)
 register.filter('ticket_incomplete', ticket_incomplete)
+register.filter('ticket_last_24', ticket_last_24)
+register.filter('ticket_last_month', ticket_last_month)

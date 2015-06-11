@@ -31,6 +31,28 @@
                 {{ request.user | ticket_clos}}</a></td>
     </tbody>
               </table>
+
+
+              <table class="ui unstackable table">
+                  <thead>
+                  <tr>
+                      <th>{% trans "Ticket ouvert les 30 derniers jours" %}:</th>
+                      <th>{% trans 'Tickets ouvert les dernière 24 heures' %} :</th>
+
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                      <td class="uk-width-1-10 uk-text-center"><a href={% url "ticket.views.tickets.ticket_all" %}>
+                          {{ request.user |  ticket_last_month }}</a></td>
+                      <td class="uk-width-1-10 uk-text-center"><a
+                              href={% url "ticket.views.tickets.ticket_list_work" %}>
+                          {{ request.user | ticket_last_24 }}</a></td>
+
+                  </tbody>
+              </table>
+
+
           </div>
 
             <div class="column">

@@ -11,7 +11,7 @@
 <div class="uk-form">
     <fieldset>
         {% for item in config_form %}
-        {{ item.label }} : {{ item }}<p></p>
+            {{ item.label }} : <p></p>{{ item }}<p></p>
         {% endfor %}
     <button class="ui submit button">{% trans "Soumettre" %}</button>
     </form>

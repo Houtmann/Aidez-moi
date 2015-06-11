@@ -26,8 +26,12 @@ from ticket.models import User, UserProfile
 
 
 def view_configuration(request):
-    user = get_object_or_404(UserProfile, user=request.user)
+    """
+    :param request:
+    :return: La page qui sert de configuration pour les profiles utilisateurs
+    """
 
+    user = get_object_or_404(UserProfile, user=request.user)
 
     if request.method =='POST':
         config_form = ConfigForm(request.POST, instance=user)
