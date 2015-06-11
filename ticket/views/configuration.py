@@ -31,20 +31,24 @@ def view_configuration(request):
     :return: La page qui sert de configuration pour les profiles utilisateurs
     """
 
-    user = get_object_or_404(UserProfile, user=request.user)
-
-    if request.method =='POST':
-        config_form = ConfigForm(request.POST, instance=user)
-        if config_form.is_valid():
-            config = config_form.save()
-
-            # met le cookies 'perpage' à jour avec la valeur ticket_per_page
-            request.session['perpage'] = config.ticket_per_page
-    else:
+    try:
+        user = UserProfile.objects.get(user=request.user)
         config_form = ConfigForm(instance=user)
 
+    except UserProfile.DoesNotExist:
+        UserProfile.objects.create(user=request.user,
+                                   active_mail=1,
+                                   ticket_per_page=25)
+        user = UserProfile.objects.get(user=request.user)
 
+        if request.method == 'POST':
+            config_form = ConfigForm(request.POST, instance=user)
+            if config_form.is_valid():
+                config = config_form.save()
 
-        #return redirect(home)
+            # met le cookies 'perpage' à jour avec la valeur ticket_per_page
+                request.session['perpage'] = config.ticket_per_page
+        else:
+            config_form = ConfigForm(instance=user)
 
     return render(request, 'configuration.html', locals())

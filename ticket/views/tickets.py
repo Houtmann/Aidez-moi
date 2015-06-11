@@ -54,7 +54,7 @@ def add_ticket(request):
         if form.is_valid():
             ticket = form.save(commit=False)
             ticket.create_by = request.user
-            ticket.created = datetime.now()
+            ticket.created = datetime.datetime.now()
             ticket.save()
 
             if USE_MAIL:  # Dans le fichier de configuration settings.py
