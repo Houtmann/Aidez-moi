@@ -115,9 +115,13 @@ def ticket_last_24(user):
     :return: Les derniers tickets les dernières 24 heures
     """
     date_from = datetime.datetime.now() - datetime.timedelta(days=1)
-    created_tickets = Tickets.objects.filter(
-        create_by=user,
-        created__gte=date_from).count()
+    if user.is_staff:
+        created_tickets = Tickets.objects.filter(
+            created__gte=date_from).count()
+    else:
+        created_tickets = Tickets.objects.filter(
+            create_by=user,
+            created__gte=date_from).count()
     return created_tickets
 
 
@@ -127,9 +131,13 @@ def ticket_last_month(user):
     :return: Les derniers tickets le derniers mois
     """
     date_from = datetime.datetime.now() - datetime.timedelta(days=30)
-    created_tickets = Tickets.objects.filter(
-        create_by=user,
-        created__gte=date_from).count()
+    if user.is_staff:
+        created_tickets = Tickets.objects.filter(
+            created__gte=date_from).count()
+    else:
+        created_tickets = Tickets.objects.filter(
+            create_by=user,
+            created__gte=date_from).count()
     return created_tickets
 
 

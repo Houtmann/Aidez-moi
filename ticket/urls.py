@@ -45,7 +45,9 @@ urlpatterns = patterns('ticket.views',
                        url(r'^statistiques/$', 'stats.statistic'),
                        url(r'^ticket_stats/id=(?P<id>\d+)$', 'stats.ticket_stats'),
                        url(r'^logout/$', 'auth.logout_view'),
-                       url(r'^configuration/$', 'configuration.view_configuration')
+                       url(r'^configuration/$', 'configuration.view_configuration'),
+                       url(r'^ticket_last_24/$', 'tickets.ticket_last_24'),
+                       url(r'^ticket_last_month/$', 'tickets.ticket_last_month'),
 
 
 

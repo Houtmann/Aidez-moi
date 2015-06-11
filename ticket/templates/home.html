@@ -43,10 +43,10 @@
                   </thead>
                   <tbody>
                   <tr>
-                      <td class="uk-width-1-10 uk-text-center"><a href={% url "ticket.views.tickets.ticket_all" %}>
+                      <td class="uk-width-1-10 uk-text-center"><a href={% url "ticket.views.tickets.ticket_last_24" %}>
                           {{ request.user |  ticket_last_month }}</a></td>
                       <td class="uk-width-1-10 uk-text-center"><a
-                              href={% url "ticket.views.tickets.ticket_list_work" %}>
+                              href={% url "ticket.views.tickets.ticket_last_month" %}>
                           {{ request.user | ticket_last_24 }}</a></td>
 
                   </tbody>

@@ -415,7 +415,21 @@ def delete_ticket(request, id):
     return redirect('/')
 
 
+@login_required(login_url='login/')
+def ticket_last_24(request):
+    """
+    Retourne la page des tickets crée les dernières 24 heures
+    :param request:
+    """
+
+    pass
 
 
+@login_required(login_url='login/')
+def ticket_last_month(request):
+    """
+    Retourne la page des tickets crée le mois dernier
+    :param request:
+    """
 
-
+    pass
