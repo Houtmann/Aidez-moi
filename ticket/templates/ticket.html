@@ -156,7 +156,6 @@
                 {% for item in follow_up %}
                     {% if item.follow == None %}
                         <div class="ui comments">
-
                         <div class="comment">
 
                             <div class="content">
@@ -174,7 +173,7 @@
                         </div>
                         <h3 class="ui dividing header"></h3>
                     {% else %}
-
+                        <div class="ui comments">
                         <div class="comment">
                             <div class="content">
                                 <a class="author">{{ item.follow_by }}</a>
