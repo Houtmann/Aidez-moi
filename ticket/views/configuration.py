@@ -23,8 +23,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from ticket.views.home import home
 from ticket.forms.configuration_forms import ConfigForm
 from ticket.models import User, UserProfile
+from django.views.decorators.cache import cache_page
 
-
+@cache_page(60 * 5)
 def view_configuration(request):
     """
     :param request:
@@ -41,14 +42,16 @@ def view_configuration(request):
                                    ticket_per_page=25)
         user = UserProfile.objects.get(user=request.user)
 
-        if request.method == 'POST':
-            config_form = ConfigForm(request.POST, instance=user)
-            if config_form.is_valid():
-                config = config_form.save()
+
+    if request.method == 'POST':
+
+        config_form = ConfigForm(request.POST, instance=user)
+        if config_form.is_valid():
+            config = config_form.save()
 
             # met le cookies 'perpage' à jour avec la valeur ticket_per_page
-                request.session['perpage'] = config.ticket_per_page
-        else:
-            config_form = ConfigForm(instance=user)
+            request.session['perpage'] = config.ticket_per_page
+    else:
+        config_form = ConfigForm(instance=user)
 
     return render(request, 'configuration.html', locals())

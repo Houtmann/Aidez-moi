@@ -32,8 +32,9 @@ from django.utils.translation import ugettext as _
 from ticket.tasks import send_new_ticket_all_staff, incomplete_ticket
 from djangoticket.settings import USE_MAIL
 import json
+from django.views.decorators.cache import cache_page
 
-
+@cache_page(60 * 5)
 @login_required(login_url='login/')
 def home(request):
     if request.user.is_staff:

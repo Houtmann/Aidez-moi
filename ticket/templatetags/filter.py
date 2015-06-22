@@ -21,7 +21,7 @@ __author__ = 'had'
 
 
 from django import template
-from ticket.models import Tickets
+from ticket.models import Tickets, User
 from django.utils.translation import ugettext as _
 import json
 import datetime
@@ -99,6 +99,7 @@ def compare(dict_one, dict_two):
     sharedkeys = set(dict1.keys()).intersection(dict2.keys())
 
     for key in sharedkeys:
+
         t1 = dict(Tickets._meta.get_field_by_name(key)[0].flatchoices).get(dict1[key])
         t2 = dict(Tickets._meta.get_field_by_name(key)[0].flatchoices).get(dict2[key])
         if t1 and t2 != None:

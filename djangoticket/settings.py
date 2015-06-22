@@ -158,12 +158,13 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': 'F:/Desktop/djangoticket/ticket',
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
     }
 }
 
-USE_MAIL = True  # Si false, pas de worker celery et d'envoi de mail
+USE_MAIL = False  # Si false, pas de worker celery et d'envoi de mail
+
+
 
 
 EMAIL_HOST = 'smtp.gmail.com'

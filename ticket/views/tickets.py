@@ -31,13 +31,14 @@ from ticket.forms.forms import TicketForm, ResponseForm, StatusForm, EntityForm
 from ticket.models import Tickets, UserProfile, Follow
 from ticket.views.home import home
 from ticket.tables import TicketsTables
+from django.views.decorators.cache import cache_page
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 from ticket.tasks import send_new_ticket_all_staff, incomplete_ticket
 from djangoticket.settings import USE_MAIL
 import json
 
-
+@cache_page(60 * 5)
 @login_required(login_url='login/')
 def add_ticket(request):
 
@@ -68,7 +69,7 @@ def add_ticket(request):
 
     return render(request, 'add_ticket.html', locals())
 
-
+@cache_page(60 * 3)
 @login_required(login_url='login/')
 def ticket_list_new(request):
 
@@ -94,7 +95,7 @@ def ticket_list_new(request):
         .configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
-
+@cache_page(60 * 3)
 @login_required(login_url='login/')
 def ticket_list_work(request):
 
@@ -129,7 +130,7 @@ def ticket_list_work(request):
 
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
-
+@cache_page(60 * 3)
 @login_required(login_url='login/')
 def ticket_list_resolved(request):
 
@@ -160,7 +161,7 @@ def ticket_list_resolved(request):
         .configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
-
+@cache_page(60 * 3)
 @login_required(login_url='login/')
 def ticket_list_clos(request):
 
@@ -190,7 +191,7 @@ def ticket_list_clos(request):
         .configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
-
+@cache_page(60 * 3)
 @login_required(login_url='login/')
 def ticket_all(request):
 
@@ -213,7 +214,7 @@ def ticket_all(request):
         .configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list' : ticket_list})
 
-
+@cache_page(60 * 10)
 @login_required(login_url='login/')
 def ticket_edit(request, id):
 
@@ -314,7 +315,7 @@ def view_ticket(request, id):
 
     return render(request, 'ticket.html', locals())
 
-
+@cache_page(60 * 3)
 @login_required(login_url='login/')
 def my_ticket_assign(request):
 
@@ -367,7 +368,7 @@ def set_complete(request, id):
     ticket.save()
     return redirect('/ticket/id=%s' % id)
 
-
+@cache_page(60 * 3)
 @login_required(login_url='login/')
 def ticket_list_incomplet(request):
 
@@ -415,7 +416,7 @@ def delete_ticket(request, id):
         ticket.save()
     return redirect('/')
 
-
+@cache_page(60 * 1)
 @login_required(login_url='login/')
 def ticket_last_24(request):
     """
@@ -442,7 +443,7 @@ def ticket_last_24(request):
         .configure(ticket_list)  # See django_tables2 Docs
     return render(request, 'ticket_list.html', {'ticket_list': ticket_list})
 
-
+@cache_page(60 * 5)
 @login_required(login_url='login/')
 def ticket_last_month(request):
     """

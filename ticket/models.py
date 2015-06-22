@@ -185,6 +185,7 @@ class Tickets(models.Model):
         return self.title
 reversion.register(Tickets)
 
+
 class TicketCategory(models.Model):
     """
     Nom de catégorie pour mieux cibler les tickets
@@ -237,6 +238,6 @@ class UserProfile(models.Model):
                         verbose_name=_('Nombre de ticket par page'))
     active_mail = models.BooleanField(
                         default=0,
-                        verbose_name=_('Mail actif')
+        verbose_name=_('Notification par mail')
                                       )
 
