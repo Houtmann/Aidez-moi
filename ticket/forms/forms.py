@@ -76,6 +76,10 @@ class TicketForm(forms.ModelForm):
                     required=False)
     file = forms.FileField(required=False)
 
+    entity = forms.ModelChoiceField(queryset=Entity.objects.all(),
+                                    label=_("Entité"),
+                                    required=False)
+
     class Meta:
         model = Tickets
         exclude = ('created', 'create_by', 'complete')

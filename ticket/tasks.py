@@ -24,7 +24,7 @@ from django.core.mail import send_mail
 from ticket.models import Tickets, User, Follow
 from django.utils.translation import ugettext as _
 from celery import shared_task, task
-from djangoticket.email_config import USER
+#from djangoticket.email_config import USER
 from djangoticket.settings import MEDIA_ROOT
 from django.template.loader import get_template
 from django.template import Context

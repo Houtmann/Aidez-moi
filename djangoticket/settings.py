@@ -29,7 +29,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-from djangoticket.email_config import  USER, PASSWORD # REMOVE THIS FOR PROD
+#from djangoticket.email_config import  USER, PASSWORD # REMOVE THIS FOR PROD
 
 
 
@@ -89,21 +89,21 @@ ROOT_URLCONF = 'djangoticket.urls'
 
 WSGI_APPLICATION = 'djangoticket.wsgi.application'
 
-"""DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-}"""
+}
 
-DATABASES = {
+"""DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
             'read_default_file': 'C:\Program Files\MariaDB 10.0\data\my.ini',
         },
     }
-}
+}"""
 
 
 # Internationalization
@@ -165,7 +165,7 @@ CACHES = {
 USE_MAIL = False  # Si false, pas de worker celery et d'envoi de mail
 
 
-
+"""
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -173,6 +173,6 @@ EMAIL_HOST_USER = USER
 EMAIL_HOST_PASSWORD = PASSWORD
 EMAIL_USE_TLS = True
 
-BROKER_URL = 'redis://localhost:6379/0'
+BROKER_URL = 'redis://localhost:6379/0'"""
 
 

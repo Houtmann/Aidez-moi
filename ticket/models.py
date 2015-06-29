@@ -124,7 +124,7 @@ class Tickets(models.Model):
         default=0)
 
     entity = models.ForeignKey(
-        Entity,
+        'Entity',
         verbose_name=_('Entité'),
         blank=True,
         null=True)
