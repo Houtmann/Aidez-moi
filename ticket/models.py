@@ -103,7 +103,8 @@ class Tickets(models.Model):
     file = models.FileField(
         null=True,
         blank=True,
-        upload_to='media')
+        upload_to='media',
+        verbose_name=_('Fichier'))
 
     date_closed = models.DateTimeField(
         verbose_name=_('Date de cloture le'),
