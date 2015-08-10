@@ -18,10 +18,8 @@
 # SOFTWARE.
 
 
-from django.contrib.auth.admin import UserAdmin
+
 from django.contrib import admin
-from django.utils.translation import ugettext as _
-from django.contrib.admin import AdminSite
 from .models import *
 
 

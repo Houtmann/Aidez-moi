@@ -20,12 +20,8 @@ __author__ = 'had'
 # SOFTWARE.
 
 from django import forms
-from ticket.models import User, Tickets, UserProfile, Follow, Entity
-from django.utils.translation import ugettext as _
-from djangoticket.settings import USE_MAIL
-from ticket.tasks import follow_on_ticket
-from django.contrib import messages
-import json
+from ticket.models import User, Tickets, UserProfile
+
 
 class ConfigForm(forms.ModelForm):
     """

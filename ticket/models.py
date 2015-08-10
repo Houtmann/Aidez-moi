@@ -24,7 +24,6 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import AbstractBaseUser
-from djangoticket.settings import MEDIA_ROOT
 import reversion
 
 
