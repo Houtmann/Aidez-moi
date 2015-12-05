@@ -51,7 +51,7 @@ def ticket_resolved(user):
 def ticket_open(user):
     if user.is_staff:
         return Tickets.objects.filter(
-            status='OPEN').exclude(assign_to=None).count()
+            status='OPEN').count()
     else:
         return Tickets.objects.filter(
             create_by=user, status='OPEN').exclude(assign_to=None).count()

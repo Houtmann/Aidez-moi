@@ -24,7 +24,9 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import AbstractBaseUser
-import reversion
+
+
+# import reversion
 
 
 
@@ -66,27 +68,28 @@ class Tickets(models.Model):
 
     title = models.TextField(
         verbose_name=_('Titre'),
-        max_length=150)
+        max_length=150,
+        db_index=True)
 
     content = models.TextField(
-        verbose_name=_('Contenu'), )
+        verbose_name=_('Contenu'), max_length=500)
 
     create_by = models.ForeignKey(
         User,
-        verbose_name=_('Crée par'), )
+        verbose_name=_('Crée par'), db_index=True )
 
     created = models.DateTimeField(
         verbose_name=_('Crée le'), )
 
     last_edited = models.DateTimeField(
         verbose_name=_('Edité le'),
-        auto_now=True)
+        auto_now=True, db_index=True)
 
     category = models.ForeignKey(
         'TicketCategory',
         verbose_name=_('Catégorie'),
         null=True,
-        blank=True)
+        blank=True, db_index=True)
 
     # Marque le ticket comme incomplete et attente d'informations
     complete = models.BooleanField(
@@ -97,7 +100,7 @@ class Tickets(models.Model):
         null=True,
         blank=True,
         verbose_name=_('Dépend'),
-        max_length=100)
+        max_length=100, db_index=True)
 
     file = models.FileField(
         null=True,
@@ -113,21 +116,22 @@ class Tickets(models.Model):
     date_assigned = models.DateTimeField(
         verbose_name=_('Assigné le'),
         blank=True,
-        null=True)
+        null=True, db_index=True)
 
     date_resolved = models.DateTimeField(
         verbose_name=_('Résolution le'),
         blank=True,
-        null=True)
+        null=True, db_index=True)
 
     ask_to_delete = models.BooleanField(
-        default=0)
+        default=0,
+        verbose_name=_('Marquer pour suppression'))
 
     entity = models.ForeignKey(
         'Entity',
         verbose_name=_('Entité'),
         blank=True,
-        null=True)
+        null=True, db_index=True)
 
     TYPES_CHOICES = (
         ('INCIDENT', _('Incident')),
@@ -158,14 +162,14 @@ class Tickets(models.Model):
         related_name='assigned_to',
         blank=True,
         null=True,
-        verbose_name=(_('Assigné à')),
+        verbose_name=(_('Assigné à')), db_index=True
     )
 
     status = models.CharField(
         max_length=15,
         choices=STATUS_CHOICES,
         default=OPEN_STATUS,
-        verbose_name=_('Statut'), )
+        verbose_name=_('Statut'), db_index=True )
 
     priority = models.CharField(
         max_length=15,
@@ -174,7 +178,7 @@ class Tickets(models.Model):
         blank='NORMAL',
         help_text=_(
         '1 = Highest Priority, 5 = Low Priority'),
-        verbose_name=_('Priorité'), )
+        verbose_name=_('Priorité'), db_index=True )
 
     def __str__(self):
         """
@@ -183,7 +187,9 @@ class Tickets(models.Model):
         nous traiterons plus tard et dans l'administration
         """
         return self.title
-reversion.register(Tickets)
+
+
+#reversion.register(Tickets)
 
 
 class TicketCategory(models.Model):

@@ -34,7 +34,7 @@ from djangoticket.settings import USE_MAIL
 import json
 from django.views.decorators.cache import cache_page
 
-@cache_page(60 * 5)
+
 @login_required(login_url='login/')
 def home(request):
     if request.user.is_staff:

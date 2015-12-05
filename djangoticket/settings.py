@@ -65,7 +65,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'ticket',
     'django_tables2',
-    'reversion',
+    # 'reversion',
 
 
 )
@@ -80,7 +80,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'reversion.middleware.RevisionMiddleware',
+    #'reversion.middleware.RevisionMiddleware',
 
 )
 
@@ -89,21 +89,21 @@ ROOT_URLCONF = 'djangoticket.urls'
 
 WSGI_APPLICATION = 'djangoticket.wsgi.application'
 
-"""DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}"""
+
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': 'C:\Program Files\MariaDB 10.0\data\my.ini',
-        },
+        'ENGINE': 'django.db.backends.mysql',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'ticket_app',  # Or path to database file if using sqlite3.
+        # The following settings are not used with sqlite3:
+        'USER': 'django',
+        'PASSWORD': 'django',
+        'HOST': 'localhost',
+    # Empty for localhost through domain sockets or           '127.0.0.1' for localhost through TCP.
+        'PORT': '3306',  # Set to empty string for default.
     }
-}
+    }
+
 
 
 # Internationalization
@@ -127,7 +127,7 @@ USE_TZ = True
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
-
+STATIC_ROOT = '/static/'
 STATIC_URL = '/static/'
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))  # it means settings.py is in PROJECT_ROOT?
 STATICFILES_DIRS = (
@@ -155,12 +155,12 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
 )
 
-
-CACHES = {
+"""CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/tmp/django_cache',
     }
-}
+}"""
 
 USE_MAIL = False  # Si false, pas de worker celery et d'envoi de mail
 
